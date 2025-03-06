@@ -66,9 +66,9 @@ fi
 SEQS=$(grep -c "^>" ${INPUT})
 
 sequence_basics.py -i ${INPUT} -o ${OUT}.basic.tsv
-count_kmers.py -i ${INPUT} -k 5 | reduce_dimension.py --pca --tsne --umap -o ${OUT}.k5 -f ${SEQS}
-count_kmers.py -i ${INPUT} -k 4 | reduce_dimension.py --pca --tsne --umap -o ${OUT}.k4 -f ${SEQS}
-count_kmers.py -i ${INPUT} -k 6 | reduce_dimension.py --pca --tsne --umap -o ${OUT}.k6 -f ${SEQS}
+/home/ark/MAB/bin/HoundSleuth/count_kmers.py -i ${INPUT} -k 5 | /home/ark/MAB/bin/HoundSleuth/reduce_dimension.py --pca --tsne --umap -o ${OUT}.k5 -f ${SEQS}
+/home/ark/MAB/bin/HoundSleuth/count_kmers.py -i ${INPUT} -k 4 | /home/ark/MAB/bin/HoundSleuth/reduce_dimension.py --pca --tsne --umap -o ${OUT}.k4 -f ${SEQS}
+/home/ark/MAB/bin/HoundSleuth/count_kmers.py -i ${INPUT} -k 6 | /home/ark/MAB/bin/HoundSleuth/reduce_dimension.py --pca --tsne --umap -o ${OUT}.k6 -f ${SEQS}
 
 #count_kmers.py -i ${INPUT} -k 5 | reduce_dimension.py --pca --tsne --umap -o ${OUT}.k5
 #count_kmers.py -i ${INPUT} -k 4 | reduce_dimension.py --pca --tsne --umap -o ${OUT}.k4
@@ -104,16 +104,16 @@ sed -i "1c $umap6" ${OUT}.k6.umap.tsv
 
 mkdir -p ${OUT}_binarena
 mv ${OUT}.*.tsv ${OUT}_binarena/
-binarena-combine.py -i ${OUT}_binarena -o ${OUT}.tsv -b ${OUT}
+/home/ark/MAB/bin/HoundSleuth/binarena-combine.py -i ${OUT}_binarena -o ${OUT}.tsv -b ${OUT}
 
 if [[ ${SNP} != false ]]; then
     if [[ ${DEPTH} != false ]]; then
-        binstager.py -b ${OUT}.tsv -o ${OUT}.taxa.depth.tsv -m ${MIN} -s ${SNP} -d ${DEPTH}
+        /home/ark/MAB/bin/HoundSleuth/binstager.py -b ${OUT}.tsv -o ${OUT}.taxa.depth.tsv -m ${MIN} -s ${SNP} -d ${DEPTH}
     else
-        binstager.py -b ${OUT}.tsv -o ${OUT}.taxa.tsv -m ${MIN} -s ${SNP}
+        /home/ark/MAB/bin/HoundSleuth/binstager.py -b ${OUT}.tsv -o ${OUT}.taxa.tsv -m ${MIN} -s ${SNP}
     fi
 else
     if [[ ${DEPTH} != false ]]; then
-        binstager.py -b ${OUT}.tsv -o ${OUT}.depth.tsv -m ${MIN} -d ${DEPTH}
+        /home/ark/MAB/bin/HoundSleuth/binstager.py -b ${OUT}.tsv -o ${OUT}.depth.tsv -m ${MIN} -d ${DEPTH}
     fi
 fi
