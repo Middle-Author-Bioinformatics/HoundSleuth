@@ -4,7 +4,7 @@ channels:
   - defaults
   - bioconda
 dependencies:
-  - python=3.9
+  - python=3.7
   - boto3
   - numpy
   - pandas
@@ -18,8 +18,6 @@ dependencies:
   - hmmer
   - matplotlib
   - joblib
-  - scikit-learn
-  - au-eoed
 
 
 
