@@ -72,7 +72,7 @@ mv ${ID}-results.tar.gz /home/ark/MAB/houndsleuth/completed/${ID}-results.tar.gz
 
 # Send email
 python3 /home/ark/MAB/bin/HoundSleuth/send_email.py \
-    --sender ark@midauthorbio.com \
+    --sender StrainHound@midauthorbio.com \
     --recipient ${email} \
     --subject "Your HoundSleuth Results!" \
     --body "Hi ${name},
