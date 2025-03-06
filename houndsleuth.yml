@@ -1,0 +1,27 @@
+name: houndsleuth
+channels:
+  - conda-forge
+  - defaults
+  - bioconda
+dependencies:
+  - python=3.9
+  - boto3
+  - numpy
+  - pandas
+  - scikit-learn
+  - umap-learn
+  - pyshorteners
+  - biopython
+  - diamond
+  - prodigal
+  - metabat2
+  - hmmer
+  - matplotlib
+  - joblib
+  - scikit-learn
+  - au-eoed
+
+
+
+
+
