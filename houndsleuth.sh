@@ -44,11 +44,14 @@ mkdir -p ${OUT}/binarena
 mkdir -p ${OUT}/spraynpray
 
 echo /home/ark/MAB/bin/SprayNPray/spray-and-pray.py -g ${DIR}/${input} -out ${OUT}/spraynpray -ref /home/ark/MAB/houndsleuth/houndsleuth-6vuOMcfBHz/PROKKA_10082020.fna.pid.uniq.dmnd --hits 1 -t 20
-#/home/ark/MAB/bin/SprayNPray/spray-and-pray.py -g ${DIR}/${input} -out ${OUT}/spraynpray -ref /home/ark/databases/nr.dmnd --hits 1 -t 20
-/home/ark/MAB/bin/SprayNPray/spray-and-pray.py -g ${DIR}/${input} -out ${OUT}/spraynpray -ref /home/ark/MAB/houndsleuth/houndsleuth-6vuOMcfBHz/PROKKA_10082020.fna.pid.uniq.dmnd --hits 1 -t 20
-
+/home/ark/MAB/bin/SprayNPray/spray-and-pray.py -g ${DIR}/${input} -out ${OUT}/spraynpray -ref /home/ark/databases/nr.dmnd --hits 1 -t 20
+#/home/ark/MAB/bin/SprayNPray/spray-and-pray.py -g ${DIR}/${input} -out ${OUT}/spraynpray -ref /home/ark/MAB/houndsleuth/houndsleuth-6vuOMcfBHz/PROKKA_10082020.fna.pid.uniq.dmnd --hits 1 -t 20
+echo ""
 echo "/home/ark/MAB/bin/HoundSleuth/binstage.sh -i ${DIR}/${input} -o ${OUT}/binarena/${input%.*} -s ${OUT}/spraynpray/spraynpray.csv -m 300"
 /home/ark/MAB/bin/HoundSleuth/binstage.sh -i ${DIR}/${input} -o ${OUT}/binarena/${input%.*} -D ${OUT}/binarena -s ${OUT}/spraynpray/spraynpray.csv -m 300
+echo ""
+
+mv ${OUT}/binarena/${input%.*}.taxa.tsv ${OUT}/data_table_for_binarena.tsv
 
 # **************************************************************************************************
 # **************************************************************************************************
@@ -71,8 +74,8 @@ s3_key="${ID}-results.tar.gz"
 python3 /home/ark/MAB/bin/HoundSleuth/push.py --bucket binfo-dump --output_key ${s3_key} --source ${results_tar}
 url=$(python3 /home/ark/MAB/bin/HoundSleuth/gen_presign_url.py --bucket binfo-dump --key ${s3_key} --expiration 86400)
 
-#mv ${ID}-results.tar.gz /home/ark/MAB/houndsleuth/completed/${ID}-results.tar.gz
-rm -rf ${ID}-results*
+mv ${ID}-results.tar.gz /home/ark/MAB/houndsleuth/completed/${ID}-results.tar.gz
+rm -rf ${ID}-results
 
 # Send email
 python3 /home/ark/MAB/bin/HoundSleuth/send_email.py \
@@ -85,10 +88,10 @@ python3 /home/ark/MAB/bin/HoundSleuth/send_email.py \
 
     ${url}
 
-    Please reach out to ark@midauthorbio.com, or send us a note on https://midauthorbio.com/#contact if you have any questions.
+    You can now navigate to https://main.d2fhjju1m7825g.amplifyapp.com/binarena-master/BinaRena.html and drag/drop the data_table_for_binarena.tsv file into the BinArena interface to visualize the results.
 
-    Thanks!
-    MAB Team"
+    Cheers!
+    Arkadiy"
 
 if [ $? -ne 0 ]; then
     echo "Error: send_email.py failed."
