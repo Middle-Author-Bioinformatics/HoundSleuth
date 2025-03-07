@@ -138,8 +138,13 @@ def main():
     # t-distributed stochastic neighbor embedding (t-SNE)
     if args.tsne:
         print('Performing t-SNE...')
-        tsne = TSNE(n_components=ndim, init='random', learning_rate=(
-            rate or 200.0), random_state=seed)
+
+        n_samples = data.shape[0]  # Get the number of samples
+        perplexity = min(2, n_samples - 1)  # Ensure perplexity < n_samples
+
+        tsne = TSNE(n_components=ndim, init='random', perplexity=perplexity,
+                    learning_rate=(rate or 200.0), random_state=seed)
+
         res = tsne.fit_transform(data)
         df = pd.DataFrame(res, index=ids, columns=[f'tSNE{i}' for i in axes])
         df.to_csv(f'{output}.tsne.tsv', sep='\t')
