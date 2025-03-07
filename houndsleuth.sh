@@ -16,7 +16,7 @@ OUT=/home/ark/MAB/houndsleuth/completed/${ID}-results
 
 name=$(grep 'Name' ${DIR}/form-data.txt | cut -d ' ' -f2)
 email=$(grep 'Email' ${DIR}/form-data.txt | cut -d ' ' -f2)
-input=$(grep 'Input' ${DIR}/form-data.txt | cut -d ' ' -f2)
+input=$(grep 'Input' ${DIR}/form-data.txt | cut -d ' ' -f3)
 echo $input
 
 # Verify email
@@ -45,7 +45,7 @@ mkdir -p ${OUT}/spraynpray
 
 #/home/ark/MAB/bin/SprayNPray/spray-and-pray.py -g ${DIR}/${input} -out ${OUT}/spraynpray -ref /home/ark/databases/nr.dmnd --hits 1 -t 20
 
-/home/ark/MAB/bin/HoundSleuth/binstage.sh -i ${DIR}/${input} -o ${OUT}/binarena/${input%.*} -s ${OUT}/spraynpray/spraynpray.csv -m 300
+/home/ark/MAB/bin/HoundSleuth/binstage.sh -i ${DIR}/${input} -o ${OUT}/${OUT}_binarena/${input%.*} -s ${OUT}/spraynpray/spraynpray.csv -m 300
 
 # **************************************************************************************************
 # **************************************************************************************************
