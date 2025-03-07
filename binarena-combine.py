@@ -40,7 +40,7 @@ def combine_tsv_files(folder_path):
     # Get a list of all .tsv files in the folder, excluding the basic.tsv
     BIN = args.b + "\."
     print(os.listdir(folder_path))
-    tsv_files = [f for f in os.listdir(folder_path) if f.endswith('.tsv') and f != basic_name and re.findall(BIN, f)]
+    tsv_files = [f for f in os.listdir(folder_path) if f.endswith('.tsv') and f != basic_name]
     print(tsv_files)
     # Loop through each dissimilarity tsv file
     for tsv_file in tsv_files:

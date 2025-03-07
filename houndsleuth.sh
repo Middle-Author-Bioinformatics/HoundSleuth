@@ -60,7 +60,7 @@ conda deactivate
 sleep 5
 
 # Archive results
-mv /home/ark/MAB/houndsleuth/completed/${ID}-results ./${ID}-results
+cp -r /home/ark/MAB/houndsleuth/completed/${ID}-results ./${ID}-results
 tar -cf ${ID}-results.tar ${ID}-results && gzip ${ID}-results.tar
 
 # Upload results to S3 and generate presigned URL
@@ -70,6 +70,7 @@ python3 /home/ark/MAB/bin/HoundSleuth/push.py --bucket binfo-dump --output_key $
 url=$(python3 /home/ark/MAB/bin/HoundSleuth/gen_presign_url.py --bucket binfo-dump --key ${s3_key} --expiration 86400)
 
 mv ${ID}-results.tar.gz /home/ark/MAB/houndsleuth/completed/${ID}-results.tar.gz
+rm -rf ${ID}-results
 
 # Send email
 python3 /home/ark/MAB/bin/HoundSleuth/send_email.py \
