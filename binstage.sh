@@ -65,7 +65,8 @@ fi
 
 SEQS=$(grep -c "^>" ${INPUT})
 
-sequence_basics.py -i ${INPUT} -o ${OUT}.basic.tsv
+echo "python3 /home/ark/MAB/bin/HoundSleuth/sequence_basics.py -i ${INPUT} -o ${OUT}.basic.tsv"
+/home/ark/MAB/bin/HoundSleuth/sequence_basics.py -i ${INPUT} -o ${OUT}.basic.tsv
 /home/ark/MAB/bin/HoundSleuth/count_kmers.py -i ${INPUT} -k 5 | /home/ark/MAB/bin/HoundSleuth/reduce_dimension.py --pca --tsne --umap -o ${OUT}.k5 -f ${SEQS}
 /home/ark/MAB/bin/HoundSleuth/count_kmers.py -i ${INPUT} -k 4 | /home/ark/MAB/bin/HoundSleuth/reduce_dimension.py --pca --tsne --umap -o ${OUT}.k4 -f ${SEQS}
 /home/ark/MAB/bin/HoundSleuth/count_kmers.py -i ${INPUT} -k 6 | /home/ark/MAB/bin/HoundSleuth/reduce_dimension.py --pca --tsne --umap -o ${OUT}.k6 -f ${SEQS}
@@ -104,12 +105,14 @@ sed -i "1c $umap6" ${OUT}.k6.umap.tsv
 
 mkdir -p ${OUT}_binarena
 mv ${OUT}.*.tsv ${OUT}_binarena/
+echo "python3 /home/ark/MAB/bin/HoundSleuth/binarena-combine.py -i ${OUT}_binarena -o ${OUT}.tsv -b ${OUT}"
 /home/ark/MAB/bin/HoundSleuth/binarena-combine.py -i ${OUT}_binarena -o ${OUT}.tsv -b ${OUT}
 
 if [[ ${SNP} != false ]]; then
     if [[ ${DEPTH} != false ]]; then
         /home/ark/MAB/bin/HoundSleuth/binstager.py -b ${OUT}.tsv -o ${OUT}.taxa.depth.tsv -m ${MIN} -s ${SNP} -d ${DEPTH}
     else
+        echo "/home/ark/MAB/bin/HoundSleuth/binstager.py -b ${OUT}.tsv -o ${OUT}.taxa.tsv -m ${MIN} -s ${SNP}"
         /home/ark/MAB/bin/HoundSleuth/binstager.py -b ${OUT}.tsv -o ${OUT}.taxa.tsv -m ${MIN} -s ${SNP}
     fi
 else
