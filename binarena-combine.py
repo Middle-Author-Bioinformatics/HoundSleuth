@@ -29,6 +29,7 @@ def combine_tsv_files(folder_path):
     # Read the basic.tsv file first
     basic_name = args.b + ".basic.tsv"
     basic_file_path = os.path.join(folder_path, basic_name)
+    print(basic_file_path)
     if not os.path.exists(basic_file_path):
         raise FileNotFoundError("basic.tsv file is missing from the folder.")
 
