@@ -11,6 +11,7 @@ function usage() {
         -s, --snp:    spraynpray output table
         -d, --depth:  coverage information from jgi_summarize_bam_contig_depths
         -m, --min:    minimum contig length
+        -D, --dir:    directory for binarena output
 
 USAGE
     exit 1
@@ -23,8 +24,9 @@ fi
 
 SNP=false
 MIN=300
-OUT=binarena_input
+OUT=false
 DEPTH=false
+DIR=false
 while [ "$1" != "" ]; do
     case $1 in
     -i | --input)
@@ -46,6 +48,10 @@ while [ "$1" != "" ]; do
     -m | --min)
         shift
         MIN=$1
+        ;;
+    -D | --dir)
+        shift
+        DIR=$1
         ;;
     -h | --help)
         usage
@@ -106,7 +112,7 @@ sed -i "1c $umap6" ${OUT}.k6.umap.tsv
 #mkdir -p ${OUT}_binarena
 #mv ${OUT}.*.tsv ${OUT}_binarena/
 echo "python3 /home/ark/MAB/bin/HoundSleuth/binarena-combine.py -i ${OUT} -o ${OUT}.tsv -b ${OUT}"
-/home/ark/MAB/bin/HoundSleuth/binarena-combine.py -i ${OUT} -o ${OUT}.tsv -b ${OUT}
+/home/ark/MAB/bin/HoundSleuth/binarena-combine.py -i ${DIR} -o ${OUT}.tsv -b ${OUT}
 
 if [[ ${SNP} != false ]]; then
     if [[ ${DEPTH} != false ]]; then
