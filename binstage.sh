@@ -103,10 +103,10 @@ sed -i "1c $umap6" ${OUT}.k6.umap.tsv
 #    mv temp.tsv ${OUT}.tsv
 #done
 
-mkdir -p ${OUT}_binarena
-mv ${OUT}.*.tsv ${OUT}_binarena/
-echo "python3 /home/ark/MAB/bin/HoundSleuth/binarena-combine.py -i ${OUT}_binarena -o ${OUT}.tsv -b ${OUT}"
-/home/ark/MAB/bin/HoundSleuth/binarena-combine.py -i ${OUT}_binarena -o ${OUT}.tsv -b ${OUT}
+#mkdir -p ${OUT}_binarena
+#mv ${OUT}.*.tsv ${OUT}_binarena/
+echo "python3 /home/ark/MAB/bin/HoundSleuth/binarena-combine.py -i ${OUT} -o ${OUT}.tsv -b ${OUT}"
+/home/ark/MAB/bin/HoundSleuth/binarena-combine.py -i ${OUT} -o ${OUT}.tsv -b ${OUT}
 
 if [[ ${SNP} != false ]]; then
     if [[ ${DEPTH} != false ]]; then
