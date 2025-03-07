@@ -43,13 +43,15 @@ mkdir -p ${OUT}
 mkdir -p ${OUT}/binarena
 mkdir -p ${OUT}/spraynpray
 
-echo /home/ark/MAB/bin/SprayNPray/spray-and-pray.py -g ${DIR}/${input} -out ${OUT}/spraynpray -ref /home/ark/MAB/houndsleuth/houndsleuth-6vuOMcfBHz/PROKKA_10082020.fna.pid.uniq.dmnd --hits 1 -t 20
-/home/ark/MAB/bin/SprayNPray/spray-and-pray.py -g ${DIR}/${input} -out ${OUT}/spraynpray -ref /home/ark/databases/nr.dmnd --hits 1 -t 20
-#/home/ark/MAB/bin/SprayNPray/spray-and-pray.py -g ${DIR}/${input} -out ${OUT}/spraynpray -ref /home/ark/MAB/houndsleuth/houndsleuth-6vuOMcfBHz/PROKKA_10082020.fna.pid.uniq.dmnd --hits 1 -t 20
-echo ""
-echo "/home/ark/MAB/bin/HoundSleuth/binstage.sh -i ${DIR}/${input} -o ${OUT}/binarena/${input%.*} -s ${OUT}/spraynpray/spraynpray.csv -m 300"
+# checking if file exists:
+if [ ! -f ${DIR}/${input}.blast ]; then
+    /home/ark/MAB/bin/SprayNPray/spray-and-pray.py -g ${DIR}/${input} -out ${OUT}/spraynpray -ref /home/ark/databases/nr.dmnd --hits 1 -t 20
+else
+    /home/ark/MAB/bin/SprayNPray/spray-and-pray.py -g ${DIR}/${input} -out ${OUT}/spraynpray -ref /home/ark/databases/nr.dmnd --hits 1 -t 20 -blast ${DIR}/${input}.blast
+fi
+
+
 /home/ark/MAB/bin/HoundSleuth/binstage.sh -i ${DIR}/${input} -o ${OUT}/binarena/${input%.*} -D ${OUT}/binarena -s ${OUT}/spraynpray/spraynpray.csv -m 300
-echo ""
 
 mv ${OUT}/binarena/${input%.*}.taxa.tsv ${OUT}/data_table_for_binarena.tsv
 

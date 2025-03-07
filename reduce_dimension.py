@@ -131,7 +131,11 @@ def main():
 
     if (args.tsne or args.umap) and ncol > 200:
         print('Extracting features from original data...')
-        pca_ = PCA(n_components=int(args.features), random_state=seed)
+        n_samples, n_features = data.shape
+        max_components = min(n_samples, n_features)
+
+        pca_ = PCA(n_components=min(int(args.features), max_components), random_state=seed)
+        # pca_ = PCA(n_components=int(args.features), random_state=seed)
         data = pca_.fit_transform(data)
         print('Done.')
 
