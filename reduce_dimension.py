@@ -36,6 +36,7 @@ import pandas as pd
 try:
     from sklearn.decomposition import PCA
     from sklearn.manifold import TSNE
+    from sklearn.manifold import TSNE
 except ModuleNotFoundError:
     exit('This script requires Python library scikit-learn.')
 

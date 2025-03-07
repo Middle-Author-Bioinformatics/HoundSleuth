@@ -26,7 +26,7 @@ echo $result
 # Set PATH to include Conda and script locations
 export PATH="/home/ark/miniconda3/bin:/usr/local/bin:/usr/bin:/bin:/home/ark/MAB/bin/HoundSleuth:$PATH"
 eval "$(/home/ark/miniconda3/bin/conda shell.bash hook)"
-conda activate houndsleuth
+conda activate houndsleuth39
 
 if [ $? -ne 0 ]; then
     echo "Error: Failed to activate Conda environment."
@@ -43,7 +43,7 @@ mkdir -p ${OUT}
 mkdir -p ${OUT}/binarena
 mkdir -p ${OUT}/spraynpray
 
-#/home/ark/MAB/bin/SprayNPray/spray-and-pray.py -g ${DIR}/${input} -out ${OUT}/spraynpray -ref /home/ark/databases/nr.dmnd --hits 1 -t 20
+/home/ark/MAB/bin/SprayNPray/spray-and-pray.py -g ${DIR}/${input} -out ${OUT}/spraynpray -ref /home/ark/databases/nr.dmnd --hits 1 -t 20
 
 echo "/home/ark/MAB/bin/HoundSleuth/binstage.sh -i ${DIR}/${input} -o ${OUT}/binarena/${input%.*} -s ${OUT}/spraynpray/spraynpray.csv -m 300"
 /home/ark/MAB/bin/HoundSleuth/binstage.sh -i ${DIR}/${input} -o ${OUT}/binarena/${input%.*} -D ${OUT}/binarena -s ${OUT}/spraynpray/spraynpray.csv -m 300
