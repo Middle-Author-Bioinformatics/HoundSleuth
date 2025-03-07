@@ -26,29 +26,27 @@ args = parser.parse_known_args()[0]
 
 
 def combine_tsv_files(folder_path):
-    # Read the basic.tsv file first
     basic_name = args.b + ".basic.tsv"
     basic_file_path = os.path.join(folder_path, basic_name)
+
     if not os.path.exists(basic_file_path):
         raise FileNotFoundError("basic.tsv file is missing from the folder.")
 
     basic_df = pd.read_csv(basic_file_path, sep='\t')
-
-    # Initialize the final DataFrame with the basic information
     combined_df = basic_df.copy()
 
-    # Get a list of all .tsv files in the folder, excluding the basic.tsv
-    BIN = args.b + "\."
-    print(os.listdir(folder_path))
-    tsv_files = [f for f in os.listdir(folder_path) if f.endswith('.tsv') and f != basic_name]
-    print(tsv_files)
-    # Loop through each dissimilarity tsv file
+    # Debugging
+    print("Files in directory:", os.listdir(folder_path))
+    print("Filtering for files containing:", args.b)
+
+    BIN = os.path.basename(args.b)
+    tsv_files = [f for f in os.listdir(folder_path) if f.endswith('.tsv') and f != basic_name and BIN in f]
+
+    print("Matched TSV files:", tsv_files)
+
     for tsv_file in tsv_files:
-        print(tsv_file)
         file_path = os.path.join(folder_path, tsv_file)
         dissimilarity_df = pd.read_csv(file_path, sep='\t')
-
-        # Merge the dissimilarity data with the combined dataframe on the first column (contig names)
         combined_df = pd.merge(combined_df, dissimilarity_df, on=combined_df.columns[0], how='left')
 
     return combined_df
