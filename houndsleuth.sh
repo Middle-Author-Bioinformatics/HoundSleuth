@@ -45,7 +45,7 @@ mkdir -p ${OUT}/spraynpray
 
 #/home/ark/MAB/bin/SprayNPray/spray-and-pray.py -g ${DIR}/${input} -out ${OUT}/spraynpray -ref /home/ark/databases/nr.dmnd --hits 1 -t 20
 
-/home/ark/MAB/bin/HoundSleuth/binstage.sh -i ${DIR}/${input} -o ${OUT}/${input%.*}_binarena/${input%.*} -s ${OUT}/spraynpray/spraynpray.csv -m 300
+echo /home/ark/MAB/bin/HoundSleuth/binstage.sh -i ${DIR}/${input} -o ${OUT}/${input%.*}_binarena/${input%.*} -s ${OUT}/spraynpray/spraynpray.csv -m 300
 
 # **************************************************************************************************
 # **************************************************************************************************
