@@ -11,11 +11,11 @@ LOG_FILE = '/home/ark/MAB/processed_folders.log'
 
 # Prefix-to-script mapping
 PREFIX_SCRIPT_MAP = {
-    'pseudofinder-': '/home/ark/MAB/bin/PseudoFinder/pseudofinder.sh',
-    'spraynpray-': '/home/ark/MAB/bin/SprayNPray/spraynpray.sh',
-    'gtotree-': '/home/ark/MAB/bin/GToTree/gtotree.sh',
-    'fegenie-': '/home/ark/MAB/bin/FeGenie/fegenie.sh',
-    'mhcscan-': '/home/ark/MAB/bin/MHCScan/mhcscan.sh'
+    'pseudofinder-': '/home/ark/MAB/bin/HoundSleuth/pseudofinder.sh',
+    'spraynpray-': '/home/ark/MAB/bin/HoundSleuth/spraynpray.sh',
+    'gtotree-': '/home/ark/MAB/bin/HoundSleuth/gtotree.sh',
+    'fegenie-': '/home/ark/MAB/bin/HoundSleuth/fegenie.sh',
+    'mhcscan-': '/home/ark/MAB/bin/HoundSleuth/mhcscan.sh'
 }
 
 # Initialize S3 client (using default credentials)
