@@ -34,13 +34,64 @@ if [ $? -ne 0 ]; then
 fi
 sleep 5
 
-
 # **************************************************************************************************
 # **************************************************************************************************
 # **************************************************************************************************
 # Run GToTree
 mkdir -p ${OUT}
-GToTree.py -i ${DIR}/${input} -o ${OUT}/gtotree
+
+name=$(grep 'Name' ${DIR}/form-data.txt | cut -d ' ' -f2)
+email=$(grep 'Email' ${DIR}/form-data.txt | cut -d ' ' -f2)
+SCG=$(grep 'SCG' ${DIR}/form-data.txt | cut -d ' ' -f3)
+ACC=$(grep 'Accessions' ${DIR}/form-data.txt | cut -d ' ' -f3)
+
+grep 'Genome' ${DIR}/form-data.txt | cut -d ' ' -f3 > ${OUT}/genomes.txt
+grep 'Protein' ${DIR}/form-data.txt | cut -d ' ' -f3 > ${OUT}/proteomes.txt
+grep 'GenBank' ${DIR}/form-data.txt | cut -d ' ' -f3 > ${OUT}/GBKs.txt
+
+while read file; do echo ${DIR}/$file >> ${OUT}/genome_paths.txt; done < ${OUT}/genomes.txt
+while read file; do echo ${DIR}/$file >> ${OUT}/proteome_paths.txt; done < ${OUT}/proteomes.txt
+while read file; do echo ${DIR}/$file >> ${OUT}/GBK_paths.txt; done < ${OUT}/GBKs.txt
+
+# Prepare GToTree arguments
+GToTree_CMD="GToTree"
+
+if [ -s ${OUT}/proteome_paths.txt ]; then
+    GToTree_CMD+=" -A ${OUT}/proteome_paths.txt"
+else
+    echo "Warning: Proteome file is empty, skipping this input."
+fi
+
+if [ -s ${OUT}/GBK_paths.txt ]; then
+    GToTree_CMD+=" -g ${OUT}/GBK_paths.txt"
+else
+    echo "Warning: GenBank file is empty, skipping this input."
+fi
+
+if [ -s ${OUT}/genome_paths.txt ]; then
+    GToTree_CMD+=" -f ${OUT}/genome_paths.txt"
+else
+    echo "Warning: Genome file is empty, skipping this input."
+fi
+
+if [ -s ${DIR}/${ACC} ]; then
+    GToTree_CMD+=" -a ${OUT}/${ACC}"
+else
+    echo "Warning: Accessions file is empty, skipping this input."
+fi
+
+# Ensure at least one input file is provided
+if [[ "$GToTree_CMD" == "GToTree" ]]; then
+    echo "Error: All input files are empty. Skipping this iteration."
+    conda deactivate
+fi
+
+# Add other fixed arguments
+GToTree_CMD+=" -H ${SCG} -j 4 -M 4 -c 0.5 -G 0.2 -B -t -o ${OUT}"
+
+# Run the constructed GToTree command
+echo "$GToTree_CMD"
+eval "$GToTree_CMD"
 
 # **************************************************************************************************
 # **************************************************************************************************
