@@ -87,7 +87,7 @@ if [[ "$GToTree_CMD" == "GToTree" ]]; then
 fi
 
 # Add other fixed arguments
-GToTree_CMD+=" -H ${SCG} -j 4 -M 4 -c 0.5 -G 0.2 -B -t -o ${OUT}"
+GToTree_CMD+=" -H ${SCG} -j 16 -M 16 -c 0.5 -G 0.2 -B -t -o ${OUT}"
 
 # Run the constructed GToTree command
 echo "$GToTree_CMD"
@@ -127,6 +127,8 @@ python3 /home/ark/MAB/bin/HoundSleuth/send_email.py \
     Your GToTree results are available for download using the link below. The link will expire in 24 hours.
 
     ${url}
+
+    Please visit github.com/AstrobioMike/GToTree for documentation.
 
     Cheers!
     Arkadiy"

@@ -39,8 +39,8 @@ sleep 5
 # **************************************************************************************************
 # **************************************************************************************************
 # Run MHCScan
-mkdir -p ${OUT}
-MHCScan.py -i ${DIR}/${input} -o ${OUT}/mhcscan
+mkdir -p /home/ec2-user/output/${ID}-results
+/home/ark/bin/MHCScan/MHCscan.sh -i ${DIR}/${input} -o ${OUT}/mhcscan.csv -t 16
 
 # **************************************************************************************************
 # **************************************************************************************************
@@ -77,8 +77,12 @@ python3 /home/ark/MAB/bin/HoundSleuth/send_email.py \
 
     ${url}
 
-    Cheers!
-    Arkadiy"
+    Please visit https://github.com/Arkadiy-Garber/MHCscan for documentation.
+
+    Please reach out to ark@midauthorbio.com, or send us a note on https://midauthorbio.com/#contact if you have any questions.
+
+    Thanks!
+    MAB Team"
 
 if [ $? -ne 0 ]; then
     echo "Error: send_email.py failed."

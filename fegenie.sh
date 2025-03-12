@@ -40,7 +40,7 @@ sleep 5
 # **************************************************************************************************
 # Run FeGenie
 mkdir -p ${OUT}
-FeGenie.py -i ${DIR}/${input} -o ${OUT}/fegenie
+/home/ark/bin/FeGenie/FeGenie.py -bin_dir ${DIR}/ -bin_ext fa -out /home/ec2-user/complete/${ID}-results -t 16 --nohup
 
 # **************************************************************************************************
 # **************************************************************************************************
@@ -76,6 +76,8 @@ python3 /home/ark/MAB/bin/HoundSleuth/send_email.py \
     Your FeGenie results are available for download using the link below. The link will expire in 24 hours.
 
     ${url}
+
+    Please visit https://github.com/Arkadiy-Garber/FeGenie for documentation.
 
     Cheers!
     Arkadiy"
