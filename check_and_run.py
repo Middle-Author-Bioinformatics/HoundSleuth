@@ -84,7 +84,7 @@ def download_folder(bucket_name, folder_name, local_dir):
 
 def process_folder(folder_name):
     """Process the folder by downloading its contents and running the appropriate script."""
-    local_dir = f"/home/ark/MAB/{folder_name}"
+    local_dir = f"/home/ark/MAB/houndsleuth/{folder_name}"
     print(f"Processing folder: {folder_name}")
     download_folder(BUCKET_NAME, folder_name, local_dir)
 
