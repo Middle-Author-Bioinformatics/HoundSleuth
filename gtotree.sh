@@ -87,7 +87,7 @@ if [[ "$GToTree_CMD" == "GToTree" ]]; then
 fi
 
 # Add other fixed arguments
-GToTree_CMD+=" -H ${SCG} -j 16 -M 16 -c 0.5 -G 0.2 -B -t -o ${OUT}"
+GToTree_CMD+=" -H ${SCG} -j 16 -M 16 -c 0.5 -G 0.2 -B -t -o ${OUT}/GTTout"
 
 # Run the constructed GToTree command
 echo "$GToTree_CMD"
