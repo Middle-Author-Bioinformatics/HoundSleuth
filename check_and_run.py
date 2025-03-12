@@ -5,10 +5,18 @@ import logging
 from botocore.exceptions import NoCredentialsError, PartialCredentialsError
 import subprocess
 
-# S3 bucket name and folder prefix
+# S3 bucket name
 BUCKET_NAME = 'breseqbucket'
-FOLDER_PREFIX = 'houndsleuth-'
-LOG_FILE = '/home/ark/MAB/houndsleuth/processed_folders.log'
+LOG_FILE = '/home/ark/MAB/processed_folders.log'
+
+# Prefix-to-script mapping
+PREFIX_SCRIPT_MAP = {
+    'pseudofinder-': '/home/ark/MAB/bin/PseudoFinder/pseudofinder.sh',
+    'spraynpray-': '/home/ark/MAB/bin/SprayNPray/spraynpray.sh',
+    'gtotree-': '/home/ark/MAB/bin/GToTree/gtotree.sh',
+    'fegenie-': '/home/ark/MAB/bin/FeGenie/fegenie.sh',
+    'mhcscan-': '/home/ark/MAB/bin/MHCScan/mhcscan.sh'
+}
 
 # Initialize S3 client (using default credentials)
 s3 = boto3.client('s3')
@@ -30,26 +38,25 @@ def check_for_new_folders():
     processed_folders = get_processed_folders()
 
     try:
-        response = s3.list_objects_v2(Bucket=BUCKET_NAME, Prefix=FOLDER_PREFIX, Delimiter='/')
-        if 'CommonPrefixes' not in response:
-            print("No new folders found.")
-            return None
+        for prefix in PREFIX_SCRIPT_MAP.keys():
+            response = s3.list_objects_v2(Bucket=BUCKET_NAME, Prefix=prefix, Delimiter='/')
+            if 'CommonPrefixes' not in response:
+                continue  # No folders for this prefix
 
-        for prefix_obj in response['CommonPrefixes']:
-            folder_name = prefix_obj['Prefix'].rstrip('/')
-            if folder_name in processed_folders:
-                continue  # Skip already processed folders
+            for prefix_obj in response['CommonPrefixes']:
+                folder_name = prefix_obj['Prefix'].rstrip('/')
+                if folder_name in processed_folders:
+                    continue  # Skip already processed folders
 
-            # Check if form-data.txt exists in the folder
-            form_data_key = f"{folder_name}/form-data.txt"
-            try:
-                s3.head_object(Bucket=BUCKET_NAME, Key=form_data_key)
-                print(f"Found new folder ready for processing: {folder_name}")
-                log_processed_folder(folder_name)
-                return folder_name
-            except s3.exceptions.ClientError:
-                # form-data.txt does not exist yet
-                continue
+                # Check if form-data.txt exists in the folder
+                form_data_key = f"{folder_name}/form-data.txt"
+                try:
+                    s3.head_object(Bucket=BUCKET_NAME, Key=form_data_key)
+                    print(f"Found new folder ready for processing: {folder_name}")
+                    log_processed_folder(folder_name)
+                    return folder_name
+                except s3.exceptions.ClientError:
+                    continue  # form-data.txt does not exist yet
 
         print("No new folders ready for processing.")
         return None
@@ -76,18 +83,23 @@ def download_folder(bucket_name, folder_name, local_dir):
         print(f"Error downloading folder {folder_name}: {e}")
 
 def process_folder(folder_name):
-    """Process the folder by downloading its contents and performing analysis."""
-    local_dir = f"/home/ark/MAB/houndsleuth/{folder_name}"
+    """Process the folder by downloading its contents and running the appropriate script."""
+    local_dir = f"/home/ark/MAB/{folder_name}"
     print(f"Processing folder: {folder_name}")
     download_folder(BUCKET_NAME, folder_name, local_dir)
 
-    # Run houndsleuth.sh script with folder_name as argument
-    houndsleuth_script_path = '/home/ark/MAB/bin/HoundSleuth/houndsleuth.sh'
-    try:
-        subprocess.run([houndsleuth_script_path, folder_name], check=True)
-        print(f"Successfully processed folder {folder_name} using houndsleuth.sh.")
-    except subprocess.CalledProcessError as e:
-        print(f"Error running houndsleuth.sh on folder {folder_name}: {e}")
+    # Determine which script to run based on prefix
+    for prefix, script_path in PREFIX_SCRIPT_MAP.items():
+        if folder_name.startswith(prefix):
+            try:
+                subprocess.run([script_path, folder_name], check=True)
+                print(f"Successfully processed folder {folder_name} using {script_path}.")
+                return
+            except subprocess.CalledProcessError as e:
+                print(f"Error running {script_path} on folder {folder_name}: {e}")
+                return
+
+    print(f"No matching script found for folder {folder_name}.")
 
 def main():
     """Main function to check for new folders and trigger processing."""

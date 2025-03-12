@@ -26,7 +26,7 @@ echo $result
 # Set PATH to include Conda and script locations
 export PATH="/home/ark/miniconda3/bin:/usr/local/bin:/usr/bin:/bin:/home/ark/MAB/bin/HoundSleuth:$PATH"
 eval "$(/home/ark/miniconda3/bin/conda shell.bash hook)"
-conda activate houndsleuth39
+conda activate mhcscan
 
 if [ $? -ne 0 ]; then
     echo "Error: Failed to activate Conda environment."
@@ -38,28 +38,15 @@ sleep 5
 # **************************************************************************************************
 # **************************************************************************************************
 # **************************************************************************************************
-# Run HoundsSleuth
+# Run MHCScan
 mkdir -p ${OUT}
-mkdir -p ${OUT}/binarena
-mkdir -p ${OUT}/spraynpray
-
-# checking if file exists:
-if [ ! -f ${DIR}/${input}.blast ]; then
-    /home/ark/MAB/bin/SprayNPray/spray-and-pray.py -g ${DIR}/${input} -out ${OUT}/spraynpray -ref /home/ark/databases/nr.dmnd --hits 1 -t 20
-else
-    /home/ark/MAB/bin/SprayNPray/spray-and-pray.py -g ${DIR}/${input} -out ${OUT}/spraynpray -ref /home/ark/databases/nr.dmnd --hits 1 -t 20 -blast ${DIR}/${input}.blast
-fi
-
-
-/home/ark/MAB/bin/HoundSleuth/binstage.sh -i ${DIR}/${input} -o ${OUT}/binarena/${input%.*} -D ${OUT}/binarena -s ${OUT}/spraynpray/spraynpray.csv -m 300
-
-mv ${OUT}/binarena/${input%.*}.taxa.tsv ${OUT}/data_table_for_binarena.tsv
+MHCScan.py -i ${DIR}/${input} -o ${OUT}/mhcscan
 
 # **************************************************************************************************
 # **************************************************************************************************
 # **************************************************************************************************
 if [ $? -ne 0 ]; then
-    echo "Error: HoundSleuth failed."
+    echo "Error: MHCScan failed."
     conda deactivate
     exit 1
 fi
@@ -81,16 +68,14 @@ rm -rf ${ID}-results
 
 # Send email
 python3 /home/ark/MAB/bin/HoundSleuth/send_email.py \
-    --sender StrainHound@midauthorbio.com \
+    --sender mhcscan@midauthorbio.com \
     --recipient ${email} \
-    --subject "Your HoundSleuth Results!" \
+    --subject "Your MHCScan Results!" \
     --body "Hi ${name},
 
-    Your HoundSleuth results are available for download using the link below. The link will expire in 24 hours.
+    Your MHCScan results are available for download using the link below. The link will expire in 24 hours.
 
     ${url}
-
-    You can now navigate to https://main.d2fhjju1m7825g.amplifyapp.com/binarena-master/BinaRena.html and drag/drop the data_table_for_binarena.tsv file into the BinArena interface to visualize the results.
 
     Cheers!
     Arkadiy"
@@ -106,7 +91,7 @@ sleep 5
 #sudo rm -rf ${DIR}
 
 conda deactivate
-echo "MagicLamp completed successfully."
+echo "MHCScan completed successfully."
 
 
 
