@@ -75,7 +75,7 @@ else
 fi
 
 if [ -s ${DIR}/${ACC} ]; then
-    GToTree_CMD+=" -a ${OUT}/${ACC}"
+    GToTree_CMD+=" -a ${DIR}/${ACC}"
 else
     echo "Warning: Accessions file is empty, skipping this input."
 fi
