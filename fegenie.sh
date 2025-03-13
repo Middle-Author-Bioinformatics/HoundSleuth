@@ -2,7 +2,7 @@
 eval "$(/home/ark/miniconda3/bin/conda shell.bash hook)"
 conda activate base  # Activate the base environment where `boto3` is installed
 
-exec > >(tee -i /home/ark/MAB/houndsleuth/houndsleuth_looper.log)
+exec > >(tee -i /home/ark/MAB/houndsleuth/fegenie_looper.log)
 exec 2>&1
 
 eval "$(/home/ark/miniconda3/bin/conda shell.bash hook)"
@@ -40,7 +40,7 @@ sleep 5
 # **************************************************************************************************
 # Run FeGenie
 mkdir -p ${OUT}
-for file in ${DIR}/*; do [[ ${file} == ${DIR}/form-data.txt ]] || mv -f ${file%.*} ${file}.fa; done
+for file in ${DIR}/*; do [[ ${file} == ${DIR}/form-data.txt ]] || mv -f $i ${file%.*}.fa; done
 /home/ark/bin/FeGenie/FeGenie.py -bin_dir ${DIR}/ -bin_ext fa -out ${OUT} -t 16 --nohup
 
 # **************************************************************************************************

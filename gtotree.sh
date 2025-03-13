@@ -2,7 +2,7 @@
 eval "$(/home/ark/miniconda3/bin/conda shell.bash hook)"
 conda activate base  # Activate the base environment where `boto3` is installed
 
-exec > >(tee -i /home/ark/MAB/houndsleuth/houndsleuth_looper.log)
+exec > >(tee -i /home/ark/MAB/houndsleuth/gtotree_looper.log)
 exec 2>&1
 
 eval "$(/home/ark/miniconda3/bin/conda shell.bash hook)"

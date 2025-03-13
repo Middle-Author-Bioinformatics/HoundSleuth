@@ -2,7 +2,7 @@
 eval "$(/home/ark/miniconda3/bin/conda shell.bash hook)"
 conda activate base  # Activate the base environment where `boto3` is installed
 
-exec > >(tee -i /home/ark/MAB/houndsleuth/houndsleuth_looper.log)
+exec > >(tee -i /home/ark/MAB/houndsleuth/spraynpray_looper.log)
 exec 2>&1
 
 eval "$(/home/ark/miniconda3/bin/conda shell.bash hook)"
@@ -54,8 +54,6 @@ fi
 /home/ark/MAB/bin/HoundSleuth/binstage.sh -i ${DIR}/${input} -o ${OUT}/binarena/${input%.*} -D ${OUT}/binarena -s ${OUT}/spraynpray/spraynpray.csv -m 300
 
 mv ${OUT}/binarena/${input%.*}.taxa.tsv ${OUT}/data_table_for_binarena.tsv
-rm ${OUT}/spraynpray/spraynpray-top100.csv
-rm ${OUT}/spraynpray/spraynpray.words.csv
 
 # **************************************************************************************************
 # **************************************************************************************************
