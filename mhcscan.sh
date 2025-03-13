@@ -25,14 +25,14 @@ echo $result
 
 # Set PATH to include Conda and script locations
 export PATH="/home/ark/miniconda3/bin:/usr/local/bin:/usr/bin:/bin:/home/ark/MAB/bin/HoundSleuth:$PATH"
-eval "$(/home/ark/miniconda3/bin/conda shell.bash hook)"
-conda activate mhcscan
-
-if [ $? -ne 0 ]; then
-    echo "Error: Failed to activate Conda environment."
-    exit 1
-fi
-sleep 5
+#eval "$(/home/ark/miniconda3/bin/conda shell.bash hook)"
+#conda activate mhcscan
+#
+#if [ $? -ne 0 ]; then
+#    echo "Error: Failed to activate Conda environment."
+#    exit 1
+#fi
+#sleep 5
 
 
 # **************************************************************************************************
