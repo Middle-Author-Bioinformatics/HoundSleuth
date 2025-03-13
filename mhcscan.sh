@@ -40,7 +40,7 @@ export PATH="/home/ark/miniconda3/bin:/usr/local/bin:/usr/bin:/bin:/home/ark/MAB
 # **************************************************************************************************
 # Run MHCScan
 mkdir -p ${OUT}
-/home/ark/bin/MHCScan/bin/MHCscan.sh -i ${DIR}/${input} -o ${OUT}/mhcscan.csv -t 16
+/home/ark/MAB/bin/MHCScan/bin/MHCscan.sh -i ${DIR}/${input} -o ${OUT}/mhcscan.csv -t 16
 
 # **************************************************************************************************
 # **************************************************************************************************
