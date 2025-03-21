@@ -15,7 +15,8 @@ PREFIX_SCRIPT_MAP = {
     'spraynpray-': '/home/ark/MAB/bin/HoundSleuth/spraynpray.sh',
     'gtotree-': '/home/ark/MAB/bin/HoundSleuth/gtotree.sh',
     'fegenie-': '/home/ark/MAB/bin/HoundSleuth/fegenie.sh',
-    'mhcscan-': '/home/ark/MAB/bin/HoundSleuth/mhcscan.sh'
+    'mhcscan-': '/home/ark/MAB/bin/HoundSleuth/mhcscan.sh',
+    'qiime2-': '/home/ark/MAB/bin/HoundSleuth/qiime.sh'
 }
 
 # Initialize S3 client (using default credentials)

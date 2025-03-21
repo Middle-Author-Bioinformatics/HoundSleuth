@@ -2,7 +2,7 @@
 eval "$(/home/ark/miniconda3/bin/conda shell.bash hook)"
 conda activate base  # Activate the base environment where `boto3` is installed
 
-exec > >(tee -i /home/ark/MAB/houndsleuth/mhcscan_looper.log)
+exec > >(tee -i /home/ark/MAB/houndsleuth/qiime2_looper.log)
 exec 2>&1
 
 eval "$(/home/ark/miniconda3/bin/conda shell.bash hook)"
@@ -13,11 +13,10 @@ ID=$KEY
 DIR=/home/ark/MAB/houndsleuth/${ID}
 OUT=/home/ark/MAB/houndsleuth/completed/${ID}-results
 
-
 name=$(grep 'Name' ${DIR}/form-data.txt | cut -d ' ' -f2)
 email=$(grep 'Email' ${DIR}/form-data.txt | cut -d ' ' -f2)
-input=$(grep 'Input' ${DIR}/form-data.txt | cut -d ' ' -f3)
-echo $input
+meta=$(grep 'Meta' ${DIR}/form-data.txt | cut -d ' ' -f3)
+amp=$(grep 'Amplicon' ${DIR}/form-data.txt | cut -d ' ' -f3)
 
 # Verify email
 result=$(python3 /home/ark/MAB/bin/HoundSleuth/check_email.py --email ${email})
@@ -26,7 +25,7 @@ echo $result
 # Set PATH to include Conda and script locations
 export PATH="/home/ark/miniconda3/bin:/usr/local/bin:/usr/bin:/bin:/home/ark/MAB/bin/HoundSleuth:$PATH"
 eval "$(/home/ark/miniconda3/bin/conda shell.bash hook)"
-conda activate mhcscan
+conda activate qiime2-2019.7
 
 if [ $? -ne 0 ]; then
     echo "Error: Failed to activate Conda environment."
@@ -34,19 +33,23 @@ if [ $? -ne 0 ]; then
 fi
 sleep 5
 
+mkdir -p ${DIR}/reads
+mv ${DIR}/*.f*q* ${DIR}/reads
 
+# Run Qiime2
 # **************************************************************************************************
 # **************************************************************************************************
 # **************************************************************************************************
-# Run MHCScan
-mkdir -p ${OUT}
-/home/ark/MAB/bin/MHCScan/bin/MHCscan.sh -i ${DIR}/${input} -o ${OUT}/mhcscan.csv -t 16
-
+if [[ ${amp} == "ITS" ]]; then
+    qiime2-pipe.sh -i ${DIR}/reads -o ${OUT} -t 16 -m ${meta} -a /home/ark/MAB/bin/MAB_scripts/auxiliary --its
+else
+    qiime2-pipe.sh -i ${DIR}/reads -o ${OUT} -m ${meta} -t 16 -a /home/ark/MAB/bin/MAB_scripts/auxiliary
+fi
 # **************************************************************************************************
 # **************************************************************************************************
 # **************************************************************************************************
 if [ $? -ne 0 ]; then
-    echo "Error: MHCScan failed."
+    echo "Error: Qiime2 failed."
     conda deactivate
     exit 1
 fi
@@ -68,16 +71,17 @@ rm -rf ${ID}-results
 
 # Send email
 python3 /home/ark/MAB/bin/HoundSleuth/send_email.py \
-    --sender mhcscan@midauthorbio.com \
+    --sender qiime2@midauthorbio.com \
     --recipient ${email} \
-    --subject "Your MHCScan Results!" \
+    --subject "Your Qiime2 Results!" \
     --body "Hi ${name},
 
-    Your MHCScan results are available for download using the link below. The link will expire in 24 hours.
+    Your Qiime2 results are available for download using the link below. The link will expire in 24 hours.
 
     ${url}
 
-    Please visit https://github.com/Arkadiy-Garber/MHCscan for documentation.
+    Please visit https://qiime2.org/ for documentation.
+
 
     Please reach out to ark@midauthorbio.com, or send us a note on https://midauthorbio.com/#contact if you have any questions.
 
@@ -95,7 +99,6 @@ sleep 5
 #sudo rm -rf ${DIR}
 
 conda deactivate
-echo "MHCScan completed successfully."
-
+echo "Qiime2 completed successfully."
 
 
