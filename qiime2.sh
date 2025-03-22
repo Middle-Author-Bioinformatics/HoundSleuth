@@ -41,9 +41,9 @@ mv ${DIR}/*.f*q* ${DIR}/reads
 # **************************************************************************************************
 # **************************************************************************************************
 if [[ ${amp} == "ITS" ]]; then
-    qiime2-pipe.sh -i ${DIR}/reads -o ${OUT} -t 16 -m ${meta} -a /home/ark/MAB/bin/MAB_scripts/auxiliary --its
+    /home/ark/MAB/bin/HoundSleuth//qiime2-pipe.sh -i ${DIR}/reads -o ${OUT} -t 16 -m ${meta} -a /home/ark/MAB/bin/MAB_scripts/auxiliary --its
 else
-    qiime2-pipe.sh -i ${DIR}/reads -o ${OUT} -m ${meta} -t 16 -a /home/ark/MAB/bin/MAB_scripts/auxiliary
+    /home/ark/MAB/bin/HoundSleuth//qiime2-pipe.sh -i ${DIR}/reads -o ${OUT} -m ${meta} -t 16 -a /home/ark/MAB/bin/MAB_scripts/auxiliary
 fi
 # **************************************************************************************************
 # **************************************************************************************************
