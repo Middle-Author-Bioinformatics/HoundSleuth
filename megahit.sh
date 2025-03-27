@@ -1,6 +1,4 @@
 #!/bin/bash
-eval "$(/home/ark/miniconda3/bin/conda shell.bash hook)"
-conda activate base  # Activate the base environment where `boto3` is installed
 
 exec > >(tee -i /home/ark/MAB/houndsleuth/megahit_looper.log)
 exec 2>&1
@@ -43,6 +41,7 @@ sleep 5
 # **************************************************************************************************
 # Run Megahit
 megahit -t 16 -o ${OUT} -1 ${DIR}/${FWD} -2 ${DIR}/${REV}
+rm -rf ${OUT}/intermediate_contigs
 
 # **************************************************************************************************
 # **************************************************************************************************

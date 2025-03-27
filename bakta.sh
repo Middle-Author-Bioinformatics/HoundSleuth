@@ -1,6 +1,4 @@
 #!/bin/bash
-eval "$(/home/ark/miniconda3/bin/conda shell.bash hook)"
-conda activate base  # Activate the base environment where `boto3` is installed
 
 exec > >(tee -i /home/ark/MAB/houndsleuth/bakta_looper.log)
 exec 2>&1
@@ -46,10 +44,10 @@ bakta --db /data/MAB/databases/db_bakta/ --keep-contig-headers --threads 16 --co
 # **************************************************************************************************
 if [ $? -ne 0 ]; then
     echo "Error: Bakta failed."
-    conda deactivate
+#    conda deactivate
     exit 1
 fi
-conda deactivate
+#conda deactivate
 sleep 5
 
 # Archive results
@@ -86,7 +84,7 @@ python3 /home/ark/MAB/bin/HoundSleuth/send_email.py \
 
 if [ $? -ne 0 ]; then
     echo "Error: send_email.py failed."
-    conda deactivate
+#    conda deactivate
     exit 1
 fi
 
@@ -94,7 +92,7 @@ sleep 5
 
 #sudo rm -rf ${DIR}
 
-conda deactivate
+#conda deactivate
 echo "Bakta completed successfully."
 
 
