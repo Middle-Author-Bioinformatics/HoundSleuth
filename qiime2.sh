@@ -15,8 +15,8 @@ OUT=/home/ark/MAB/houndsleuth/completed/${ID}-results
 
 name=$(grep 'Name' ${DIR}/form-data.txt | cut -d ' ' -f2)
 email=$(grep 'Email' ${DIR}/form-data.txt | cut -d ' ' -f2)
-meta=$(grep 'Meta' ${DIR}/form-data.txt | cut -d ' ' -f3)
-amp=$(grep 'Amplicon' ${DIR}/form-data.txt | cut -d ' ' -f3)
+meta=$(grep 'Meta' ${DIR}/form-data.txt | cut -d ' ' -f3-)
+amp=$(grep 'Target' ${DIR}/form-data.txt | cut -d ' ' -f3)
 
 # Verify email
 result=$(python3 /home/ark/MAB/bin/HoundSleuth/check_email.py --email ${email})
@@ -41,9 +41,9 @@ mv ${DIR}/*.f*q* ${DIR}/reads
 # **************************************************************************************************
 # **************************************************************************************************
 if [[ ${amp} == "ITS" ]]; then
-    /home/ark/MAB/bin/HoundSleuth//qiime2-pipe.sh -i ${DIR}/reads -o ${OUT} -t 16 -m ${meta} -a /home/ark/MAB/bin/MAB_scripts/auxiliary --its
+    /home/ark/MAB/bin/HoundSleuth//qiime2-pipe.sh -i "${DIR}/"reads -o "${OUT}" -t 16 -m "${meta}" -a /home/ark/MAB/bin/MAB_scripts/auxiliary --its
 else
-    /home/ark/MAB/bin/HoundSleuth//qiime2-pipe.sh -i ${DIR}/reads -o ${OUT} -m ${meta} -t 16 -a /home/ark/MAB/bin/MAB_scripts/auxiliary
+    /home/ark/MAB/bin/HoundSleuth//qiime2-pipe.sh -i "${DIR}"/reads -o "${OUT}" -m "${meta}" -t 16 -a /home/ark/MAB/bin/MAB_scripts/auxiliary
 fi
 # **************************************************************************************************
 # **************************************************************************************************
