@@ -49,11 +49,11 @@ megahit -t 16 -o ${OUT} -1 ${DIR}/${FWD} -2 ${DIR}/${REV}
 # **************************************************************************************************
 if [ $? -ne 0 ]; then
     echo "Error: Megahit failed."
-    conda deactivate
+#    conda deactivate
     exit 1
 fi
-conda deactivate
-sleep 5
+#conda deactivate
+#sleep 5
 
 # Archive results
 cp -r /home/ark/MAB/houndsleuth/completed/${ID}-results ./${ID}-results
@@ -89,7 +89,7 @@ python3 /home/ark/MAB/bin/HoundSleuth/send_email.py \
 
 if [ $? -ne 0 ]; then
     echo "Error: send_email.py failed."
-    conda deactivate
+#    conda deactivate
     exit 1
 fi
 
@@ -97,7 +97,7 @@ sleep 5
 
 #sudo rm -rf ${DIR}
 
-conda deactivate
+#conda deactivate
 echo "Megahit completed successfully."
 
 
