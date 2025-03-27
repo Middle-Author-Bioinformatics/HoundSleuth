@@ -17,10 +17,13 @@ name=$(grep 'Name' ${DIR}/form-data.txt | cut -d ' ' -f2)
 email=$(grep 'Email' ${DIR}/form-data.txt | cut -d ' ' -f2)
 meta=$(grep 'Meta' ${DIR}/form-data.txt | cut -d ' ' -f3-)
 amp=$(grep 'Target' ${DIR}/form-data.txt | cut -d ' ' -f3)
+echo $meta
+echo $amp
+echo
 
-# Verify email
-result=$(python3 /home/ark/MAB/bin/HoundSleuth/check_email.py --email ${email})
-echo $result
+## Verify email
+#result=$(python3 /home/ark/MAB/bin/HoundSleuth/check_email.py --email ${email})
+#echo $result
 
 # Set PATH to include Conda and script locations
 export PATH="/home/ark/miniconda3/bin:/usr/local/bin:/usr/bin:/bin:/home/ark/MAB/bin/HoundSleuth:$PATH"
@@ -71,7 +74,7 @@ rm -rf ${ID}-results
 
 # Send email
 python3 /home/ark/MAB/bin/HoundSleuth/send_email.py \
-    --sender qiime2@midauthorbio.com \
+    --sender binfo@midauthorbio.com \
     --recipient ${email} \
     --subject "Your Qiime2 Results!" \
     --body "Hi ${name},

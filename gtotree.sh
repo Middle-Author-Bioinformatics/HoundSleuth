@@ -13,15 +13,21 @@ ID=$KEY
 DIR=/home/ark/MAB/houndsleuth/${ID}
 OUT=/home/ark/MAB/houndsleuth/completed/${ID}-results
 
-
 name=$(grep 'Name' ${DIR}/form-data.txt | cut -d ' ' -f2)
 email=$(grep 'Email' ${DIR}/form-data.txt | cut -d ' ' -f2)
-input=$(grep 'Input' ${DIR}/form-data.txt | cut -d ' ' -f3)
-echo $input
+SCG=$(grep 'SCG' ${DIR}/form-data.txt | cut -d ' ' -f3)
+ACC=$(grep 'Accessions' ${DIR}/form-data.txt | cut -d ' ' -f3)
+echo $SCG
+echo $ACC
+echo
 
-# Verify email
-result=$(python3 /home/ark/MAB/bin/HoundSleuth/check_email.py --email ${email})
-echo $result
+grep 'Genome' ${DIR}/form-data.txt | cut -d ' ' -f3 > ${OUT}/genomes.txt
+grep 'Protein' ${DIR}/form-data.txt | cut -d ' ' -f3 > ${OUT}/proteomes.txt
+grep 'GenBank' ${DIR}/form-data.txt | cut -d ' ' -f3 > ${OUT}/GBKs.txt
+
+## Verify email
+#result=$(python3 /home/ark/MAB/bin/HoundSleuth/check_email.py --email ${email})
+#echo $result
 
 # Set PATH to include Conda and script locations
 export PATH="/home/ark/miniconda3/bin:/usr/local/bin:/usr/bin:/bin:/home/ark/MAB/bin/HoundSleuth:$PATH"
@@ -39,15 +45,6 @@ sleep 5
 # **************************************************************************************************
 # Run GToTree
 mkdir -p ${OUT}
-
-name=$(grep 'Name' ${DIR}/form-data.txt | cut -d ' ' -f2)
-email=$(grep 'Email' ${DIR}/form-data.txt | cut -d ' ' -f2)
-SCG=$(grep 'SCG' ${DIR}/form-data.txt | cut -d ' ' -f3)
-ACC=$(grep 'Accessions' ${DIR}/form-data.txt | cut -d ' ' -f3)
-
-grep 'Genome' ${DIR}/form-data.txt | cut -d ' ' -f3 > ${OUT}/genomes.txt
-grep 'Protein' ${DIR}/form-data.txt | cut -d ' ' -f3 > ${OUT}/proteomes.txt
-grep 'GenBank' ${DIR}/form-data.txt | cut -d ' ' -f3 > ${OUT}/GBKs.txt
 
 while read file; do echo ${DIR}/$file >> ${OUT}/genome_paths.txt; done < ${OUT}/genomes.txt
 while read file; do echo ${DIR}/$file >> ${OUT}/proteome_paths.txt; done < ${OUT}/proteomes.txt
@@ -119,7 +116,7 @@ rm -rf ${ID}-results
 
 # Send email
 python3 /home/ark/MAB/bin/HoundSleuth/send_email.py \
-    --sender gtotree@midauthorbio.com \
+    --sender binfo@midauthorbio.com \
     --recipient ${email} \
     --subject "Your GToTree Results!" \
     --body "Hi ${name},

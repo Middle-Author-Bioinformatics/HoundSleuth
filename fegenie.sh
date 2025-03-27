@@ -19,9 +19,9 @@ email=$(grep 'Email' ${DIR}/form-data.txt | cut -d ' ' -f2)
 input=$(grep 'Input' ${DIR}/form-data.txt | cut -d ' ' -f3)
 echo $input
 
-# Verify email
-result=$(python3 /home/ark/MAB/bin/HoundSleuth/check_email.py --email ${email})
-echo $result
+## Verify email
+#result=$(python3 /home/ark/MAB/bin/HoundSleuth/check_email.py --email ${email})
+#echo $result
 
 # Set PATH to include Conda and script locations
 export PATH="/home/ark/miniconda3/bin:/usr/local/bin:/usr/bin:/bin:/home/ark/MAB/bin/HoundSleuth:$PATH"
@@ -69,7 +69,7 @@ rm -rf ${ID}-results
 
 # Send email
 python3 /home/ark/MAB/bin/HoundSleuth/send_email.py \
-    --sender fegenie@midauthorbio.com \
+    --sender binfo@midauthorbio.com \
     --recipient ${email} \
     --subject "Your FeGenie Results!" \
     --body "Hi ${name},

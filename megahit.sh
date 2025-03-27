@@ -2,7 +2,7 @@
 eval "$(/home/ark/miniconda3/bin/conda shell.bash hook)"
 conda activate base  # Activate the base environment where `boto3` is installed
 
-exec > >(tee -i /home/ark/MAB/houndsleuth/spraynpray_looper.log)
+exec > >(tee -i /home/ark/MAB/houndsleuth/megahit_looper.log)
 exec 2>&1
 
 eval "$(/home/ark/miniconda3/bin/conda shell.bash hook)"
@@ -16,8 +16,11 @@ OUT=/home/ark/MAB/houndsleuth/completed/${ID}-results
 
 name=$(grep 'Name' ${DIR}/form-data.txt | cut -d ' ' -f2)
 email=$(grep 'Email' ${DIR}/form-data.txt | cut -d ' ' -f2)
-input=$(grep 'Input' ${DIR}/form-data.txt | cut -d ' ' -f3)
-echo $input
+FWD=$(grep 'Forward' ${DIR}/form-data.txt | cut -d ' ' -f3)
+REV=$(grep 'Reverse' ${DIR}/form-data.txt | cut -d ' ' -f3)
+echo $FWD
+echo $REV
+echo
 
 ## Verify email
 #result=$(python3 /home/ark/MAB/bin/HoundSleuth/check_email.py --email ${email})
@@ -25,8 +28,8 @@ echo $input
 
 # Set PATH to include Conda and script locations
 export PATH="/home/ark/miniconda3/bin:/usr/local/bin:/usr/bin:/bin:/home/ark/MAB/bin/HoundSleuth:$PATH"
-eval "$(/home/ark/miniconda3/bin/conda shell.bash hook)"
-conda activate houndsleuth39
+#eval "$(/home/ark/miniconda3/bin/conda shell.bash hook)"
+#conda activate megahit
 
 if [ $? -ne 0 ]; then
     echo "Error: Failed to activate Conda environment."
@@ -38,28 +41,14 @@ sleep 5
 # **************************************************************************************************
 # **************************************************************************************************
 # **************************************************************************************************
-# Run HoundsSleuth
-mkdir -p ${OUT}
-mkdir -p ${OUT}/binarena
-mkdir -p ${OUT}/spraynpray
-
-# checking if file exists:
-if [ ! -f ${DIR}/${input}.blast ]; then
-    /home/ark/MAB/bin/SprayNPray/spray-and-pray.py -g ${DIR}/${input} -out ${OUT}/spraynpray -ref /home/ark/databases/nr.dmnd -hits 1 -t 20
-else
-    /home/ark/MAB/bin/SprayNPray/spray-and-pray.py -g ${DIR}/${input} -out ${OUT}/spraynpray -ref /home/ark/databases/nr.dmnd -hits 1 -t 20 -blast ${DIR}/${input}.blast
-fi
-
-
-/home/ark/MAB/bin/HoundSleuth/binstage.sh -i ${DIR}/${input} -o ${OUT}/binarena/${input%.*} -D ${OUT}/binarena -s ${OUT}/spraynpray/spraynpray.csv -m 300
-
-mv ${OUT}/binarena/${input%.*}.taxa.tsv ${OUT}/data_table_for_binarena.tsv
+# Run Megahit
+megahit -t 16 -o ${OUT} -1 ${FWD} -2 ${REV}
 
 # **************************************************************************************************
 # **************************************************************************************************
 # **************************************************************************************************
 if [ $? -ne 0 ]; then
-    echo "Error: HoundSleuth failed."
+    echo "Error: Megahit failed."
     conda deactivate
     exit 1
 fi
@@ -69,6 +58,7 @@ sleep 5
 # Archive results
 cp -r /home/ark/MAB/houndsleuth/completed/${ID}-results ./${ID}-results
 tar -cf ${ID}-results.tar ${ID}-results && gzip ${ID}-results.tar
+rm -rf ./${ID}-results
 
 # Upload results to S3 and generate presigned URL
 results_tar="${ID}-results.tar.gz"
@@ -79,22 +69,23 @@ url=$(python3 /home/ark/MAB/bin/HoundSleuth/gen_presign_url.py --bucket binfo-du
 mv ${ID}-results.tar.gz /home/ark/MAB/houndsleuth/completed/${ID}-results.tar.gz
 rm -rf ${ID}-results
 
-
 # Send email
 python3 /home/ark/MAB/bin/HoundSleuth/send_email.py \
     --sender binfo@midauthorbio.com \
     --recipient ${email} \
-    --subject "Your SprayNPray Results!" \
+    --subject "Your Megahit Results!" \
     --body "Hi ${name},
 
-    Your SprayNPray results are available for download using the link below. The link will expire in 24 hours.
+    Your Megahit results are available for download using the link below. The link will expire in 24 hours.
 
     ${url}
 
-    You can now navigate to omix.midauthorbio.com/binarena-master/BinaRena.html and drag/drop the data_table_for_binarena.tsv file into the BinArena interface to visualize the results.
+    Please visit https://github.com/voutcn/megahit for documentation.
 
-    Cheers!
-    Arkadiy"
+    Please reach out to ark@midauthorbio.com, or send us a note on https://midauthorbio.com/#contact if you have any questions.
+
+    Thanks!
+    MAB Team"
 
 if [ $? -ne 0 ]; then
     echo "Error: send_email.py failed."
@@ -107,7 +98,8 @@ sleep 5
 #sudo rm -rf ${DIR}
 
 conda deactivate
-echo "SprayNPray completed successfully."
+echo "Megahit completed successfully."
+
 
 
 
