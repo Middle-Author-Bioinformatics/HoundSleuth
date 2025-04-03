@@ -1,6 +1,6 @@
 #!/bin/bash
 
-exec > >(tee -i /home/ark/MAB/houndsleuth/bakta_looper.log)
+exec > >(tee -i /home/ark/MAB/houndsleuth/$1.log)
 exec 2>&1
 
 eval "$(/home/ark/miniconda3/bin/conda shell.bash hook)"
@@ -44,10 +44,22 @@ bakta --db /home/ark/databases/bakta-1.10.3/db --keep-contig-headers --threads 1
 # **************************************************************************************************
 if [ $? -ne 0 ]; then
     echo "Error: Bakta failed."
-#    conda deactivate
+    python3 /home/ark/MAB/bin/HoundSleuth/send_email.py \
+        --sender binfo@midauthorbio.com \
+        --recipient ${email} \
+        --subject "Pseudofinder failed..." \
+        --attachment /home/ark/MAB/houndsleuth/$1.log \
+        --body "Hi ${name},
+
+        Unfortunately, it seems that this pipeline failed due to an unexpected error.
+
+        Please forward this message to our team at binfo@midauthorbio.com, with the attached log file, so we can investigate the issue further.
+
+        Thanks!
+        Your Friendly Neighborhood Bioinformatician"
     exit 1
 fi
-#conda deactivate
+
 sleep 5
 
 # Archive results
