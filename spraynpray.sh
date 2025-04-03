@@ -16,6 +16,37 @@ email=$(grep 'Email' ${DIR}/form-data.txt | cut -d ' ' -f2)
 input=$(grep 'Input' ${DIR}/form-data.txt | cut -d ' ' -f3)
 echo $input
 
+# Check for duplicate contig names in FASTA
+duplicates=$(awk '/^>/{print $1}' "${DIR}/${input}" | sed 's/^>//' | sort | uniq -d)
+
+if [ ! -z "$duplicates" ]; then
+    echo "Error: Duplicate contig names found in ${input}:"
+    echo "$duplicates"
+
+    # Email user that their file is invalid
+    python3 /home/ark/MAB/bin/HoundSleuth/send_email.py \
+        --sender binfo@midauthorbio.com \
+        --recipient ${email} \
+        --subject "Duplicate Contigs in Your SprayNPray Submission" \
+        --body "Hi ${name},
+
+          Unfortunately, your FASTA file (${input}) contains duplicate contig names, which can cause issues during analysis.
+
+          The following duplicate contig names were detected:
+
+          ${duplicates}
+
+          Please ensure all contig headers (lines starting with '>') are unique and re-submit your file. Let us know if you need help!
+
+          Cheers,
+          Your friendly bioinformatics pipeline :)
+
+          "
+
+    echo "Aborting due to duplicate contigs."
+    exit 1
+fi
+
 ## Verify email
 #result=$(python3 /home/ark/MAB/bin/HoundSleuth/check_email.py --email ${email})
 #echo $result
@@ -31,10 +62,10 @@ if [ $? -ne 0 ]; then
 fi
 sleep 5
 
+# **************************************************************************************************
+# **************************************************************************************************
+# **************************************************************************************************
 
-# **************************************************************************************************
-# **************************************************************************************************
-# **************************************************************************************************
 # Run HoundsSleuth
 mkdir -p ${OUT}
 mkdir -p ${OUT}/binarena
@@ -47,8 +78,7 @@ else
     /home/ark/MAB/bin/SprayNPray/spray-and-pray.py -g ${DIR}/${input} -out ${OUT}/spraynpray -ref /home/ark/databases/nr.dmnd -hits 1 -t 20 -blast ${DIR}/${input}.blast
 fi
 
-
-/home/ark/MAB/bin/HoundSleuth/binstage.sh -i ${DIR}/${input} -o ${OUT}/binarena/${input%.*} -D ${OUT}/binarena -s ${OUT}/spraynpray/spraynpray.csv -m 300
+/home/ark/MAB/bin/HoundSleuth/binstage.sh -i ${DIR}/${input} -o ${OUT}/binarena/${input%.*} -D ${OUT}/binarena -s ${OUT}/spraynpray/spraynpray.csv -m 1000
 
 mv ${OUT}/binarena/${input%.*}.taxa.tsv ${OUT}/data_table_for_binarena.tsv
 

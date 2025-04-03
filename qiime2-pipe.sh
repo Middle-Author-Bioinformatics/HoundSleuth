@@ -71,7 +71,7 @@ mkdir -p ${OUTPUT}
 
 # MAKING THE MANIFEST FILE
 echo "sample-id	forward-absolute-filepath reverse-absolute-filepath" >> ${OUTPUT}/manifest
-for i in ${INPUT}/*_R1.fastq.gz; do
+for i in ${INPUT}/*.f*q*; do
   SAMPLE=$(basename ${i%_R1.*})
   echo ${SAMPLE} $PWD/${i%_R1.*}_R1.fastq.gz $PWD/${i%_R1.*}_R2.fastq.gz
   echo ${SAMPLE} $PWD/${i%_R1.*}_R1.fastq.gz $PWD/${i%_R1.*}_R2.fastq.gz >> ${OUTPUT}/manifest
