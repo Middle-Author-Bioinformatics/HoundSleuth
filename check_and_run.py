@@ -9,9 +9,9 @@ from datetime import datetime
 from botocore.exceptions import NoCredentialsError, PartialCredentialsError
 
 # Lock and log file paths
-LOCK_FILE = '/home/ark/MAB/bin/houndsleuth.lock'
-LOG_FILE = '/home/ark/MAB/processed_folders.log'
-RUN_LOG = '/home/ark/MAB/houndsleuth_run.log'
+LOCK_FILE = '/home/ark/MAB/houndsleuth/houndsleuth.lock'
+LOG_FILE = '/home/ark/MAB/houndsleuth/processed_folders.log'
+RUN_LOG = '/home/ark/MAB/houndsleuth/houndsleuth_run.log'
 
 # Initialize logging
 logging.basicConfig(filename=RUN_LOG, level=logging.INFO, format='%(asctime)s %(message)s')
