@@ -49,7 +49,7 @@ if [ $? -ne 0 ]; then
     python3 /home/ark/MAB/bin/HoundSleuth/send_email.py \
         --sender binfo@midauthorbio.com \
         --recipient ${email} \
-        --subject "Pseudofinder failed..." \
+        --subject "MHCscan failed..." \
         --attachment /home/ark/MAB/houndsleuth/$1.log \
         --body "Hi ${name},
 
