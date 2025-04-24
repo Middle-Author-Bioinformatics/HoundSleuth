@@ -43,7 +43,8 @@ PREFIX_SCRIPT_MAP = {
     'mhcscan-': '/home/ark/MAB/bin/HoundSleuth/mhcscan.sh',
     # 'qiime2-': '/home/ark/MAB/bin/HoundSleuth/qiime2.sh',
     'megahit-': '/home/ark/MAB/bin/HoundSleuth/megahit.sh',
-    'bakta-': '/home/ark/MAB/bin/HoundSleuth/bakta.sh'
+    'bakta-': '/home/ark/MAB/bin/HoundSleuth/bakta.sh',
+    'checkm-': '/home/ark/MAB/bin/HoundSleuth/checkm.sh'
 }
 
 # Initialize S3 client (using default credentials)
