@@ -41,6 +41,7 @@ sleep 5
 mkdir -p ${OUT}
 /home/ark/MAB/bin/HoundSleuth/plan2bin.py --fasta ${DIR}/${assembly} --tsv ${DIR}/${binplan} --outdir ${OUT}/bins
 /home/ark/MAB/bin/HoundSleuth/checkm-quality.sh .fa ${OUT}/bins -t 16
+mv checkm_qaResults ${OUT}/bin_summary.txt
 
 # **************************************************************************************************
 # **************************************************************************************************
