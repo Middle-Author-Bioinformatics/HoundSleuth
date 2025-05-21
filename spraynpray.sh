@@ -73,9 +73,9 @@ mkdir -p ${OUT}/spraynpray
 
 # checking if file exists:
 if [ ! -f ${DIR}/${input}.blast ]; then
-    /home/ark/MAB/bin/SprayNPray/spray-and-pray.py -g ${DIR}/${input} -out ${OUT}/spraynpray -ref /home/ark/databases/nr.dmnd -hits 1 -t 20
+    /home/ark/MAB/bin/SprayNPray/spray-and-pray.py -g ${DIR}/${input} -out ${OUT}/spraynpray -ref /home/ark/databases/nr.dmnd -hits 1 -t 20 --meta -minLength 300
 else
-    /home/ark/MAB/bin/SprayNPray/spray-and-pray.py -g ${DIR}/${input} -out ${OUT}/spraynpray -ref /home/ark/databases/nr.dmnd -hits 1 -t 20 -blast ${DIR}/${input}.blast
+    /home/ark/MAB/bin/SprayNPray/spray-and-pray.py -g ${DIR}/${input} -out ${OUT}/spraynpray -ref /home/ark/databases/nr.dmnd -hits 1 -t 20 -blast ${DIR}/${input}.blast --meta -minLength 300
 fi
 
 /home/ark/MAB/bin/HoundSleuth/binstage.sh -i ${DIR}/${input} -o ${OUT}/binarena/${input%.*} -D ${OUT}/binarena -s ${OUT}/spraynpray/spraynpray.csv -m 1000
