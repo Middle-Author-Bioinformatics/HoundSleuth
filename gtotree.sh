@@ -68,10 +68,10 @@ else
     echo "Warning: Genome file is empty, skipping this input."
 fi
 
-if [ -s ${DIR}/${ACC} ]; then
+if [[ -n "$ACC" && -s "${DIR}/${ACC}" ]]; then
     GToTree_CMD+=" -a ${DIR}/${ACC}"
 else
-    echo "Warning: Accessions file is empty, skipping this input."
+    echo "Warning: Accessions file is empty or not found, skipping this input."
 fi
 
 # Ensure at least one input file is provided
