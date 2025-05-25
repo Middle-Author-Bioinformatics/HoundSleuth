@@ -120,7 +120,7 @@ contigs = args.f
 contigs = fasta(contigs)
 for i in contigs.keys():
     print(i)
-
+print("\n\n\n\n\n")
 splitDict = defaultdict(list)
 summaryDict = defaultdict(lambda: '-')
 summary = open(args.s)
