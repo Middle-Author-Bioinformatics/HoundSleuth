@@ -192,6 +192,7 @@ out.close()
 for i in splitDict.keys():
     out = open(args.x + "." + i + ".fa", "w")
     for j in splitDict[i]:
+        print(j)
         if j in contigs.keys():
             out.write(">" + j + "\n" + str(contigs[j]) + "\n")
     out.close()
