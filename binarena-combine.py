@@ -26,7 +26,7 @@ args = parser.parse_known_args()[0]
 
 
 def combine_tsv_files(folder_path):
-    basic_name = args.b + ".basic.tsv"
+    basic_name = folder_path + "/" + args.b + ".basic.tsv"
     basic_file_path = os.path.join(folder_path, basic_name)
 
     if not os.path.exists(basic_file_path):
@@ -57,7 +57,7 @@ folder_path = args.i
 combined_df = combine_tsv_files(folder_path)
 
 # Save the combined data to a new TSV file
-output_file_path = args.o
+output_file_path = args.i + "/" + args.o
 combined_df.to_csv(output_file_path, sep='\t', index=False)
 print(f"Combined file saved to {output_file_path}")
 
