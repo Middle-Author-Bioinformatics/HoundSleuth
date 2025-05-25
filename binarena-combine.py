@@ -38,8 +38,8 @@ def combine_tsv_files(folder_path):
     combined_df = basic_df.copy()
 
     # Debugging
-    print("Files in directory:", os.listdir(folder_path))
-    print("Filtering for files containing:", args.b)
+    # print("Files in directory:", os.listdir(folder_path))
+    # print("Filtering for files containing:", args.b)
 
     BIN = os.path.basename(args.b)
     tsv_files = [f for f in os.listdir(folder_path) if f.endswith('.tsv') and f != basic_name and BIN in f]
