@@ -12,6 +12,7 @@ function usage() {
         -d, --depth:  coverage information from jgi_summarize_bam_contig_depths
         -m, --min:    minimum contig length
         -D, --dir:    directory for binarena output
+        -r, --rank:   taxon rank for binarena, can be species or genus (default: genus)
 
 USAGE
     exit 1
@@ -27,6 +28,7 @@ MIN=300
 OUT=false
 DEPTH=false
 DIR=false
+RANK=genus
 while [ "$1" != "" ]; do
     case $1 in
     -i | --input)
@@ -52,6 +54,10 @@ while [ "$1" != "" ]; do
     -D | --dir)
         shift
         DIR=$1
+        ;;
+    -r | --rank)
+        shift
+        RANK=$1
         ;;
     -h | --help)
         usage
@@ -114,15 +120,31 @@ sed -i "1c $umap6" ${OUT}.k6.umap.tsv
 echo "python3 /home/ark/MAB/bin/HoundSleuth/binarena-combine.py -i ${OUT} -o ${OUT}.tsv -b ${OUT}"
 /home/ark/MAB/bin/HoundSleuth/binarena-combine.py -i ${DIR} -o ${OUT}.tsv -b ${OUT}
 
-if [[ ${SNP} != false ]]; then
-    if [[ ${DEPTH} != false ]]; then
-        /home/ark/MAB/bin/HoundSleuth/binstager.py -b ${OUT}.tsv -o ${OUT}.taxa.depth.tsv -m ${MIN} -s ${SNP} -d ${DEPTH}
+if [[ ${RANK} == genus ]]; then
+    if [[ ${SNP} != false ]]; then
+        if [[ ${DEPTH} != false ]]; then
+            /home/ark/MAB/bin/HoundSleuth/binstager.py -b ${OUT}.tsv -o ${OUT}.taxa.depth.tsv -m ${MIN} -s ${SNP} -d ${DEPTH}
+        else
+            echo "/home/ark/MAB/bin/HoundSleuth/binstager.py -b ${OUT}.tsv -o ${OUT}.taxa.tsv -m ${MIN} -s ${SNP}"
+            /home/ark/MAB/bin/HoundSleuth/binstager.py -b ${OUT}.tsv -o ${OUT}.taxa.tsv -m ${MIN} -s ${SNP}
+        fi
     else
-        echo "/home/ark/MAB/bin/HoundSleuth/binstager.py -b ${OUT}.tsv -o ${OUT}.taxa.tsv -m ${MIN} -s ${SNP}"
-        /home/ark/MAB/bin/HoundSleuth/binstager.py -b ${OUT}.tsv -o ${OUT}.taxa.tsv -m ${MIN} -s ${SNP}
+        if [[ ${DEPTH} != false ]]; then
+            /home/ark/MAB/bin/HoundSleuth/binstager.py -b ${OUT}.tsv -o ${OUT}.depth.tsv -m ${MIN} -d ${DEPTH}
+        fi
     fi
-else
-    if [[ ${DEPTH} != false ]]; then
-        /home/ark/MAB/bin/HoundSleuth/binstager.py -b ${OUT}.tsv -o ${OUT}.depth.tsv -m ${MIN} -d ${DEPTH}
-    fi
+elif [[ ${RANK} == species ]]; then
+    if [[ ${SNP} != false ]]; then
+            if [[ ${DEPTH} != false ]]; then
+                /home/ark/MAB/bin/HoundSleuth/binstager-sp.py -b ${OUT}.tsv -o ${OUT}.taxa.depth.tsv -m ${MIN} -s ${SNP} -d ${DEPTH}
+            else
+                echo "/home/ark/MAB/bin/HoundSleuth/binstager.py -b ${OUT}.tsv -o ${OUT}.taxa.tsv -m ${MIN} -s ${SNP}"
+                /home/ark/MAB/bin/HoundSleuth/binstager-sp.py -b ${OUT}.tsv -o ${OUT}.taxa.tsv -m ${MIN} -s ${SNP}
+            fi
+        else
+            if [[ ${DEPTH} != false ]]; then
+                /home/ark/MAB/bin/HoundSleuth/binstager-sp.py -b ${OUT}.tsv -o ${OUT}.depth.tsv -m ${MIN} -d ${DEPTH}
+            fi
+        fi
 fi
+
