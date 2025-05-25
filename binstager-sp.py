@@ -116,11 +116,10 @@ if len(sys.argv) == 1:
 
 args = parser.parse_known_args()[0]
 
-contigs = args.f
+contigs = open(args.f)
 contigs = fasta(contigs)
-for i in contigs.keys():
-    print(i)
-print("\n\n\n\n\n")
+
+
 splitDict = defaultdict(list)
 summaryDict = defaultdict(lambda: '-')
 summary = open(args.s)
@@ -193,7 +192,6 @@ out.close()
 for i in splitDict.keys():
     out = open(args.x + "." + i + ".fa", "w")
     for j in splitDict[i]:
-        print(j)
         if j in contigs.keys():
             out.write(">" + j + "\n" + str(contigs[j]) + "\n")
     out.close()
