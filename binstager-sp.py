@@ -118,7 +118,7 @@ summary = open(args.s)
 for i in summary:
     ls = i.rstrip().split(",")
     if ls[1] != "contig_length":
-        if int(ls[1]) > int(args.m):
+        if float(ls[1]) > float(args.m):
             if len(ls[6]) > 1:
                 taxa = (ls[6].split("; "))
                 taxaDict = defaultdict(list)
