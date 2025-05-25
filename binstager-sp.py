@@ -118,7 +118,8 @@ args = parser.parse_known_args()[0]
 
 contigs = args.f
 contigs = fasta(contigs)
-
+for i in contigs.keys():
+    print(i)
 
 splitDict = defaultdict(list)
 summaryDict = defaultdict(lambda: '-')
