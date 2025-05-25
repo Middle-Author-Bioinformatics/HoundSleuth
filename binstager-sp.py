@@ -139,7 +139,7 @@ for i in summary:
 
                 v = list(taxaDict2.values())
                 k = list(taxaDict2.keys())
-                if len(v) == 0:
+                if len(v) != 0:
                     maxKey = (k[v.index(max(v))])
                     winningTaxa = (taxaDict2[maxKey])
                     if winningTaxa not in ["unclassified", "sp."]:
