@@ -1,4 +1,4 @@
-#!/usr/bin/env python3
+#!/usr/bin/env python
 import boto3
 from email.mime.multipart import MIMEMultipart
 from email.mime.text import MIMEText

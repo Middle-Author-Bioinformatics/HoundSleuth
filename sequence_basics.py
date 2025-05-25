@@ -1,4 +1,4 @@
-#!/usr/bin/env python3
+#!/usr/bin/env python
 """Calculate length, GC% and coverage (if applicable) of DNA sequences.
 
 Examples:
