@@ -139,21 +139,21 @@ for i in summary:
 
                 v = list(taxaDict2.values())
                 k = list(taxaDict2.keys())
-
-                maxKey = (k[v.index(max(v))])
-                winningTaxa = (taxaDict2[maxKey])
-                if winningTaxa not in ["unclassified", "sp."]:
-                    summaryDict[ls[0]] = winningTaxa
-                else:
-                    try:
-                        taxaDict2.pop(maxKey)
-                        v = list(taxaDict2.values())
-                        k = list(taxaDict2.keys())
-                        maxKey = (k[v.index(max(v))])
-                        winningTaxa = (taxaDict2[maxKey])
+                if len(v) == 0:
+                    maxKey = (k[v.index(max(v))])
+                    winningTaxa = (taxaDict2[maxKey])
+                    if winningTaxa not in ["unclassified", "sp."]:
                         summaryDict[ls[0]] = winningTaxa
-                    except ValueError:
-                        summaryDict[ls[0]] = "unclassified"
+                    else:
+                        try:
+                            taxaDict2.pop(maxKey)
+                            v = list(taxaDict2.values())
+                            k = list(taxaDict2.keys())
+                            maxKey = (k[v.index(max(v))])
+                            winningTaxa = (taxaDict2[maxKey])
+                            summaryDict[ls[0]] = winningTaxa
+                        except ValueError:
+                            summaryDict[ls[0]] = "unclassified"
 
 depthsDict = defaultdict(lambda: '-')
 if args.d != "NA":
