@@ -106,13 +106,21 @@ parser.add_argument('-m', type=str, help="minimum contig depth", default=1000)
 
 parser.add_argument('-o', type=str, help="output file", default="binstager")
 
+parser.add_argument('-f', type=str, help="fasta file", default="NA")
+
+parser.add_argument('-x', type=str, help="fasta output", default="NA")
+
 if len(sys.argv) == 1:
     parser.print_help(sys.stderr)
     sys.exit(0)
 
 args = parser.parse_known_args()[0]
 
+contigs = args.f
+contigs = fasta(contigs)
 
+
+splitDict = defaultdict(list)
 summaryDict = defaultdict(lambda: '-')
 summary = open(args.s)
 for i in summary:
@@ -142,6 +150,7 @@ for i in summary:
                     maxKey = (k[v.index(max(v))])
                     winningTaxa = (taxaDict2[maxKey])
                     summaryDict[ls[0]] = winningTaxa
+                    splitDict[winningTaxa].append(ls[0])
                     # else:
                     #     try:
                     #         taxaDict2.pop(maxKey)
@@ -154,6 +163,7 @@ for i in summary:
                     #         summaryDict[ls[0]] = "unclassified"
                 else:
                     summaryDict[ls[0]] = "unclassified"
+                    splitDict["unclassified"].append(ls[0])
 
 depthsDict = defaultdict(lambda: '-')
 if args.d != "NA":
@@ -179,6 +189,11 @@ for i in binarena:
         out.write(i.rstrip() + "\tdepth\ttaxa\n")
 out.close()
 
-
+for i in splitDict.keys():
+    out = open(args.x + "." + i + ".fa", "w")
+    for j in splitDict[i]:
+        if j in contigs.keys():
+            out.write(">" + j + "\n" + str(contigs[j]) + "\n")
+    out.close()
 
 
