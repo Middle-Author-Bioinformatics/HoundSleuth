@@ -154,6 +154,8 @@ for i in summary:
                             summaryDict[ls[0]] = winningTaxa
                         except ValueError:
                             summaryDict[ls[0]] = "unclassified"
+                else:
+                    summaryDict[ls[0]] = "unclassified"
 
 depthsDict = defaultdict(lambda: '-')
 if args.d != "NA":
