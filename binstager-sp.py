@@ -130,7 +130,8 @@ for i in summary:
                     except IndexError:
                         tax = "unclassified"
 
-                    taxaDict[tax].append(tax)
+                    if tax not in ["unclassified", "sp."]:
+                        taxaDict[tax].append(tax)
 
                 taxaDict2 = defaultdict(lambda: '-')
                 for j in taxaDict.keys():
@@ -141,7 +142,7 @@ for i in summary:
 
                 maxKey = (k[v.index(max(v))])
                 winningTaxa = (taxaDict2[maxKey])
-                if winningTaxa != "unclassified":
+                if winningTaxa not in ["unclassified", "sp."]:
                     summaryDict[ls[0]] = winningTaxa
                 else:
                     try:
