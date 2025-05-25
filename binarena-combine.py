@@ -48,6 +48,7 @@ def combine_tsv_files(folder_path):
 
     for tsv_file in tsv_files:
         file_path = os.path.join(folder_path, tsv_file)
+        print(file_path)
         dissimilarity_df = pd.read_csv(file_path, sep='\t')
         combined_df = pd.merge(combined_df, dissimilarity_df, on=combined_df.columns[0], how='left')
 
