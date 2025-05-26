@@ -10,6 +10,8 @@ ID=$KEY
 DIR=/home/ark/MAB/houndsleuth/${ID}
 OUT=/home/ark/MAB/houndsleuth/completed/${ID}-results
 
+mkdir -p ${OUT}
+
 name=$(grep 'Name' ${DIR}/form-data.txt | cut -d ' ' -f2)
 email=$(grep 'Email' ${DIR}/form-data.txt | cut -d ' ' -f2)
 SCG=$(grep 'SCG' ${DIR}/form-data.txt | cut -d ' ' -f3)
