@@ -97,16 +97,16 @@ umap4=$(printf "ID\t4UM1\t4UM2")
 umap5=$(printf "ID\t5UM1\t5UM2")
 umap6=$(printf "ID\t6UM1\t6UM2")
 
-
-sed -i "1c $pca4" ${DIR}/${OUT}.k4.pca.tsv
-sed -i "1c $pca5" ${DIR}/${OUT}.k5.pca.tsv
-sed -i "1c $pca6" ${DIR}/${OUT}.k6.pca.tsv
-sed -i "1c $tsne4" ${DIR}/${OUT}.k4.tsne.tsv
-sed -i "1c $tsne5" ${DIR}/${OUT}.k5.tsne.tsv
-sed -i "1c $tsne6" ${DIR}/${OUT}.k6.tsne.tsv
-sed -i "1c $umap4" ${DIR}/${OUT}.k4.umap.tsv
-sed -i "1c $umap5" ${DIR}/${OUT}.k5.umap.tsv
-sed -i "1c $umap6" ${DIR}/${OUT}.k6.umap.tsv
+echo $OUT
+echo sed -i "1c $pca4" ${OUT}.k4.pca.tsv
+echo sed -i "1c $pca5" ${OUT}.k5.pca.tsv
+echo sed -i "1c $pca6" ${OUT}.k6.pca.tsv
+echo sed -i "1c $tsne4" ${OUT}.k4.tsne.tsv
+echo sed -i "1c $tsne5" ${OUT}.k5.tsne.tsv
+echo sed -i "1c $tsne6" ${OUT}.k6.tsne.tsv
+echo sed -i "1c $umap4" ${OUT}.k4.umap.tsv
+echo sed -i "1c $umap5" ${OUT}.k5.umap.tsv
+echo sed -i "1c $umap6" ${OUT}.k6.umap.tsv
 
 #files=("${OUT}"*.tsv)
 #cp "${files[0]}" binarena_input.tsv
@@ -123,27 +123,27 @@ echo "python3 /home/ark/MAB/bin/HoundSleuth/binarena-combine.py -i ${DIR} -o ${O
 if [[ ${RANK} == genus ]]; then
     if [[ ${SNP} != false ]]; then
         if [[ ${DEPTH} != false ]]; then
-            /home/ark/MAB/bin/HoundSleuth/binstager.py -b ${DIR}/${OUT}.tsv -o ${DIR}/${OUT}.taxa.depth.tsv -m ${MIN} -s ${SNP} -d ${DEPTH}
+            /home/ark/MAB/bin/HoundSleuth/binstager.py -b ${OUT}.tsv -o ${OUT}.taxa.depth.tsv -m ${MIN} -s ${SNP} -d ${DEPTH}
         else
-            echo "/home/ark/MAB/bin/HoundSleuth/binstager.py -b ${DIR}/${OUT}.tsv -o ${DIR}/${OUT}.taxa.tsv -m ${MIN} -s ${SNP}"
-            /home/ark/MAB/bin/HoundSleuth/binstager.py -b ${DIR}/${OUT}.tsv -o ${DIR}/${OUT}.taxa.tsv -m ${MIN} -s ${SNP}
+            echo "/home/ark/MAB/bin/HoundSleuth/binstager.py -b ${OUT}.tsv -o ${OUT}.taxa.tsv -m ${MIN} -s ${SNP}"
+            /home/ark/MAB/bin/HoundSleuth/binstager.py -b ${OUT}.tsv -o ${OUT}.taxa.tsv -m ${MIN} -s ${SNP}
         fi
     else
         if [[ ${DEPTH} != false ]]; then
-            /home/ark/MAB/bin/HoundSleuth/binstager.py -b ${DIR}/${OUT}.tsv -o ${DIR}/${OUT}.depth.tsv -m ${MIN} -d ${DEPTH}
+            /home/ark/MAB/bin/HoundSleuth/binstager.py -b ${OUT}.tsv -o ${OUT}.depth.tsv -m ${MIN} -d ${DEPTH}
         fi
     fi
 elif [[ ${RANK} == species ]]; then
     if [[ ${SNP} != false ]]; then
             if [[ ${DEPTH} != false ]]; then
-                /home/ark/MAB/bin/HoundSleuth/binstager-sp.py -b ${DIR}/${OUT}.tsv -o ${DIR}/${OUT}.taxa.depth.tsv -m ${MIN} -s ${SNP} -d ${DEPTH} -f ${INPUT} -x ${DIR}/${OUT}
+                /home/ark/MAB/bin/HoundSleuth/binstager-sp.py -b ${OUT}.tsv -o ${OUT}.taxa.depth.tsv -m ${MIN} -s ${SNP} -d ${DEPTH} -f ${INPUT} -x ${OUT}
             else
-                echo "/home/ark/MAB/bin/HoundSleuth/binstager.py -b ${OUT}.tsv -o ${OUT}.taxa.tsv -m ${MIN} -s ${SNP} -f ${INPUT} -x ${DIR}/${OUT}"
-                /home/ark/MAB/bin/HoundSleuth/binstager-sp.py -b ${DIR}/${OUT}.tsv -o ${DIR}/${OUT}.taxa.tsv -m ${MIN} -s ${SNP} -f ${INPUT} -x ${DIR}/${OUT}
+                echo "/home/ark/MAB/bin/HoundSleuth/binstager.py -b ${OUT}.tsv -o ${OUT}.taxa.tsv -m ${MIN} -s ${SNP} -f ${INPUT} -x ${OUT}"
+                /home/ark/MAB/bin/HoundSleuth/binstager-sp.py -b ${OUT}.tsv -o ${OUT}.taxa.tsv -m ${MIN} -s ${SNP} -f ${INPUT} -x ${OUT}
             fi
         else
             if [[ ${DEPTH} != false ]]; then
-                /home/ark/MAB/bin/HoundSleuth/binstager-sp.py -b ${DIR}/${OUT}.tsv -o ${DIR}/${OUT}.depth.tsv -m ${MIN} -d ${DEPTH} -f ${INPUT} -x ${DIR}/${OUT}
+                /home/ark/MAB/bin/HoundSleuth/binstager-sp.py -b ${OUT}.tsv -o ${OUT}.depth.tsv -m ${MIN} -d ${DEPTH} -f ${INPUT} -x ${OUT}
             fi
         fi
 fi
