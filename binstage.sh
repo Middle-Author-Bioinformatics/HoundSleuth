@@ -118,7 +118,7 @@ sed -i "1c $umap6" ${OUT}.k6.umap.tsv
 #mkdir -p ${OUT}_binarena
 #mv ${OUT}.*.tsv ${OUT}_binarena/
 echo "python3 /home/ark/MAB/bin/HoundSleuth/binarena-combine.py -i ${DIR} -o ${OUT}.tsv -b ${OUT}"
-/home/ark/MAB/bin/HoundSleuth/binarena-combine.py -i ${DIR} -o ${OUT}.tsv -b ${OUT}
+/home/ark/MAB/bin/HoundSleuth/binarena-combine.py -i ${OUT} -o ${OUT}.tsv -b ${INPUT}
 
 if [[ ${RANK} == genus ]]; then
     if [[ ${SNP} != false ]]; then
