@@ -98,15 +98,15 @@ umap5=$(printf "ID\t5UM1\t5UM2")
 umap6=$(printf "ID\t6UM1\t6UM2")
 
 echo $OUT
-echo sed -i "1c $pca4" ${OUT}.k4.pca.tsv
-echo sed -i "1c $pca5" ${OUT}.k5.pca.tsv
-echo sed -i "1c $pca6" ${OUT}.k6.pca.tsv
-echo sed -i "1c $tsne4" ${OUT}.k4.tsne.tsv
-echo sed -i "1c $tsne5" ${OUT}.k5.tsne.tsv
-echo sed -i "1c $tsne6" ${OUT}.k6.tsne.tsv
-echo sed -i "1c $umap4" ${OUT}.k4.umap.tsv
-echo sed -i "1c $umap5" ${OUT}.k5.umap.tsv
-echo sed -i "1c $umap6" ${OUT}.k6.umap.tsv
+sed -i "1c $pca4" ${OUT}.k4.pca.tsv
+sed -i "1c $pca5" ${OUT}.k5.pca.tsv
+sed -i "1c $pca6" ${OUT}.k6.pca.tsv
+sed -i "1c $tsne4" ${OUT}.k4.tsne.tsv
+sed -i "1c $tsne5" ${OUT}.k5.tsne.tsv
+sed -i "1c $tsne6" ${OUT}.k6.tsne.tsv
+sed -i "1c $umap4" ${OUT}.k4.umap.tsv
+sed -i "1c $umap5" ${OUT}.k5.umap.tsv
+sed -i "1c $umap6" ${OUT}.k6.umap.tsv
 
 #files=("${OUT}"*.tsv)
 #cp "${files[0]}" binarena_input.tsv
