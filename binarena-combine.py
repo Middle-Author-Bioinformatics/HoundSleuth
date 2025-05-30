@@ -44,7 +44,9 @@ args = parser.parse_known_args()[0]
 
 def combine_tsv_files(folder_path):
     # basic_name = args.o + ".basic.tsv"
-    basic_name = lastItem(args.b) + ".basic.tsv"
+    print(args.b)
+    GODDAMNBIN = args.b
+    basic_name = lastItem(GODDAMNBIN.split("/")) + ".basic.tsv"
     print(basic_name)
     # realfolder_path = allButTheLast(args.b, "/")
     print(folder_path)
