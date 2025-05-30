@@ -6,6 +6,23 @@ import argparse
 import os
 import pandas as pd
 
+def lastItem(ls):
+    x = ''
+    for i in ls:
+        if i != "":
+            x = i
+    return x
+
+
+def allButTheLast(iterable, delim):
+    x = ''
+    length = len(iterable.split(delim))
+    for i in range(0, length-1):
+        x += iterable.split(delim)[i]
+        x += delim
+    return x[0:len(x)-1]
+
+
 parser = argparse.ArgumentParser(
     prog="binarena-combine.py",
     formatter_class=argparse.RawDescriptionHelpFormatter,
@@ -27,6 +44,8 @@ args = parser.parse_known_args()[0]
 
 def combine_tsv_files(folder_path):
     basic_name = args.b + ".basic.tsv"
+    basic_name = lastItem(basic_name.split("/"))
+    realfolder_path = allButTheLast(args.b, "/")
     # print(basic_name)
     basic_file_path = folder_path + ".basic.tsv"
     # print(basic_file_path)
@@ -43,12 +62,12 @@ def combine_tsv_files(folder_path):
     # print("Filtering for files containing:", args.b)
 
     BIN = os.path.basename(args.b)
-    tsv_files = [f for f in os.listdir(folder_path) if f.endswith('.tsv') and f != basic_name and BIN in f]
+    tsv_files = [f for f in os.listdir(realfolder_path) if f.endswith('.tsv') and f != basic_name and BIN in f]
 
     print("Matched TSV files:", tsv_files)
 
     for tsv_file in tsv_files:
-        file_path = os.path.join(folder_path, tsv_file)
+        file_path = os.path.join(realfolder_path, tsv_file)
         print(file_path)
         dissimilarity_df = pd.read_csv(file_path, sep='\t')
         combined_df = pd.merge(combined_df, dissimilarity_df, on=combined_df.columns[0], how='left')
