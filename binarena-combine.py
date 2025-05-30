@@ -86,7 +86,7 @@ folder_path = args.i
 combined_df = combine_tsv_files(folder_path)
 
 # Save the combined data to a new TSV file
-output_file_path = args.i + "/" + args.o
+output_file_path = args.o
 combined_df.to_csv(output_file_path, sep='\t', index=False)
 print(f"Combined file saved to {output_file_path}")
 
