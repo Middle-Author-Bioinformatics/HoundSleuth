@@ -32,6 +32,7 @@ def combine_tsv_files(folder_path):
     # print(basic_file_path)
 
     if not os.path.exists(basic_file_path):
+        print(basic_file_path)
         raise FileNotFoundError("basic.tsv file is missing from the folder.")
 
     basic_df = pd.read_csv(basic_file_path, sep='\t')
