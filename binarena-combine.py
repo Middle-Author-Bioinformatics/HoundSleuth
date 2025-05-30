@@ -28,7 +28,7 @@ args = parser.parse_known_args()[0]
 def combine_tsv_files(folder_path):
     basic_name = args.b + ".basic.tsv"
     # print(basic_name)
-    basic_file_path = folder_path + "/" + args.b + ".basic.tsv"
+    basic_file_path = folder_path + ".basic.tsv"
     # print(basic_file_path)
 
     if not os.path.exists(basic_file_path):
