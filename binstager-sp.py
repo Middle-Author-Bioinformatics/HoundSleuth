@@ -138,11 +138,14 @@ for i in summary:
                         if tax not in ["sp.", "bacterium", "synthetase", "taxa", "group", ""] and tax[0].isupper():
                             taxaDict[tax].append(tax)
                     except IndexError:
-                        pass
+                        tax = j.split(";")[0]
+                        taxaDict[tax].append(tax)
 
                 taxaDict2 = defaultdict(lambda: '-')
                 for j in taxaDict.keys():
                     taxaDict2[len(taxaDict[j])] = j
+                    print(j + "\t" + str(len(taxaDict[j])) + "\t" + str(taxaDict[j]))
+                    print("")
 
                 v = list(taxaDict2.values())
                 k = list(taxaDict2.keys())
