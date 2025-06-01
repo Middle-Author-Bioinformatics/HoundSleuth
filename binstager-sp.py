@@ -135,7 +135,7 @@ for i in summary:
                     try:
                         tax = (j.split(" ")[1])
                         tax = tax.split(";")[0]
-                        if tax not in ["sp.", "bacterium", "synthetase", "taxa", "Cutibacterium", "Streptococcus", "group", ""]:
+                        if tax not in ["sp.", "bacterium", "synthetase", "taxa", "group", ""] and tax[0].isupper():
                             taxaDict[tax].append(tax)
                     except IndexError:
                         pass
@@ -162,6 +162,7 @@ for i in summary:
                     #     except ValueError:
                     #         summaryDict[ls[0]] = "unclassified"
                 else:
+                    print(ls)
                     summaryDict[ls[0]] = "unclassified"
                     splitDict["unclassified"].append(ls[0])
 
