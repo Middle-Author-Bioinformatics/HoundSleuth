@@ -133,13 +133,13 @@ for i in summary:
                 for j in taxa:
                     tax = (j.split(" ")[0])
                     tax = tax.split(";")[0]
-                    if tax == "unclassified":
+                    if tax in ["unclassified", "uncultured"]:
                         try:
                             tax = (j.split(" ")[1])
                             tax = tax.split(";")[0]
                         except IndexError:
                             tax = "unclassified"
-                    taxaDict[tax].append(tax)
+                        taxaDict[tax].append(tax)
 
                 taxaDict2 = defaultdict(lambda: '-')
                 for j in taxaDict.keys():
