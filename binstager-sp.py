@@ -129,60 +129,34 @@ for i in summary:
             if len(ls[6]) > 1:
                 taxa = (ls[6].split("; "))
                 taxaDict = defaultdict(list)
-                print(taxa)
 
                 for j in taxa:
-                    print(j)
                     try:
                         tax = (j.split(" ")[1])
                         tax = tax.split(";")[0]
                         if tax not in ["sp.", "bacterium", "synthetase", "taxa", "group", "", "L-lysine-forming", "prokaryote", "restricta"] and not tax[0].isupper():
                             taxaDict[tax].append(tax)
-                        # else:
-                        #     tax = j.split(";")[0]
-                        #     if tax not in ["sp.", "bacterium", "synthetase", "taxa", "group", "", "L-lysine-forming", "prokaryote", "restricta", "Malassezia"]:
-                        #         taxaDict[tax].append(tax)
                     except IndexError:
-                        # tax = j.split(" ")[0]
-                        # tax = tax.split(";")[0]
-                        # taxaDict[tax].append(tax)
                         pass
 
                 taxaDict2 = defaultdict(lambda: '-')
                 for j in taxaDict.keys():
                     taxaDict2[j] = len(taxaDict[j])
-                print("+")
-                for j in taxaDict2.keys():
-                    print(str(j) + "\t" + str((taxaDict2[j])))
 
                 v = list(taxaDict2.values())
                 k = list(taxaDict2.keys())
+                winningTaxa = "unclassified"
                 if len(v) != 0:
                     non_cap_keys = [k for k in taxaDict2 if not k[0].isupper()]
                     if non_cap_keys:
-                        maxKey = max(non_cap_keys, key=taxaDict2.get)
+                        winningTaxa = max(non_cap_keys, key=taxaDict2.get)
                     else:
-                        maxKey = max(taxaDict2, key=taxaDict2.get)
-
-                    print("winningTaxa:", maxKey)
-                    summaryDict[ls[0]] = maxKey
-                    # print(maxKey)
-                    splitDict[maxKey].append(ls[0])
-                    # else:
-                    #     try:
-                    #         taxaDict2.pop(maxKey)
-                    #         v = list(taxaDict2.values())
-                    #         k = list(taxaDict2.keys())
-                    #         maxKey = (k[v.index(max(v))])
-                    #         winningTaxa = (taxaDict2[maxKey])
-                    #         summaryDict[ls[0]] = winningTaxa
-                    #     except ValueError:
-                    #         summaryDict[ls[0]] = "unclassified"
+                        winningTaxa = max(taxaDict2, key=taxaDict2.get)
                 else:
-                    # print("unclassified")
-                    summaryDict[ls[0]] = "unclassified"
-                    splitDict["unclassified"].append(ls[0])
-                print("\n=====================================\n")
+                    winningTaxa = "unclassified"
+
+                summaryDict[ls[0]] = winningTaxa
+                splitDict[winningTaxa].append(ls[0])
 
 depthsDict = defaultdict(lambda: '-')
 if args.d != "NA":
@@ -190,9 +164,6 @@ if args.d != "NA":
     for i in depths:
         ls = i.rstrip().split("\t")
         depthsDict[ls[0]] = ls[2]
-else:
-    pass
-
 
 out = open(args.o, "w")
 binarena = open(args.b)
@@ -201,9 +172,6 @@ for i in binarena:
     if ls[0] != "ID":
         if ls[0] in summaryDict.keys():
             out.write(i.rstrip() + "\t" + str(depthsDict[ls[0]]) + "\t" + str(summaryDict[ls[0]]) + "\n")
-        else:
-            pass
-            # out.write(i.rstrip() + "\tadded_bin" + "\n")
     else:
         out.write(i.rstrip() + "\tdepth\ttaxa\n")
 out.close()

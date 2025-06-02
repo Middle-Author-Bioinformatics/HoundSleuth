@@ -125,7 +125,7 @@ summary = open(args.s)
 for i in summary:
     ls = i.rstrip().split(",")
     if ls[1] != "contig_length":
-        if int(ls[1]) > int(args.m):
+        if float(ls[1]) > int(args.m):
             if len(ls[6]) > 1:
                 taxa = (ls[6].split("; "))
                 taxaDict = defaultdict(list)
@@ -134,8 +134,8 @@ for i in summary:
                     tax = (j.split(" ")[0])
                     tax = tax.split(";")[0]
                     taxaDict[tax].append(tax)
-                taxaDict2 = defaultdict(lambda: '-')
 
+                taxaDict2 = defaultdict(lambda: '-')
                 for j in taxaDict.keys():
                     taxaDict2[j] = len(taxaDict[j])
 
@@ -148,22 +148,10 @@ for i in summary:
                         winningTaxa = max(classified_keys, key=taxaDict2.get)
                     else:
                         winningTaxa = 'unclassified'
-                # maxKey = (k[v.index(max(v))])
-                # maxKey = max(k, key=taxaDict2.get)
-                # winningTaxa = (taxaDict2[maxKey])
-                # if winningTaxa != "unclassified":
+
                 summaryDict[ls[0]] = winningTaxa
                 splitDict[winningTaxa].append(ls[0])
-                # else:
-                #     try:
-                #         taxaDict2.pop(maxKey)
-                #         v = list(taxaDict2.values())
-                #         k = list(taxaDict2.keys())
-                #         maxKey = (k[v.index(max(v))])
-                #         winningTaxa = (taxaDict2[maxKey])
-                #         summaryDict[ls[0]] = winningTaxa
-                #     except ValueError:
-                #         summaryDict[ls[0]] = "unclassified"
+
 
 depthsDict = defaultdict(lambda: '-')
 if args.d != "NA":
@@ -171,9 +159,6 @@ if args.d != "NA":
     for i in depths:
         ls = i.rstrip().split("\t")
         depthsDict[ls[0]] = ls[2]
-else:
-    pass
-
 
 out = open(args.o, "w")
 binarena = open(args.b)
@@ -182,9 +167,6 @@ for i in binarena:
     if ls[0] != "ID":
         if ls[0] in summaryDict.keys():
             out.write(i.rstrip() + "\t" + str(depthsDict[ls[0]]) + "\t" + str(summaryDict[ls[0]]) + "\n")
-        else:
-            pass
-            # out.write(i.rstrip() + "\tadded_bin" + "\n")
     else:
         out.write(i.rstrip() + "\tdepth\ttaxa\n")
 out.close()

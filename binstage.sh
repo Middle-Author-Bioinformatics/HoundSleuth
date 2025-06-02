@@ -83,7 +83,7 @@ echo "python3 /home/ark/MAB/bin/HoundSleuth/sequence_basics.py -i ${INPUT} -o ${
 /home/ark/MAB/bin/HoundSleuth/count_kmers.py -i ${INPUT} -k 4 | /home/ark/MAB/bin/HoundSleuth/reduce_dimension.py --pca --tsne --umap -o ${OUT}.k4 -f ${SEQS}
 /home/ark/MAB/bin/HoundSleuth/count_kmers.py -i ${INPUT} -k 6 | /home/ark/MAB/bin/HoundSleuth/reduce_dimension.py --pca --tsne --umap -o ${OUT}.k6 -f ${SEQS}
 
-#count_kmers.py -i ${INPUT} -k 5 | reduce_dimension.py --pca --tsne --umap -o ${OUT}.k5
+#count_kmers.py f-i ${INPUT} -k 5 | reduce_dimension.py --pca --tsne --umap -o ${OUT}.k5
 #count_kmers.py -i ${INPUT} -k 4 | reduce_dimension.py --pca --tsne --umap -o ${OUT}.k4
 #count_kmers.py -i ${INPUT} -k 6 | reduce_dimension.py --pca --tsne --umap -o ${OUT}.k6
 
