@@ -119,7 +119,6 @@ args = parser.parse_known_args()[0]
 contigs = open(args.f)
 contigs = fasta(contigs)
 
-
 splitDict = defaultdict(list)
 summaryDict = defaultdict(lambda: '-')
 summary = open(args.s)
@@ -180,7 +179,7 @@ for i in summary:
                     #     except ValueError:
                     #         summaryDict[ls[0]] = "unclassified"
                 else:
-                    print("unclassified")
+                    # print("unclassified")
                     summaryDict[ls[0]] = "unclassified"
                     splitDict["unclassified"].append(ls[0])
                 print("\n=====================================\n")
