@@ -130,7 +130,8 @@ for i in summary:
             if len(ls[6]) > 1:
                 taxa = (ls[6].split("; "))
                 taxaDict = defaultdict(list)
-                # print(taxa)
+                print(ls[6])
+                print(taxa)
 
                 for j in taxa:
                     print(j)
@@ -169,7 +170,7 @@ for i in summary:
                     #     except ValueError:
                     #         summaryDict[ls[0]] = "unclassified"
                 else:
-                    print(str(ls))
+                    print("unclassified")
                     summaryDict[ls[0]] = "unclassified"
                     splitDict["unclassified"].append(ls[0])
                 print("\n=====================================\n")
