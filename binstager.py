@@ -122,31 +122,41 @@ for i in summary:
             if len(ls[6]) > 1:
                 taxa = (ls[6].split("; "))
                 taxaDict = defaultdict(list)
+
+
                 for j in taxa:
                     tax = (j.split(" ")[0])
                     tax = tax.split(";")[0]
                     taxaDict[tax].append(tax)
                 taxaDict2 = defaultdict(lambda: '-')
+
                 for j in taxaDict.keys():
-                    taxaDict2[len(taxaDict[j])] = j
+                    taxaDict2[j] = len(taxaDict[j])
 
                 v = list(taxaDict2.values())
                 k = list(taxaDict2.keys())
-
-                maxKey = (k[v.index(max(v))])
-                winningTaxa = (taxaDict2[maxKey])
-                if winningTaxa != "unclassified":
+                winningTaxa = "unclassified"
+                if len(v) != 0:
+                    classified_keys = [k for k in taxaDict2 if k != "unclassified"]
+                    if classified_keys:
+                        winningTaxa = max(classified_keys, key=taxaDict2.get)
+                    else:
+                        winningTaxa = 'unclassified'
+                # maxKey = (k[v.index(max(v))])
+                # maxKey = max(k, key=taxaDict2.get)
+                # winningTaxa = (taxaDict2[maxKey])
+                # if winningTaxa != "unclassified":
                     summaryDict[ls[0]] = winningTaxa
-                else:
-                    try:
-                        taxaDict2.pop(maxKey)
-                        v = list(taxaDict2.values())
-                        k = list(taxaDict2.keys())
-                        maxKey = (k[v.index(max(v))])
-                        winningTaxa = (taxaDict2[maxKey])
-                        summaryDict[ls[0]] = winningTaxa
-                    except ValueError:
-                        summaryDict[ls[0]] = "unclassified"
+                # else:
+                #     try:
+                #         taxaDict2.pop(maxKey)
+                #         v = list(taxaDict2.values())
+                #         k = list(taxaDict2.keys())
+                #         maxKey = (k[v.index(max(v))])
+                #         winningTaxa = (taxaDict2[maxKey])
+                #         summaryDict[ls[0]] = winningTaxa
+                #     except ValueError:
+                #         summaryDict[ls[0]] = "unclassified"
 
 depthsDict = defaultdict(lambda: '-')
 if args.d != "NA":
