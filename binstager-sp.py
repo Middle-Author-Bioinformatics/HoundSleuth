@@ -130,7 +130,6 @@ for i in summary:
             if len(ls[6]) > 1:
                 taxa = (ls[6].split("; "))
                 taxaDict = defaultdict(list)
-                print(ls[6])
                 print(taxa)
 
                 for j in taxa:
