@@ -147,7 +147,7 @@ for i in summary:
                     taxaDict2[len(taxaDict[j])] = j
 
                 for j in taxaDict2.keys():
-                    print(str(j) + "\t" + str(len(taxaDict2[j])) + "\t" + str((taxaDict[j])))
+                    print(str(j) + "\t" + str(len(taxaDict2[j])) + "\t" + str((taxaDict2[j])))
 
                 v = list(taxaDict2.values())
                 k = list(taxaDict2.keys())
