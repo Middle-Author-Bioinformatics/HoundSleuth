@@ -153,13 +153,14 @@ for i in summary:
                 v = list(taxaDict2.values())
                 k = list(taxaDict2.keys())
                 if len(v) != 0:
-                    maxKey = (k[v.index(max(v))])
+                    maxKey = max(taxaDict2, key=taxaDict2.get)
+                    # maxKey = (k[v.index(max(v))])
                     print("maxKey: " + str(maxKey))
-                    winningTaxa = (taxaDict2[maxKey])
-                    print("winningTaxa: " + str(winningTaxa))
-                    summaryDict[ls[0]] = winningTaxa
-                    print(winningTaxa)
-                    splitDict[winningTaxa].append(ls[0])
+                    # winningTaxa = (taxaDict2[maxKey])
+                    print("winningTaxa: " + str(maxKey))
+                    summaryDict[ls[0]] = maxKey
+                    print(maxKey)
+                    splitDict[maxKey].append(ls[0])
                     # else:
                     #     try:
                     #         taxaDict2.pop(maxKey)
