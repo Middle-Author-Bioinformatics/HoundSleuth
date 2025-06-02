@@ -133,6 +133,7 @@ for i in summary:
                 # print(taxa)
 
                 for j in taxa:
+                    print(j)
                     try:
                         tax = (j.split(" ")[1])
                         tax = tax.split(";")[0]
