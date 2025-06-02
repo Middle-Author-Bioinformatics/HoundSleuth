@@ -144,7 +144,8 @@ for i in summary:
                             if tax not in ["sp.", "bacterium", "synthetase", "taxa", "group", "", "L-lysine-forming", "prokaryote", "restricta"]:
                                 taxaDict[tax].append(tax)
                     except IndexError:
-                        tax = j.split(";")[0]
+                        tax = j.split(" ")[0]
+                        tax = tax.split(";")[0]
                         taxaDict[tax].append(tax)
 
                 taxaDict2 = defaultdict(lambda: '-')
