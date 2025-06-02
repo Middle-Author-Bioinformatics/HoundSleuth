@@ -145,7 +145,7 @@ for i in summary:
 
                 taxaDict2 = defaultdict(lambda: '-')
                 for j in taxaDict.keys():
-                    taxaDict2[len(taxaDict[j])] = j
+                    taxaDict2[j] = len(taxaDict[j])
 
                 for j in taxaDict2.keys():
                     print(str(j) + "\t" + str((taxaDict2[j])))
