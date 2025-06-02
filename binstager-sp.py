@@ -149,13 +149,15 @@ for i in summary:
                     taxaDict2[len(taxaDict[j])] = j
 
                 for j in taxaDict2.keys():
-                    print(str(j) + "\t" + str(len(taxaDict2[j])) + "\t" + str((taxaDict2[j])))
+                    print(str(j) + "\t" + str((taxaDict2[j])))
 
                 v = list(taxaDict2.values())
                 k = list(taxaDict2.keys())
                 if len(v) != 0:
                     maxKey = (k[v.index(max(v))])
+                    print("maxKey: " + str(maxKey))
                     winningTaxa = (taxaDict2[maxKey])
+                    print("winningTaxa: " + str(winningTaxa))
                     summaryDict[ls[0]] = winningTaxa
                     print(winningTaxa)
                     splitDict[winningTaxa].append(ls[0])
