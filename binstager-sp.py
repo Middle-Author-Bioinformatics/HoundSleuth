@@ -134,7 +134,7 @@ for i in summary:
                     try:
                         tax = (j.split(" ")[1])
                         tax = tax.split(";")[0]
-                        if tax not in ["sp.", "bacterium", "synthetase", "taxa", "group", "", "L-lysine-forming", "prokaryote", "restricta"] and not tax[0].isupper():
+                        if tax not in ["sp.", "bacterium", "synthetase", "taxa", "group", "", "L-lysine-forming", "prokaryote"] and not tax[0].isupper():
                             taxaDict[tax].append(tax)
                     except IndexError:
                         pass
