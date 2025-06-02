@@ -133,7 +133,7 @@ for i in summary:
                 for j in taxa:
                     tax = (j.split(" ")[0])
                     tax = tax.split(";")[0]
-                    if tax in ["unclassified", "uncultured"]:
+                    if tax == "unclassified":
                         try:
                             tax = (j.split(" ")[1])
                             tax = tax.split(";")[0]
