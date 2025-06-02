@@ -139,7 +139,8 @@ for i in summary:
                             tax = tax.split(";")[0]
                         except IndexError:
                             tax = "unclassified"
-                        taxaDict[tax].append(tax)
+
+                    taxaDict[tax].append(tax)
 
                 taxaDict2 = defaultdict(lambda: '-')
                 for j in taxaDict.keys():
