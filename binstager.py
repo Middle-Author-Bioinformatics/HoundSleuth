@@ -140,6 +140,13 @@ for i in summary:
                         except IndexError:
                             tax = "unclassified"
 
+                    elif tax == "uncultured":
+                        try:
+                            tax = (j.split(" ")[1])
+                            tax = tax.split(";")[0]
+                        except IndexError:
+                            tax = "uncultured"
+
                     taxaDict[tax].append(tax)
 
                 taxaDict2 = defaultdict(lambda: '-')
