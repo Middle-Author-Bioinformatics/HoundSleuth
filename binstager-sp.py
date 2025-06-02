@@ -145,8 +145,9 @@ for i in summary:
                 taxaDict2 = defaultdict(lambda: '-')
                 for j in taxaDict.keys():
                     taxaDict2[len(taxaDict[j])] = j
-                    print("\n\n\n")
-                    print(j + "\t" + str(len(taxaDict[j])) + "\t" + str(taxaDict[j]))
+
+                for j in taxaDict2.keys():
+                    print(j + "\t" + taxaDict2[j] + "\t" + str(len(taxaDict[j])))
 
                 v = list(taxaDict2.values())
                 k = list(taxaDict2.keys())
@@ -154,6 +155,7 @@ for i in summary:
                     maxKey = (k[v.index(max(v))])
                     winningTaxa = (taxaDict2[maxKey])
                     summaryDict[ls[0]] = winningTaxa
+                    print(winningTaxa)
                     splitDict[winningTaxa].append(ls[0])
                     # else:
                     #     try:
@@ -166,9 +168,10 @@ for i in summary:
                     #     except ValueError:
                     #         summaryDict[ls[0]] = "unclassified"
                 else:
-                    print("-----------" + str(ls))
+                    print(str(ls))
                     summaryDict[ls[0]] = "unclassified"
                     splitDict["unclassified"].append(ls[0])
+                print("\n=====================================\n")
 
 depthsDict = defaultdict(lambda: '-')
 if args.d != "NA":
