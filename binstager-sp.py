@@ -130,6 +130,7 @@ for i in summary:
             if len(ls[6]) > 1:
                 taxa = (ls[6].split("; "))
                 taxaDict = defaultdict(list)
+                # print(taxa)
 
                 for j in taxa:
                     try:
@@ -142,10 +143,10 @@ for i in summary:
                         taxaDict[tax].append(tax)
 
                 taxaDict2 = defaultdict(lambda: '-')
-                # for j in taxaDict.keys():
-                #     taxaDict2[len(taxaDict[j])] = j
-                #     print(j + "\t" + str(len(taxaDict[j])) + "\t" + str(taxaDict[j]))
-                #     print("")
+                for j in taxaDict.keys():
+                    taxaDict2[len(taxaDict[j])] = j
+                    print("\n\n\n")
+                    print(j + "\t" + str(len(taxaDict[j])) + "\t" + str(taxaDict[j]))
 
                 v = list(taxaDict2.values())
                 k = list(taxaDict2.keys())
