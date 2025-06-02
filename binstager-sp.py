@@ -153,13 +153,15 @@ for i in summary:
                 v = list(taxaDict2.values())
                 k = list(taxaDict2.keys())
                 if len(v) != 0:
-                    maxKey = max(taxaDict2, key=taxaDict2.get)
-                    # maxKey = (k[v.index(max(v))])
-                    print("maxKey: " + str(maxKey))
-                    # winningTaxa = (taxaDict2[maxKey])
-                    print("winningTaxa: " + str(maxKey))
+                    non_cap_keys = [k for k in taxaDict2 if not k[0].isupper()]
+                    if non_cap_keys:
+                        maxKey = max(non_cap_keys, key=taxaDict2.get)
+                    else:
+                        maxKey = max(taxaDict2, key=taxaDict2.get)
+
+                    print("winningTaxa:", maxKey)
                     summaryDict[ls[0]] = maxKey
-                    print(maxKey)
+                    # print(maxKey)
                     splitDict[maxKey].append(ls[0])
                     # else:
                     #     try:
