@@ -35,10 +35,10 @@ def write_bins(contig_to_bin, fasta_file, output_dir):
         bin_path = os.path.join(output_dir, f"{bin_name}.fasta")
         SeqIO.write(records, bin_path, "fasta")
 
-    # Write unbinned sequences
-    if unbinned:
-        unbinned_path = os.path.join(output_dir, "unbinned.fasta")
-        SeqIO.write(unbinned, unbinned_path, "fasta")
+    # # Write unbinned sequences
+    # if unbinned:
+    #     unbinned_path = os.path.join(output_dir, "unbinned.fasta")
+    #     SeqIO.write(unbinned, unbinned_path, "fasta")
 
 def main():
     parser = argparse.ArgumentParser(description="Separate contigs into bin files based on TSV map.")
