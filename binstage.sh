@@ -85,11 +85,11 @@ echo ${INPUT}/${BASE}.1kb.fa
 SEQS=$(grep -c "^>" ${INPUT}/${BASE}.1kb.fa)
 echo ""
 
-echo "python3 /home/ark/MAB/bin/HoundSleuth/sequence_basics.py -i ${INPUT}/${BASE}.1kb.fa -o ${DIR}/${OUT}.basic.tsv"
-/home/ark/MAB/bin/HoundSleuth/sequence_basics.py -i ${INPUT}/${BASE}.1kb.fa -o ${OUT}.basic.tsv
-/home/ark/MAB/bin/HoundSleuth/count_kmers.py -i ${INPUT}/${BASE}.1kb.fa -k 5 | /home/ark/MAB/bin/HoundSleuth/reduce_dimension.py --pca --tsne --umap -o ${OUT}.k5 -f ${SEQS}
-/home/ark/MAB/bin/HoundSleuth/count_kmers.py -i ${INPUT}/${BASE}.1kb.fa -k 4 | /home/ark/MAB/bin/HoundSleuth/reduce_dimension.py --pca --tsne --umap -o ${OUT}.k4 -f ${SEQS}
-/home/ark/MAB/bin/HoundSleuth/count_kmers.py -i${INPUT}/${BASE}.1kb.fa -k 6 | /home/ark/MAB/bin/HoundSleuth/reduce_dimension.py --pca --tsne --umap -o ${OUT}.k6 -f ${SEQS}
+echo "python3 /home/ark/MAB/bin/HoundSleuth/sequence_basics.py -i ${INPUT}/${BASE}.fa -o ${DIR}/${OUT}.basic.tsv"
+/home/ark/MAB/bin/HoundSleuth/sequence_basics.py -i ${INPUT}/${BASE}.fa -o ${OUT}.basic.tsv
+/home/ark/MAB/bin/HoundSleuth/count_kmers.py -i ${INPUT}/${BASE}.fa -k 5 | /home/ark/MAB/bin/HoundSleuth/reduce_dimension.py --pca --tsne --umap -o ${OUT}.k5 -f ${SEQS}
+/home/ark/MAB/bin/HoundSleuth/count_kmers.py -i ${INPUT}/${BASE}.fa -k 4 | /home/ark/MAB/bin/HoundSleuth/reduce_dimension.py --pca --tsne --umap -o ${OUT}.k4 -f ${SEQS}
+/home/ark/MAB/bin/HoundSleuth/count_kmers.py -i${INPUT}/${BASE}.fa -k 6 | /home/ark/MAB/bin/HoundSleuth/reduce_dimension.py --pca --tsne --umap -o ${OUT}.k6 -f ${SEQS}
 
 #count_kmers.py f-i ${INPUT} -k 5 | reduce_dimension.py --pca --tsne --umap -o ${OUT}.k5
 #count_kmers.py -i ${INPUT} -k 4 | reduce_dimension.py --pca --tsne --umap -o ${OUT}.k4
@@ -131,10 +131,10 @@ echo "python3 /home/ark/MAB/bin/HoundSleuth/binarena-combine.py -i ${DIR} -o ${O
 if [[ ${RANK} == genus ]]; then
     if [[ ${SNP} != false ]]; then
         if [[ ${DEPTH} != false ]]; then
-            /home/ark/MAB/bin/HoundSleuth/binstager.py -b ${OUT}.tsv -o ${OUT}.taxa.depth.tsv -m ${MIN} -s ${SNP} -d ${DEPTH} -f ${INPUT}/${BASE}.1kb.fa -x ${OUT}
+            /home/ark/MAB/bin/HoundSleuth/binstager.py -b ${OUT}.tsv -o ${OUT}.taxa.depth.tsv -m ${MIN} -s ${SNP} -d ${DEPTH} -f ${INPUT}/${BASE}.fa -x ${OUT}
         else
-            echo "/home/ark/MAB/bin/HoundSleuth/binstager.py -b ${OUT}.tsv -o ${OUT}.taxa.tsv -m ${MIN} -s ${SNP} -f ${INPUT}/${BASE}.1kb.fa -x ${OUT}"
-            /home/ark/MAB/bin/HoundSleuth/binstager.py -b ${OUT}.tsv -o ${OUT}.taxa.tsv -m ${MIN} -s ${SNP} -f${INPUT}/${BASE}.1kb.fa -x ${OUT}
+            echo "/home/ark/MAB/bin/HoundSleuth/binstager.py -b ${OUT}.tsv -o ${OUT}.taxa.tsv -m ${MIN} -s ${SNP} -f ${INPUT}/${BASE}.fa -x ${OUT}"
+            /home/ark/MAB/bin/HoundSleuth/binstager.py -b ${OUT}.tsv -o ${OUT}.taxa.tsv -m ${MIN} -s ${SNP} -f${INPUT}/${BASE}.fa -x ${OUT}
         fi
     else
         if [[ ${DEPTH} != false ]]; then
@@ -146,12 +146,12 @@ elif [[ ${RANK} == species ]]; then
             if [[ ${DEPTH} != false ]]; then
                 /home/ark/MAB/bin/HoundSleuth/binstager-sp.py -b ${OUT}.tsv -o ${OUT}.taxa.depth.tsv -m ${MIN} -s ${SNP} -d ${DEPTH} -f ${INPUT} -x ${OUT}
             else
-                echo "/home/ark/MAB/bin/HoundSleuth/binstager.py -b ${OUT}.tsv -o ${OUT}.taxa.tsv -m ${MIN} -s ${SNP} -f ${INPUT}/${BASE}.1kb.fa -x ${OUT}"
-                /home/ark/MAB/bin/HoundSleuth/binstager-sp.py -b ${OUT}.tsv -o ${OUT}.taxa.tsv -m ${MIN} -s ${SNP} -f ${INPUT}/${BASE}.1kb.fa -x ${OUT}
+                echo "/home/ark/MAB/bin/HoundSleuth/binstager.py -b ${OUT}.tsv -o ${OUT}.taxa.tsv -m ${MIN} -s ${SNP} -f ${INPUT}/${BASE}.fa -x ${OUT}"
+                /home/ark/MAB/bin/HoundSleuth/binstager-sp.py -b ${OUT}.tsv -o ${OUT}.taxa.tsv -m ${MIN} -s ${SNP} -f ${INPUT}/${BASE}.fa -x ${OUT}
             fi
         else
             if [[ ${DEPTH} != false ]]; then
-                /home/ark/MAB/bin/HoundSleuth/binstager-sp.py -b ${OUT}.tsv -o ${OUT}.depth.tsv -m ${MIN} -d ${DEPTH} -f ${INPUT}/${BASE}.1kb.fa -x ${OUT}
+                /home/ark/MAB/bin/HoundSleuth/binstager-sp.py -b ${OUT}.tsv -o ${OUT}.depth.tsv -m ${MIN} -d ${DEPTH} -f ${INPUT}/${BASE}.fa -x ${OUT}
             fi
         fi
 fi
