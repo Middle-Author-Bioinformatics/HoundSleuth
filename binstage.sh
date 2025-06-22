@@ -6,7 +6,8 @@ function usage() {
     Usage: $0 [-i input] [-o out] [-s snp] [-m min]
 
     Options:
-        -i, --input:  input genome in FASTA format
+        -i, --input:  input directory
+        -b, --base:   base name of input file
         -o, --out:    output base name
         -s, --snp:    spraynpray output table
         -d, --depth:  coverage information from jgi_summarize_bam_contig_depths
@@ -34,6 +35,10 @@ while [ "$1" != "" ]; do
     -i | --input)
         shift
         INPUT=$1
+        ;;
+    -b | --base)
+        shift
+        BASE=$1
         ;;
     -o | --out)
         shift
@@ -118,7 +123,7 @@ sed -i "1c $umap6" ${OUT}.k6.umap.tsv
 #mkdir -p ${OUT}_binarena
 #mv ${OUT}.*.tsv ${OUT}_binarena/
 echo "python3 /home/ark/MAB/bin/HoundSleuth/binarena-combine.py -i ${DIR} -o ${OUT}.tsv -b ${OUT}"
-/home/ark/MAB/bin/HoundSleuth/binarena-combine.py -i ${DIR} -o ${OUT}.tsv -b ${INPUT%.*}
+/home/ark/MAB/bin/HoundSleuth/binarena-combine.py -i ${DIR} -o ${OUT}.tsv -b ${BASE}
 
 if [[ ${RANK} == genus ]]; then
     if [[ ${SNP} != false ]]; then
