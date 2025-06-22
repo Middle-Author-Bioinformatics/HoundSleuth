@@ -133,13 +133,14 @@ for i in summary:
                 for j in taxa:
                     tax = (j.split(" ")[0])
                     tax = tax.split(";")[0]
+                    print(tax)
                     if tax in ["uncultured", "unclassified", "unknown", "", "bacterium", "glutamine",
                                "glutamine-hydrolyzing", "2Fe-2S", "NADP", "NADH", "glutamate--ammonia",
                                "acetyl-CoA-carboxylase", "protein-PII", "Bacteria", "bacterium", "Bacterium",
                                "bacteria", "Gammaproteobacteria", "Pseudomonadota"]:
                         tax = "unclassified"
 
-                    if tax == "Candidatus":
+                    elif tax == "Candidatus":
                         tax = j.split(" ")[0] + "." + j.split(" ")[1]
 
                     taxaDict[tax].append(tax)
