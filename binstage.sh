@@ -81,8 +81,8 @@ if [[ ${INPUT} == "" ]]; then
 fi
 
 echo ""
-echo ${INPUT}/${BASE}.1kb.fa
-SEQS=$(grep -c "^>" ${INPUT}/${BASE}.1kb.fa)
+echo ${INPUT}/${BASE}.fa
+SEQS=$(grep -c "^>" ${INPUT}/${BASE}.fa)
 echo ""
 
 echo "python3 /home/ark/MAB/bin/HoundSleuth/sequence_basics.py -i ${INPUT}/${BASE}.fa -o ${DIR}/${OUT}.basic.tsv"
