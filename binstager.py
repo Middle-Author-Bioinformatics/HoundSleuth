@@ -125,7 +125,7 @@ summary = open(args.s)
 for i in summary:
     ls = i.rstrip().split(",")
     if ls[1] != "contig_length":
-        if float(ls[1]) > int(args.m):
+        if float(ls[1]) > float(args.m):
             if len(ls[6]) > 1:
                 taxa = (ls[6].split("; "))
                 taxaDict = defaultdict(list)
@@ -133,19 +133,14 @@ for i in summary:
                 for j in taxa:
                     tax = (j.split(" ")[0])
                     tax = tax.split(";")[0]
-                    if tax == "unclassified":
-                        try:
-                            tax = (j.split(" ")[1])
-                            tax = tax.split(";")[0]
-                        except IndexError:
-                            tax = "unclassified"
+                    if tax in ["uncultured", "unclassified", "unknown", "", "bacterium", "glutamine",
+                               "glutamine-hydrolyzing", "2Fe-2S", "NADP", "NADH", "glutamate--ammonia",
+                               "acetyl-CoA-carboxylase", "protein-PII", "Bacteria", "bacterium", "Bacterium",
+                               "bacteria", "Gammaproteobacteria", "Pseudomonadota"]:
+                        tax = "unclassified"
 
-                    elif tax == "uncultured":
-                        try:
-                            tax = (j.split(" ")[1])
-                            tax = tax.split(";")[0]
-                        except IndexError:
-                            tax = "uncultured"
+                    if tax == "Candidatus":
+                        tax = j.split(" ")[0] + "." + j.split(" ")[1]
 
                     taxaDict[tax].append(tax)
 
