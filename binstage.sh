@@ -85,8 +85,8 @@ echo ${INPUT}/${BASE}.fa
 SEQS=$(grep -c "^>" ${INPUT}/${BASE}.fa)
 echo ""
 
-echo "python3 /home/ark/MAB/bin/HoundSleuth/sequence_basics.py -i ${INPUT}/${BASE}.fa -o ${DIR}/${OUT}.basic.tsv"
-/home/ark/MAB/bin/HoundSleuth/sequence_basics.py -i ${INPUT}/${BASE}.fa -o ${OUT}.basic.tsv
+echo "python3 /home/ark/MAB/bin/HoundSleuth/sequence_basics.py -i ${INPUT}/${BASE}.fa -o ${DIR}/${BASE}.basic.tsv"
+/home/ark/MAB/bin/HoundSleuth/sequence_basics.py -i ${INPUT}/${BASE}.fa -o ${DIR}/${BASE}.basic.tsv
 /home/ark/MAB/bin/HoundSleuth/count_kmers.py -i ${INPUT}/${BASE}.fa -k 5 | /home/ark/MAB/bin/HoundSleuth/reduce_dimension.py --pca --tsne --umap -o ${OUT}.k5 -f ${SEQS}
 /home/ark/MAB/bin/HoundSleuth/count_kmers.py -i ${INPUT}/${BASE}.fa -k 4 | /home/ark/MAB/bin/HoundSleuth/reduce_dimension.py --pca --tsne --umap -o ${OUT}.k4 -f ${SEQS}
 /home/ark/MAB/bin/HoundSleuth/count_kmers.py -i${INPUT}/${BASE}.fa -k 6 | /home/ark/MAB/bin/HoundSleuth/reduce_dimension.py --pca --tsne --umap -o ${OUT}.k6 -f ${SEQS}
