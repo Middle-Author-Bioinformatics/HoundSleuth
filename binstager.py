@@ -138,7 +138,7 @@ for i in summary:
                                "glutamine-hydrolyzing", "2Fe-2S", "NADP", "NADH", "glutamate--ammonia",
                                "acetyl-CoA-carboxylase", "protein-PII", "Bacteria", "bacterium", "Bacterium",
                                "bacteria", "Gammaproteobacteria", "Pseudomonadota", "acyl-carrier-protein",
-                               "dsDNA", "Prokaryotic"]:
+                               "dsDNA", "Prokaryotic", "NAD(P)H"]:
                         tax = "unclassified"
 
                     elif tax == "Candidatus":
