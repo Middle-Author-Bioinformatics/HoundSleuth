@@ -137,7 +137,8 @@ for i in summary:
                     if tax in ["uncultured", "unclassified", "unknown", "", "bacterium", "glutamine",
                                "glutamine-hydrolyzing", "2Fe-2S", "NADP", "NADH", "glutamate--ammonia",
                                "acetyl-CoA-carboxylase", "protein-PII", "Bacteria", "bacterium", "Bacterium",
-                               "bacteria", "Gammaproteobacteria", "Pseudomonadota", "acyl-carrier-protein"]:
+                               "bacteria", "Gammaproteobacteria", "Pseudomonadota", "acyl-carrier-protein",
+                               "dsDNA", "Prokaryotic"]:
                         tax = "unclassified"
 
                     elif tax == "Candidatus":
