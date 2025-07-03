@@ -78,7 +78,7 @@ else
     /home/ark/MAB/bin/SprayNPray/spray-and-pray.py -g ${DIR}/${input} -dir ${OUT}/spraynpray -out spraynpray -ref /home/ark/databases/nr.dmnd -hits 1 -t 20 -blast ${OUT}/spraynpray/${input}.blast --meta -minLength 300
 fi
 
-/home/ark/MAB/bin/HoundSleuth/binstage.v2.sh -i ${DIR}/${input} -o ${OUT}/binarena/${input%.*} -D ${OUT}/binarena -s ${OUT}/spraynpray/spraynpray.csv -m 1000
+/home/ark/MAB/bin/HoundSleuth/binstage.v2.sh -i ${DIR}/${input} -o ${OUT}/binarena/${input%.*} -D ${OUT}/binarena -b ${input%.*} -s ${OUT}/spraynpray/spraynpray.csv -m 1000
 
 mv ${OUT}/binarena/${input%.*}.taxa.tsv ${OUT}/data_table_for_binarena.tsv
 

@@ -7,6 +7,7 @@ function usage() {
 
     Options:
         -i, --input:  input directory
+        -b, --base:   base name of input file
         -o, --out:    output base name
         -s, --snp:    spraynpray output table
         -d, --depth:  coverage information from jgi_summarize_bam_contig_depths
@@ -130,10 +131,10 @@ echo "python3 /home/ark/MAB/bin/HoundSleuth/binarena-combine.py -i ${DIR} -o ${O
 if [[ ${RANK} == genus ]]; then
     if [[ ${SNP} != false ]]; then
         if [[ ${DEPTH} != false ]]; then
-            /home/ark/MAB/bin/HoundSleuth/binstager.py -b ${OUT}.tsv -o ${OUT}.taxa.depth.tsv -m ${MIN} -s ${SNP} -d ${DEPTH} -f ${INPUT}/${BASE}.fa -x ${OUT}
+            /home/ark/MAB/bin/HoundSleuth/binstager.py -b ${OUT}.tsv -o ${OUT}.taxa.depth.tsv -m ${MIN} -s ${SNP} -d ${DEPTH} -f ${INPUT} -x ${OUT}
         else
-            echo "/home/ark/MAB/bin/HoundSleuth/binstager.py -b ${OUT}.tsv -o ${OUT}.taxa.tsv -m ${MIN} -s ${SNP} -f ${INPUT}/${BASE}.fa -x ${OUT}"
-            /home/ark/MAB/bin/HoundSleuth/binstager.py -b ${OUT}.tsv -o ${OUT}.taxa.tsv -m ${MIN} -s ${SNP} -f${INPUT}/${BASE}.fa -x ${OUT}
+            echo "/home/ark/MAB/bin/HoundSleuth/binstager.py -b ${OUT}.tsv -o ${OUT}.taxa.tsv -m ${MIN} -s ${SNP} -f ${INPUT} -x ${OUT}"
+            /home/ark/MAB/bin/HoundSleuth/binstager.py -b ${OUT}.tsv -o ${OUT}.taxa.tsv -m ${MIN} -s ${SNP} -f${INPUT} -x ${OUT}
         fi
     else
         if [[ ${DEPTH} != false ]]; then
@@ -143,14 +144,14 @@ if [[ ${RANK} == genus ]]; then
 elif [[ ${RANK} == species ]]; then
     if [[ ${SNP} != false ]]; then
             if [[ ${DEPTH} != false ]]; then
-                /home/ark/MAB/bin/HoundSleuth/binstager-sp.py -b ${OUT}.tsv -o ${OUT}.taxa.depth.tsv -m ${MIN} -s ${SNP} -d ${DEPTH} -f ${INPUT}/${BASE}.fa -x ${OUT}
+                /home/ark/MAB/bin/HoundSleuth/binstager-sp.py -b ${OUT}.tsv -o ${OUT}.taxa.depth.tsv -m ${MIN} -s ${SNP} -d ${DEPTH} -f ${INPUT} -x ${OUT}
             else
-                echo "/home/ark/MAB/bin/HoundSleuth/binstager.py -b ${OUT}.tsv -o ${OUT}.taxa.tsv -m ${MIN} -s ${SNP} -f ${INPUT}/${BASE}.fa -x ${OUT}"
-                /home/ark/MAB/bin/HoundSleuth/binstager-sp.py -b ${OUT}.tsv -o ${OUT}.taxa.tsv -m ${MIN} -s ${SNP} -f ${INPUT}/${BASE}.fa -x ${OUT}
+                echo "/home/ark/MAB/bin/HoundSleuth/binstager.py -b ${OUT}.tsv -o ${OUT}.taxa.tsv -m ${MIN} -s ${SNP} -f ${INPUT} -x ${OUT}"
+                /home/ark/MAB/bin/HoundSleuth/binstager-sp.py -b ${OUT}.tsv -o ${OUT}.taxa.tsv -m ${MIN} -s ${SNP} -f ${INPUT} -x ${OUT}
             fi
         else
             if [[ ${DEPTH} != false ]]; then
-                /home/ark/MAB/bin/HoundSleuth/binstager-sp.py -b ${OUT}.tsv -o ${OUT}.depth.tsv -m ${MIN} -d ${DEPTH} -f ${INPUT}/${BASE}.fa -x ${OUT}
+                /home/ark/MAB/bin/HoundSleuth/binstager-sp.py -b ${OUT}.tsv -o ${OUT}.depth.tsv -m ${MIN} -d ${DEPTH} -f ${INPUT} -x ${OUT}
             fi
         fi
 fi
