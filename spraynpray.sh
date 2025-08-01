@@ -100,7 +100,7 @@ if [ $? -ne 0 ]; then
         Please forward this message to our team at binfo@midauthorbio.com, with the attached log file, so we can investigate the issue further.
 
         Thanks!
-        Your Friendly Neighborhood Bioinformatician"
+        Your Friendly Neighborhood Bioinformatician 🕸️"
     exit 1
 fi
 conda deactivate

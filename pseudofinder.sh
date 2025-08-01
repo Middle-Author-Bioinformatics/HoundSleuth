@@ -90,8 +90,8 @@ python3 /home/ark/MAB/bin/HoundSleuth/send_email.py \
 
     ${url}
 
-    Cheers!
-    Your Friendly Neighborhood Bioinformatician"
+    Thanks!
+    Your Friendly Neighborhood Bioinformatician 🕸️"
 
 if [ $? -ne 0 ]; then
     echo "Error: send_email.py failed."

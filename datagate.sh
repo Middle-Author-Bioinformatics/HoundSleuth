@@ -29,11 +29,11 @@ python3 /home/ark/MAB/bin/HoundSleuth/send_email.py \
 
     ${name} has submitted a new Datagate package: ${KEY}
 
-    Email: ${email}
-    Note: ${note}
-    Input: ${input}
+    Email: ${email} 🕸️
+    Note: ${note} 🕸️
+    Input: ${input} 🕸️
 
-    MAB Team"
+    🕸"
 
 if [ $? -ne 0 ]; then
     echo "Error: send_email.py failed."

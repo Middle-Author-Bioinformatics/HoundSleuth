@@ -92,7 +92,7 @@ python3 /home/ark/MAB/bin/HoundSleuth/send_email.py \
     Please reach out to ark@midauthorbio.com, or send us a note on https://midauthorbio.com/#contact if you have any questions.
 
     Thanks!
-    MAB Team"
+    Your Friendly Neighborhood Bioinformatician 🕸️"
 
 if [ $? -ne 0 ]; then
     echo "Error: send_email.py failed."
