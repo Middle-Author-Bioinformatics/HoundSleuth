@@ -14,8 +14,7 @@ OUT=/home/ark/MAB/houndsleuth/completed/${ID}-results
 name=$(grep 'Name' ${DIR}/form-data.txt | cut -d ' ' -f2)
 email=$(grep 'Email' ${DIR}/form-data.txt | cut -d ' ' -f2)
 input=$(grep 'Input' ${DIR}/form-data.txt | cut -d ' ' -f3)
-species=$(grep 'Species' ${DIR}/form-data.txt | cut -d ' ' -f3)
-echo $input
+species=$(grep 'Rank' ${DIR}/form-data.txt | cut -d ' ' -f2)
 
 # Check for duplicate contig names in FASTA
 duplicates=$(awk '/^>/{print $1}' "${DIR}/${input}" | sed 's/^>//' | sort | uniq -d)
@@ -81,7 +80,7 @@ fi
 
 
 # check for species mode
-if [ -z "${species}" ]; then
+if [  "${species}" == species ]; then
     echo "Species mode enabled. Filtering results by species."
     /home/ark/MAB/bin/HoundSleuth/binstage.v2.sh -i ${DIR}/${input} -o ${OUT}/binarena/${input%.*} -D ${OUT}/binarena -b ${input%.*} -s ${OUT}/spraynpray/spraynpray.csv -m 1000 -r species
 else
@@ -89,10 +88,8 @@ else
 fi
 
 mv ${OUT}/binarena/${input%.*}.taxa.tsv ${OUT}/data_table_for_binarena.tsv
-
 mkdir -p ${OUT}/genus_level_bins
-
-mv ${OUT}/binarena/*fa ${OUT}/genus_level_bins
+mv ${OUT}/binarena/*fa ${OUT}/${species}_level_bins
 # **************************************************************************************************
 # **************************************************************************************************
 # **************************************************************************************************
