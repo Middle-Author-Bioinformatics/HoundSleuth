@@ -81,10 +81,10 @@ fi
 /home/ark/MAB/bin/HoundSleuth/binstage.v2.sh -i ${DIR}/${input} -o ${OUT}/binarena/${input%.*} -D ${OUT}/binarena -b ${input%.*} -s ${OUT}/spraynpray/spraynpray.csv -m 1000 -r rank
 
 mv ${OUT}/binarena/${input%.*}.taxa.tsv ${OUT}/data_table_for_binarena.tsv
-mkdir -p ${OUT}/${species}_level_bins
-mv ${OUT}/binarena/*fa ${OUT}/${species}_level_bins
-/home/ark/MAB/bin/HoundSleuth/checkm-quality.sh .fa ${OUT}/${species}_level_bins 16
-mv checkm_qaResults ${OUT}/checkm_${species}_summary.txt
+mkdir -p ${OUT}/${rank}_level_bins
+mv ${OUT}/binarena/*fa ${OUT}/${rank}_level_bins
+/home/ark/MAB/bin/HoundSleuth/checkm-quality.sh .fa ${OUT}/${rank}_level_bins 16 ${OUT}
+mv ${OUT}/checkm_qaResults ${OUT}/checkm_${rank}_summary.txt
 
 # **************************************************************************************************
 # **************************************************************************************************
