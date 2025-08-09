@@ -88,7 +88,7 @@ else
 fi
 
 mv ${OUT}/binarena/${input%.*}.taxa.tsv ${OUT}/data_table_for_binarena.tsv
-mkdir -p ${OUT}/genus_level_bins
+mkdir -p ${OUT}/${species}_level_bins
 mv ${OUT}/binarena/*fa ${OUT}/${species}_level_bins
 # **************************************************************************************************
 # **************************************************************************************************
