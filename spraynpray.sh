@@ -84,6 +84,7 @@ fi
 mv ${OUT}/binarena/${input%.*}.taxa.tsv ${OUT}/data_table_for_binarena.tsv
 mkdir -p ${OUT}/${rank}_level_bins
 mv ${OUT}/binarena/*fa ${OUT}/${rank}_level_bins
+mv ${OUT}/*fa ${OUT}/${rank}_level_bins
 conda deactivate
 /home/ark/MAB/bin/HoundSleuth/checkm-quality.sh .fa ${OUT}/${rank}_level_bins 16 ${OUT}
 mv ${OUT}/checkm_qaResults ${OUT}/checkm_${rank}_summary.txt
