@@ -146,7 +146,7 @@ elif [[ ${RANK} == species ]]; then
             if [[ ${DEPTH} != false ]]; then
                 /home/ark/MAB/bin/HoundSleuth/binstager-sp.py -b ${OUT}.tsv -o ${OUT}.taxa.depth.tsv -m ${MIN} -s ${SNP} -d ${DEPTH} -f ${INPUT} -x ${OUT}
             else
-                echo "/home/ark/MAB/bin/HoundSleuth/binstager.py -b ${OUT}.tsv -o ${OUT}.taxa.tsv -m ${MIN} -s ${SNP} -f ${INPUT} -x ${OUT}"
+                echo "/home/ark/MAB/bin/HoundSleuth/binstager-sp.py -b ${OUT}.tsv -o ${OUT}.taxa.tsv -m ${MIN} -s ${SNP} -f ${INPUT} -x ${OUT}"
                 /home/ark/MAB/bin/HoundSleuth/binstager-sp.py -b ${OUT}.tsv -o ${OUT}.taxa.tsv -m ${MIN} -s ${SNP} -f ${INPUT} -x ${OUT}
             fi
         else
