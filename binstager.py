@@ -189,14 +189,3 @@ for i in splitDict.keys():
             out.write(">" + j + "\n" + str(contigs[j]) + "\n")
     out.close()
 
-
-
-
-
-
-
-
-
-
-
-
