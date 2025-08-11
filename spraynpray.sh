@@ -88,6 +88,8 @@ mv ${OUT}/*fa ${OUT}/${rank}_level_bins
 conda deactivate
 /home/ark/MAB/bin/HoundSleuth/checkm-quality.sh .fa ${OUT}/${rank}_level_bins 16 ${OUT}
 mv ${OUT}/checkm_qaResults ${OUT}/checkm_${rank}_summary.txt
+eval "$(/home/ark/miniconda3/bin/conda shell.bash hook)"
+conda activate houndsleuth39
 
 # **************************************************************************************************
 # **************************************************************************************************
