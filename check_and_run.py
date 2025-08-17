@@ -89,7 +89,7 @@ def find_new_folders():
                     print(f"Found new folder ready for processing: {folder_name}")
                     new_folders.append(folder_name)
                 except s3.exceptions.ClientError:
-                    print(form_data_key)
+                    logging.info(f"Folder {folder_name} does not have form-data.txt, skipping.")
                     continue
 
 
