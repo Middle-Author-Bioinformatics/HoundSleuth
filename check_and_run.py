@@ -89,7 +89,9 @@ def find_new_folders():
                     print(f"Found new folder ready for processing: {folder_name}")
                     new_folders.append(folder_name)
                 except s3.exceptions.ClientError:
+                    print(form_data_key)
                     continue
+
 
         logging.info(f"Checked {checked} folders. Found {len(new_folders)} new folders.")
         return new_folders
