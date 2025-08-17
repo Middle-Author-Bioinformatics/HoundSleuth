@@ -66,6 +66,8 @@ def log_processed_folders(folders):
 def find_new_folders():
     new_folders = []
     processed_folders = get_processed_folders()
+    print("")
+    print(processed_folders)
     checked = 0
 
     try:
@@ -76,6 +78,7 @@ def find_new_folders():
 
             for prefix_obj in response['CommonPrefixes']:
                 folder_name = prefix_obj['Prefix'].rstrip('/')
+                print(folder_name)
                 checked += 1
                 if folder_name in processed_folders:
                     continue
