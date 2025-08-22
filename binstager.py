@@ -162,6 +162,7 @@ for i in summary:
 
                 summaryDict[ls[0]] = winningTaxa
                 splitDict[winningTaxa].append(ls[0])
+                print(ls[0], winningTaxa)
 
 
 depthsDict = defaultdict(lambda: '-')
@@ -182,9 +183,11 @@ for i in binarena:
         out.write(i.rstrip() + "\tdepth\ttaxa\n")
 out.close()
 
+print("\n\n\n")
 for i in splitDict.keys():
     out = open(args.x + "." + i + ".fa", "w")
     for j in splitDict[i]:
+        print(j)
         if j in contigs.keys():
             out.write(">" + j + "\n" + str(contigs[j]) + "\n")
     out.close()
