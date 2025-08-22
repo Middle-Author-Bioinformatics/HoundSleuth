@@ -158,6 +158,7 @@ for i in summary:
 
                 summaryDict[ls[0].split(" ")[0]] = winningTaxa
                 splitDict[winningTaxa].append(ls[0].split(" ")[0])
+                print("Contig: " + ls[0].split(" ")[0] + " Taxa: " + winningTaxa + " Length: " + str(ls[1]))
 
 depthsDict = defaultdict(lambda: '-')
 if args.d != "NA":
