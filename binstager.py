@@ -159,8 +159,8 @@ for i in summary:
                     else:
                         winningTaxa = 'unclassified'
 
-                summaryDict[ls[0]] = winningTaxa
-                splitDict[winningTaxa].append(ls[0])
+                summaryDict[ls[0].split(" ")[0]] = winningTaxa
+                splitDict[winningTaxa].append(ls[0].split(" ")[0])
                 print(ls[0], winningTaxa)
 
 
