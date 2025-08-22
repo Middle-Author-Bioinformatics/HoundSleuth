@@ -133,7 +133,6 @@ for i in summary:
                 for j in taxa:
                     tax = (j.split(" ")[0])
                     tax = tax.split(";")[0]
-                    print(tax)
                     if tax in ["uncultured", "unclassified", "unknown", "", "bacterium", "glutamine",
                                "glutamine-hydrolyzing", "2Fe-2S", "NADP", "NADH", "glutamate--ammonia",
                                "acetyl-CoA-carboxylase", "protein-PII", "Bacteria", "bacterium", "Bacterium",
