@@ -9,6 +9,9 @@ KEY=$1
 ID=$KEY
 DIR=/home/ark/MAB/houndsleuth/${ID}
 OUT=/home/ark/MAB/houndsleuth/completed/${ID}-results
+NCBI_ASM_TSV="/home/ark/databases/ncbi_assembly_info.tsv"
+NCBI2GENOMES="/home/ark/MAB/bin/HoundSleuth/ncbi2genomes.py"
+
 
 mkdir -p ${OUT}
 
@@ -52,6 +55,52 @@ while read file; do echo ${DIR}/$file >> ${OUT}/genome_paths.txt; done < ${OUT}/
 while read file; do echo ${DIR}/$file >> ${OUT}/proteome_paths.txt; done < ${OUT}/proteomes.txt
 while read file; do echo ${DIR}/$file >> ${OUT}/GBK_paths.txt; done < ${OUT}/GBKs.txt
 
+# If a user uploaded an accessions file, capture the full path
+if [[ -n "$ACC" && -s "${DIR}/${ACC}" ]]; then
+    ACCESSIONS_UPLOADED="${DIR}/${ACC}"
+fi
+
+# If Genus is provided, use ncbi2genomes.py to pull accessions
+if [[ -n "${genus}" ]]; then
+    echo "Generating accessions from taxonomy: Genus='${genus}', Species='${species}', Strain='${strains}'"
+    mkdir -p "${OUT}"
+    : > "${ACCESSIONS_FROM_TAXA}"
+    if [[ -f "${NCBI2GENOMES}" ]]; then
+        python3 "${NCBI2GENOMES}" \
+            -n "${NCBI_ASM_TSV}" \
+            -g "${genus}" \
+            -s "${species:-.}" \
+            -t "${strains:-.}" \
+            -o  "${OUT}/ncbi2genomes.matches.csv" \
+            -o2 "${ACCESSIONS_FROM_TAXA}" || {
+                echo "Warning: ncbi2genomes.py failed; continuing without taxonomy-derived accessions."
+                : > "${ACCESSIONS_FROM_TAXA}"
+            }
+    else
+        echo "Warning: ncbi2genomes.py not found at ${NCBI2GENOMES}; continuing without taxonomy-derived accessions."
+        : > "${ACCESSIONS_FROM_TAXA}"
+    fi
+else
+    : > "${ACCESSIONS_FROM_TAXA}"
+fi
+
+# Merge uploaded + taxonomy-derived accessions; uniq to avoid duplicates
+: > "${ACCESSIONS_FINAL}"
+if [[ -s "${ACCESSIONS_FROM_TAXA}" ]]; then
+    awk 'NF' "${ACCESSIONS_FROM_TAXA}" >> "${ACCESSIONS_FINAL}"
+fi
+if [[ -n "${ACCESSIONS_UPLOADED}" && -s "${ACCESSIONS_UPLOADED}" ]]; then
+    awk 'NF' "${ACCESSIONS_UPLOADED}" >> "${ACCESSIONS_FINAL}"
+fi
+
+# De-duplicate if we added anything
+if [[ -s "${ACCESSIONS_FINAL}" ]]; then
+    sort -u "${ACCESSIONS_FINAL}" -o "${ACCESSIONS_FINAL}"
+    echo "Prepared merged accessions list: ${ACCESSIONS_FINAL}"
+else
+    echo "No accessions provided via taxonomy or uploaded file."
+fi
+
 # Prepare GToTree arguments
 GToTree_CMD="GToTree"
 
@@ -73,10 +122,11 @@ else
     echo "Warning: Genome file is empty, skipping this input."
 fi
 
-if [[ -n "$ACC" && -s "${DIR}/${ACC}" ]]; then
-    GToTree_CMD+=" -a ${DIR}/${ACC}"
+# Use merged accessions if we have them
+if [[ -s "${ACCESSIONS_FINAL}" ]]; then
+    GToTree_CMD+=" -a ${ACCESSIONS_FINAL}"
 else
-    echo "Warning: Accessions file is empty or not found, skipping this input."
+    echo "Warning: No accessions (merged) available; skipping -a input."
 fi
 
 # Ensure at least one input file is provided
