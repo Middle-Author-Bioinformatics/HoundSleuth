@@ -16,6 +16,9 @@ name=$(grep 'Name' ${DIR}/form-data.txt | cut -d ' ' -f2)
 email=$(grep 'Email' ${DIR}/form-data.txt | cut -d ' ' -f2)
 SCG=$(grep 'SCG' ${DIR}/form-data.txt | cut -d ' ' -f3)
 ACC=$(grep 'Accessions' ${DIR}/form-data.txt | cut -d ' ' -f3)
+genus=$(grep 'Genus' ${DIR}/form-data.txt | cut -d ' ' -f2)
+species=$(grep 'Species' ${DIR}/form-data.txt | cut -d ' ' -f2)
+strains=$(grep 'Strain' ${DIR}/form-data.txt | cut -d ' ' -f2)
 echo $SCG
 echo $ACC
 echo
