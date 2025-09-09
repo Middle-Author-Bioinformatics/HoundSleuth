@@ -69,26 +69,26 @@ if [[ -n "${genus}" ]]; then
         -g "${genus}" \
         -s "${species:-.}" \
         -t "${strains:-.}" \
-        -o  "${OUT}/ncbi2genomes.matches.csv" \
-        -o2 "${OUT}/ncbi2genomes.accessions.tsv"
+        -o  "${OUT}/ncbi.matches.csv" \
+        -o2 "${OUT}/ncbi.accessions.tsv"
 else
     echo "No Genus provided; skipping taxonomy-derived accessions."
 fi
 
 # Merge uploaded + taxonomy-derived accessions; uniq to avoid duplicates
 #: > "${ACCESSIONS_FINAL}"
-if [[ -f "${OUT}/ncbi2genomes.accessions.tsv" ]]; then
-    awk 'NF' "${OUT}/ncbi2genomes.accessions.tsv" >> "${OUT}/ncbi2genomes.accessions.final.tsv"
+if [[ -f "${OUT}/ncbi.accessions.tsv" ]]; then
+    awk 'NF' "${OUT}/ncbi.accessions.tsv" >> "${OUT}/ncbi.accessions.final.tsv"
 fi
 
 if [[ -s "${ACCESSIONS_UPLOADED}" ]]; then
-    awk 'NF' "${ACCESSIONS_UPLOADED}" >> "${OUT}/ncbi2genomes.accessions.final.tsv"
+    awk 'NF' "${ACCESSIONS_UPLOADED}" >> "${OUT}/ncbi.accessions.final.tsv"
 fi
 
 # De-duplicate if we added anything
-if [[ -s "${OUT}/ncbi2genomes.accessions.final.tsv" ]]; then
-    sort -u "${OUT}/ncbi2genomes.accessions.final.tsv" -o "${OUT}/ncbi2genomes.accessions.final.sorted.tsv"
-    echo "Prepared merged accessions list: ${OUT}/ncbi2genomes.accessions.final.sorted.tsv"
+if [[ -s "${OUT}/ncbi.accessions.final.tsv" ]]; then
+    sort -u "${OUT}/ncbi.accessions.final.tsv" -o "${OUT}/ncbi.final.sorted.tsv"
+    echo "Prepared merged accessions list: ${OUT}/ncbi.final.sorted.tsv"
 else
     echo "No accessions provided via taxonomy or uploaded file."
 fi
