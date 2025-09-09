@@ -64,37 +64,31 @@ fi
 if [[ -n "${genus}" ]]; then
     echo "Generating accessions from taxonomy: Genus='${genus}', Species='${species}', Strain='${strains}'"
     mkdir -p "${OUT}"
-#    : > "${ACCESSIONS_FROM_TAXA}"
-    if [[ -f "${NCBI2GENOMES}" ]]; then
-        python3 "${NCBI2GENOMES}" \
-            -n "${NCBI_ASM_TSV}" \
-            -g "${genus}" \
-            -s "${species:-.}" \
-            -t "${strains:-.}" \
-            -o  "${OUT}/ncbi2genomes.matches.csv" \
-            -o2 "${ACCESSIONS_FROM_TAXA}"
-    else
-        echo "Warning: ncbi2genomes.py not found at ${NCBI2GENOMES}; continuing without taxonomy-derived accessions."
-#        : > "${ACCESSIONS_FROM_TAXA}"
-    fi
+    python3 "${NCBI2GENOMES}" \
+        -n "${NCBI_ASM_TSV}" \
+        -g "${genus}" \
+        -s "${species:-.}" \
+        -t "${strains:-.}" \
+        -o  "${OUT}/ncbi2genomes.matches.csv" \
+        -o2 "${OUT}/ncbi2genomes.accessions.tsv"
 else
     echo "No Genus provided; skipping taxonomy-derived accessions."
-#    : > "${ACCESSIONS_FROM_TAXA}"
 fi
 
 # Merge uploaded + taxonomy-derived accessions; uniq to avoid duplicates
 #: > "${ACCESSIONS_FINAL}"
-if [[ -s "${ACCESSIONS_FROM_TAXA}" ]]; then
-    awk 'NF' "${ACCESSIONS_FROM_TAXA}" >> "${ACCESSIONS_FINAL}"
+if [[ -f "${OUT}/ncbi2genomes.accessions.tsv" ]]; then
+    awk 'NF' "${OUT}/ncbi2genomes.accessions.tsv" >> "${OUT}/ncbi2genomes.accessions.final.tsv"
 fi
-if [[ -n "${ACCESSIONS_UPLOADED}" && -s "${ACCESSIONS_UPLOADED}" ]]; then
-    awk 'NF' "${ACCESSIONS_UPLOADED}" >> "${ACCESSIONS_FINAL}"
+
+if [[ -s "${ACCESSIONS_UPLOADED}" ]]; then
+    awk 'NF' "${ACCESSIONS_UPLOADED}" >> "${OUT}/ncbi2genomes.accessions.final.tsv"
 fi
 
 # De-duplicate if we added anything
-if [[ -s "${ACCESSIONS_FINAL}" ]]; then
-    sort -u "${ACCESSIONS_FINAL}" -o "${ACCESSIONS_FINAL}"
-    echo "Prepared merged accessions list: ${ACCESSIONS_FINAL}"
+if [[ -s "${OUT}/ncbi2genomes.accessions.final.tsv" ]]; then
+    sort -u "${OUT}/ncbi2genomes.accessions.final.tsv" -o "${OUT}/ncbi2genomes.accessions.final.sorted.tsv"
+    echo "Prepared merged accessions list: ${OUT}/ncbi2genomes.accessions.final.sorted.tsv"
 else
     echo "No accessions provided via taxonomy or uploaded file."
 fi
