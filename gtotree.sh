@@ -64,7 +64,7 @@ fi
 if [[ -n "${genus}" ]]; then
     echo "Generating accessions from taxonomy: Genus='${genus}', Species='${species}', Strain='${strains}'"
     mkdir -p "${OUT}"
-    : > "${ACCESSIONS_FROM_TAXA}"
+#    : > "${ACCESSIONS_FROM_TAXA}"
     if [[ -f "${NCBI2GENOMES}" ]]; then
         python3 "${NCBI2GENOMES}" \
             -n "${NCBI_ASM_TSV}" \
@@ -72,10 +72,7 @@ if [[ -n "${genus}" ]]; then
             -s "${species:-.}" \
             -t "${strains:-.}" \
             -o  "${OUT}/ncbi2genomes.matches.csv" \
-            -o2 "${ACCESSIONS_FROM_TAXA}" || {
-                echo "Warning: ncbi2genomes.py failed; continuing without taxonomy-derived accessions."
-#                : > "${ACCESSIONS_FROM_TAXA}"
-            }
+            -o2 "${ACCESSIONS_FROM_TAXA}"
     else
         echo "Warning: ncbi2genomes.py not found at ${NCBI2GENOMES}; continuing without taxonomy-derived accessions."
 #        : > "${ACCESSIONS_FROM_TAXA}"
