@@ -87,8 +87,8 @@ fi
 
 # De-duplicate if we added anything
 if [[ -s "${OUT}/ncbi.accessions.final.tsv" ]]; then
-    sort -u "${OUT}/ncbi.accessions.final.tsv" -o "${OUT}/ncbi.final.sorted.tsv"
-    echo "Prepared merged accessions list: ${OUT}/ncbi.final.sorted.tsv"
+    sort -u "${OUT}/ncbi.accessions.final.tsv" -o "${OUT}/ncbi.accessions.final.sorted.tsv"
+    echo "Prepared merged accessions list: ${OUT}/ncbi.accessions.final.sorted.tsv"
 else
     echo "No accessions provided via taxonomy or uploaded file."
 fi
@@ -115,8 +115,8 @@ else
 fi
 
 # Use merged accessions if we have them
-if [[ -s "${OUT}/ncbi2genomes.accessions.final.tsv" ]]; then
-    GToTree_CMD+=" -a ${OUT}/ncbi2genomes.accessions.final.tsv"
+if [[ -s "${OUT}/ncbi.accessions.final.sorted.tsv" ]]; then
+    GToTree_CMD+=" -a ${OUT}/ncbi.accessions.final.sorted.tsv"
 else
     echo "Warning: No accessions (merged) available; skipping -a input."
 fi
