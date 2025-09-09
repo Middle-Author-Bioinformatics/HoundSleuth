@@ -115,8 +115,8 @@ else
 fi
 
 # Use merged accessions if we have them
-if [[ -s "${ACCESSIONS_FINAL}" ]]; then
-    GToTree_CMD+=" -a ${ACCESSIONS_FINAL}"
+if [[ -s "${OUT}/ncbi2genomes.accessions.final.tsv" ]]; then
+    GToTree_CMD+=" -a ${OUT}/ncbi2genomes.accessions.final.tsv"
 else
     echo "Warning: No accessions (merged) available; skipping -a input."
 fi
