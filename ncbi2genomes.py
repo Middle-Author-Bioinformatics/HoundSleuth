@@ -4,6 +4,7 @@ import argparse
 import csv
 import re
 from Bio import SeqIO
+from collections import defaultdict
 
 def parse_args():
     parser = argparse.ArgumentParser(description="pull relevant rows from ncbi_assemly_info.tsv file")
@@ -25,6 +26,8 @@ def load_fasta_headers(fasta_file):
 def main():
     args = parse_args()
 
+    dupDict = defaultdict(list)
+
     # Open the NCBI assembly info file
     ncbi = open(args.ncbi, "r")
 
@@ -32,13 +35,14 @@ def main():
 
     out = open(args.output, "w")
     out.write("assembly\tbioproject\tbiosample\torganism\tstrain\tassembly_level\tgenome_rep\tseq_release\tasm_name\tasm_submitter\tgbk_accession\texcluded\tgroup\tgenome_size\tperc_gapped\tgc\treplicons\tscaffolds\tcontigs\tannotation_provider\tgenes\tcds\tnoncoding\n")
-    out2_list = []  # collect accessions here to deduplicate later
     for i in ncbi:
         if re.match(r'^#', i):
             pass
         else:
             ls = i.rstrip().split("\t")
             assembly = ls[0]
+            db = assembly.split("_")[0]
+            acc = assembly.split("_")[1]
             bioproject = ls[1]
             biosample = ls[2]
             organism = ls[7]
@@ -78,7 +82,8 @@ def main():
                                           f"{replicons}\t{scaffolds}\t{contigs}\t"
                                           f"{annotation_provider}\t{genes}\t{cds}\t{noncoding}\n")
 
-                                out2_list.append(assembly)
+                                # out2.write(f"{assembly}\n")
+                                dupDict[acc].append(db)
 
                             else:
                                 continue
@@ -91,7 +96,8 @@ def main():
                                       f"{replicons}\t{scaffolds}\t{contigs}\t"
                                       f"{annotation_provider}\t{genes}\t{cds}\t{noncoding}\n")
 
-                            out2_list.append(assembly)
+                            # out2.write(f"{assembly}\n")
+                            dupDict[acc].append(db)
                     else:
                         continue
                 else:
@@ -102,48 +108,18 @@ def main():
                               f"{replicons}\t{scaffolds}\t{contigs}\t"
                               f"{annotation_provider}\t{genes}\t{cds}\t{noncoding}\n")
 
-                    out2_list.append(assembly)
+                    # out2.write(f"{assembly}\n")
+                    dupDict[acc].append(db)
 
             else:
                 continue
 
-
-    # === Deduplicate accessions for output2 (prefer RefSeq GCF over GenBank GCA when paired) ===
-    def _core_key(acc: str) -> str:
-        m = re.match(r'^(GCF|GCA)_(\d+)(?:\.\d+)?$', acc)
-        return m.group(2) if m else acc
-
-    def _version(acc: str) -> int:
-        m = re.match(r'^[A-Z]+_\d+(?:\.(\d+))?$', acc)
-        return int(m.group(1)) if m and m.group(1) else -1
-
-    # Map core -> set of observed accessions (e.g., {'GCF_000123.1','GCA_000123.1'})
-    by_core = {}
-    core_order = []  # preserve first-seen order of cores
-    for acc in out2_list:
-        core = _core_key(acc)
-        if core not in by_core:
-            by_core[core] = set()
-            core_order.append(core)
-        by_core[core].add(acc)
-
-    # Choose one per core: prefer GCF_*; if multiple with same prefix, choose highest version
-    def _pick_one(accs: set[str]) -> str:
-        accs = list(accs)
-        # Sort by: prefix preference (GCF first), then version descending, then original string
-        def key(a):
-            pref = 0 if a.startswith('GCF_') else (1 if a.startswith('GCA_') else 2)
-            return (pref, -_version(a), a)
-        accs.sort(key=key)
-        return accs[0]
-
-    unique_accessions = [_pick_one(by_core[c]) for c in core_order]
-
-    # Write out the final deduped list
-    out2.seek(0)
-    out2.truncate(0)
-    for acc in unique_accessions:
-        out2.write(f"{acc}\\n")
+    for i in dupDict.keys():
+        if "GCF" in dupDict[i]:
+            out2.write(f"GCF_{i}\n")
+        elif "GCA" in dupDict[i]:
+            out2.write(f"GCA_{i}\n")
+    out2.close()
 
 if __name__ == "__main__":
     main()
