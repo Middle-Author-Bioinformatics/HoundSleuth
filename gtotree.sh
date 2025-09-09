@@ -74,18 +74,19 @@ if [[ -n "${genus}" ]]; then
             -o  "${OUT}/ncbi2genomes.matches.csv" \
             -o2 "${ACCESSIONS_FROM_TAXA}" || {
                 echo "Warning: ncbi2genomes.py failed; continuing without taxonomy-derived accessions."
-                : > "${ACCESSIONS_FROM_TAXA}"
+#                : > "${ACCESSIONS_FROM_TAXA}"
             }
     else
         echo "Warning: ncbi2genomes.py not found at ${NCBI2GENOMES}; continuing without taxonomy-derived accessions."
-        : > "${ACCESSIONS_FROM_TAXA}"
+#        : > "${ACCESSIONS_FROM_TAXA}"
     fi
 else
-    : > "${ACCESSIONS_FROM_TAXA}"
+    echo "No Genus provided; skipping taxonomy-derived accessions."
+#    : > "${ACCESSIONS_FROM_TAXA}"
 fi
 
 # Merge uploaded + taxonomy-derived accessions; uniq to avoid duplicates
-: > "${ACCESSIONS_FINAL}"
+#: > "${ACCESSIONS_FINAL}"
 if [[ -s "${ACCESSIONS_FROM_TAXA}" ]]; then
     awk 'NF' "${ACCESSIONS_FROM_TAXA}" >> "${ACCESSIONS_FINAL}"
 fi
