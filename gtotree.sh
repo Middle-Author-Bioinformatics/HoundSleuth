@@ -76,9 +76,14 @@ else
 fi
 
 # Merge uploaded + taxonomy-derived accessions; uniq to avoid duplicates
-#: > "${ACCESSIONS_FINAL}"
-if [[ -f "${OUT}/ncbi.accessions.tsv" ]]; then
-    awk 'NF' "${OUT}/ncbi.accessions.tsv" >> "${OUT}/ncbi.accessions.final.tsv"
+if [[ -s "${OUT}/ncbi.accessions.tsv" ]]; then
+    # If there are more than 1000 lines, randomly subsample to 1000
+    if (( $(wc -l < "${OUT}/ncbi.accessions.tsv") > 1000 )); then
+        shuf -n 1000 "${OUT}/ncbi.accessions.tsv" > "${OUT}/ncbi.accessions.sub.tsv"
+    else
+        cp "${OUT}/ncbi.accessions.tsv" "${OUT}/ncbi.accessions.sub.tsv"
+    fi
+    awk 'NF' "${OUT}/ncbi.accessions.sub.tsv" >> "${OUT}/ncbi.accessions.final.tsv"
 fi
 
 if [[ -s "${ACCESSIONS_UPLOADED}" ]]; then
