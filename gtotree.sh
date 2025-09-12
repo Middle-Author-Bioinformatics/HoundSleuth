@@ -69,7 +69,7 @@ if [[ -n "${genus}" ]]; then
         -g "${genus}" \
         -s "${species:-.}" \
         -t "${strains:-.}" \
-        -o  "${OUT}/ncbi.matches.csv" \
+        -o  "${OUT}/ncbi.matches.tsv" \
         -o2 "${OUT}/ncbi.accessions.tsv"
 else
     echo "No Genus provided; skipping taxonomy-derived accessions."
@@ -141,6 +141,11 @@ GToTree_CMD+=" -H ${SCG} -j 16 -M 16 -c 0.5 -G 0.2 -B -t -o ${OUT}/GTTout"
 echo "$GToTree_CMD"
 eval "$GToTree_CMD"
 
+# remove the generated blast files
+rm -f "${OUT}/ncbi.accessions.final.tsv" "${OUT}/ncbi.accessions.sub.tsv" "${OUT}/ncbi.accessions.tsv"
+rm -f "${OUT}/genome_paths.txt" "${OUT}/proteome_paths.txt" "${OUT}/GBK_paths.txt"
+rm -f "${OUT}/genomes.txt" "${OUT}/proteomes.txt" "${OUT}/GBKs.txt"
+
 # **************************************************************************************************
 # **************************************************************************************************
 # **************************************************************************************************
@@ -188,6 +193,8 @@ python3 /home/ark/MAB/bin/HoundSleuth/send_email.py \
     Your GToTree results are available for download using the link below. The link will expire in 24 hours.
 
     ${url}
+
+    Please note if your selected Genus/Species names yielded more than 1000 accessions, a random subset of 1000 was used to generate the phylogenomic tree.
 
     Please visit github.com/AstrobioMike/GToTree for documentation.
 
