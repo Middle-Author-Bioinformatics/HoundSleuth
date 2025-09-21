@@ -6,8 +6,14 @@ Completion and redundancy results written to file: checkm_qaResults\n"
   exit
 fi
 
-checkm tree -t $3 -x $1 $2 $4/checkm-output/
-checkm tree_qa $4/checkm-output/
-checkm lineage_set $4/checkm-output/ $4/checkm-markers
-checkm analyze -t $3 -x $1 $4/checkm-output $2 $4/checkm-output/
-checkm qa -t $3 -o 1 -f $4/checkm_qaResults $4/checkm-markers $4/checkm-output/
+OUTDIR=$4
+THREADS=$3
+BINDIR=$2
+EXT=$1
+
+
+checkm tree -t ${THREADS} -x ${EXT} ${BINDIR} ${OUTDIR}/checkm-output/
+checkm tree_qa ${OUTDIR}/checkm-output/
+checkm lineage_set ${OUTDIR}/checkm-output/ ${OUTDIR}/checkm-markers
+checkm analyze -t ${THREADS} -x ${EXT} ${OUTDIR}/checkm-markers ${BINDIR} ${OUTDIR}/checkm-output/
+checkm qa -t ${THREADS} -o 1 -f ${OUTDIR}/checkm_qaResults ${OUTDIR}/checkm-markers ${OUTDIR}/checkm-output/
