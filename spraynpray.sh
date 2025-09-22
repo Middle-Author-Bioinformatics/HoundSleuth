@@ -85,7 +85,15 @@ mv ${OUT}/binarena/${input%.*}.taxa.tsv ${OUT}/data_table_for_binarena.tsv
 mkdir -p ${OUT}/${rank}_level_bins
 mv ${OUT}/binarena/*fa ${OUT}/${rank}_level_bins
 mv ${OUT}/*fa ${OUT}/${rank}_level_bins
+mv ${OUT}/spraynpray/spraynpray.csv ${OUT}/spraynpray.perContig.csv
+mv ${OUT}/spraynpray/spraynpray-top1.csv ${OUT}/spraynpray.perORF.csv
+mv ${OUT}/*fa ${OUT}/${rank}_level_bins
+rm -rf ${OUT}/binarena
+rm -rf ${OUT}/checkm-markers
+rm -rf ${OUT}/checkm-output
+rm -rf ${OUT}/spraynpray
 conda deactivate
+
 /home/ark/MAB/bin/HoundSleuth/checkm-quality.sh .fa ${OUT}/${rank}_level_bins 16 ${OUT}
 mv ${OUT}/checkm_qaResults ${OUT}/checkm_${rank}_summary.txt
 eval "$(/home/ark/miniconda3/bin/conda shell.bash hook)"
