@@ -143,6 +143,9 @@ for i in summary:
                     elif tax == "Candidatus":
                         tax = j.split(" ")[0] + "." + j.split(" ")[1]
 
+                    elif tax == "candidate":
+                        tax = j.split(" ")[0] + "." + j.split(" ")[1] + "." + j.split(" ")[2]
+
                     taxaDict[tax].append(tax)
 
                 taxaDict2 = defaultdict(lambda: '-')
