@@ -46,6 +46,12 @@ def main():
             bioproject = ls[1]
             biosample = ls[2]
             organism = ls[7]
+            genus = organism.split(" ")[0]
+            if genus == "Candidatus":
+                genus = organism.split(" ")[1]
+                species = organism.split(" ")[2] if len(organism.split(" ")) > 2 else ""
+            else:
+                species = organism.split(" ")[1] if len(organism.split(" ")) > 1 else ""
             strain = ls[8]
             assembly_level = ls[11]
             genome_rep = ls[13]
@@ -65,11 +71,11 @@ def main():
             genes = ls[34]
             cds = ls[35]
             noncoding = ls[36]
-            if re.search(args.genera.lower(), organism.lower()): # genera is always provided as it is mandatory
+            if re.search(args.genera.lower(), genus.lower()): # genera is always provided as it is mandatory
 
                 if len(args.species.lower()) > 1: # species name provided
 
-                    if re.search(args.species.lower(), organism.lower()): # but does it match?
+                    if re.search(args.species.lower(), species.lower()): # but does it match?
 
                         if len(args.strain) > 1: # strain name provided
 
