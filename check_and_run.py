@@ -38,7 +38,7 @@ BUCKET_NAME = 'breseqbucket'
 PREFIX_SCRIPT_MAP = {
     'pseudofinder-': '/home/ark/MAB/bin/HoundSleuth/pseudofinder.sh',
     'spraynpray-': '/home/ark/MAB/bin/HoundSleuth/spraynpray.sh',
-    'gtotree-': '/home/ark/MAB/bin/HoundSleuth/gtotree.sh',
+    'gtotree-': '/home/ark/MAB/bin/HoundSleuth/gtotree.v2.sh',
     'fegenie-': '/home/ark/MAB/bin/HoundSleuth/fegenie.sh',
     'mhcscan-': '/home/ark/MAB/bin/HoundSleuth/mhcscan.sh',
     # 'qiime2-': '/home/ark/MAB/bin/HoundSleuth/qiime2.sh',
