@@ -13,7 +13,7 @@ NCBI_ASM_TSV="/home/ark/databases/ncbi_assembly_info.tsv"
 NCBI2GENOMES="/home/ark/MAB/bin/HoundSleuth/ncbi2genomes.py"
 
 # Path to file containing valid bypass codes (CSV: email,code per line)
-CODES_FILE="/home/ark/MAB/houndsleuth/valid_codes.txt"
+CODES_FILE="/home/ark/MAB/bin/HoundSleuth/valid_codes.csv"
 
 mkdir -p ${OUT}
 
