@@ -71,7 +71,7 @@ def main():
             genes = ls[34]
             cds = ls[35]
             noncoding = ls[36]
-            if re.search(args.genera.lower(), genus.lower()): # genera is always provided as it is mandatory
+            if re.search(args.genera, genus): # genera is always provided as it is mandatory
                 print(genus)
                 if len(args.species.lower()) > 1: # species name provided
 
