@@ -52,7 +52,8 @@ def main():
     presigned_url = generate_presigned_url(bucket_name, output_key, expiration)
     # Example: After generating the pre-signed URL
     short_url = shorten_url(presigned_url)
-    print(short_url)
+    # print(short_url)
+    print(presigned_url)
 
 if __name__ == "__main__":
     main()
