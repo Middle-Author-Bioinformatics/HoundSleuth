@@ -15,6 +15,7 @@ name=$(grep 'Name' ${DIR}/form-data.txt | cut -d ' ' -f2)
 email=$(grep 'Email' ${DIR}/form-data.txt | cut -d ' ' -f2)
 input=$(grep 'Input' ${DIR}/form-data.txt | cut -d ' ' -f3)
 rank=$(grep 'Rank' ${DIR}/form-data.txt | cut -d ' ' -f2)
+table=$(grep 'Translation' ${DIR}/form-data.txt | cut -d ' ' -f3)
 
 # Check for duplicate contig names in FASTA
 duplicates=$(awk '/^>/{print $1}' "${DIR}/${input}" | sed 's/^>//' | sort | uniq -d)
@@ -73,10 +74,11 @@ mkdir -p ${OUT}/spraynpray
 
 # checking if file exists:
 if [ ! -f ${DIR}/${input}.blast ]; then
-    /home/ark/MAB/bin/SprayNPray/spray-and-pray.py -g ${DIR}/${input} -dir ${OUT}/spraynpray -out spraynpray  -ref /home/ark/databases/nr.dmnd -hits 1 -t 20 --meta -minLength 300
+    echo /home/ark/MAB/bin/SprayNPray/spray-and-pray.py -g ${DIR}/${input} -dir ${OUT}/spraynpray -out spraynpray  -ref /home/ark/databases/nr.dmnd -hits 1 -t 20 --meta -minLength 300 -table ${table}
+    /home/ark/MAB/bin/SprayNPray/spray-and-pray.py -g ${DIR}/${input} -dir ${OUT}/spraynpray -out spraynpray  -ref /home/ark/databases/nr.dmnd -hits 1 -t 20 --meta -minLength 300 -table ${table}
 else
-    echo /home/ark/MAB/bin/SprayNPray/spray-and-pray.py -g ${DIR}/${input} -dir ${OUT}/spraynpray -out spraynpray -ref /home/ark/databases/nr.dmnd -hits 1 -t 20 -blast ${DIR}/${input}.blast --meta -minLength 300
-    /home/ark/MAB/bin/SprayNPray/spray-and-pray.py -g ${DIR}/${input} -dir ${OUT}/spraynpray -out spraynpray -ref /home/ark/databases/nr.dmnd -hits 1 -t 20 -blast  ${DIR}/${input}.blast --meta -minLength 300
+    echo /home/ark/MAB/bin/SprayNPray/spray-and-pray.py -g ${DIR}/${input} -dir ${OUT}/spraynpray -out spraynpray -ref /home/ark/databases/nr.dmnd -hits 1 -t 20 -blast ${DIR}/${input}.blast --meta -minLength 300 -table ${table}
+    /home/ark/MAB/bin/SprayNPray/spray-and-pray.py -g ${DIR}/${input} -dir ${OUT}/spraynpray -out spraynpray -ref /home/ark/databases/nr.dmnd -hits 1 -t 20 -blast  ${DIR}/${input}.blast --meta -minLength 300 -table ${table}
 fi
 
 /home/ark/MAB/bin/HoundSleuth/binstage.v2.sh -i ${DIR}/${input} -o ${OUT}/binarena/${input%.*} -D ${OUT}/binarena -b ${input%.*} -s ${OUT}/spraynpray/spraynpray.csv -m 1000 -r ${rank}
