@@ -87,7 +87,11 @@ mv ${OUT}/binarena/${input%.*}.taxa.tsv ${OUT}/data_table_for_binarena.tsv
 mkdir -p ${OUT}/${rank}_level_bins
 mv ${OUT}/binarena/*fa ${OUT}/${rank}_level_bins
 mv ${OUT}/*fa ${OUT}/${rank}_level_bins
-mv ${OUT}/spraynpray/spraynpray.csv ${OUT}/spraynpray.perContig.csv
+mv ${OUT}/spraynpray/spraynpray.csv ${OUT}/spraynpray.species.csv
+mv ${OUT}/spraynpray/spraynpray.genus.csv ${OUT}/spraynpray.genus.csv
+mv ${OUT}/spraynpray/spraynpray.class.csv ${OUT}/spraynpray.class.csv
+mv ${OUT}/spraynpray/spraynpray.phylum.csv ${OUT}/spraynpray.phylum.csv
+mv ${OUT}/spraynpray/spraynpray.domain.csv ${OUT}/spraynpray.domain.csv
 mv ${OUT}/spraynpray/spraynpray-top1.csv ${OUT}/spraynpray.perORF.csv
 mv ${OUT}/*fa ${OUT}/${rank}_level_bins
 rm -rf ${OUT}/binarena
