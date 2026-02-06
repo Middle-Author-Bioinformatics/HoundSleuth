@@ -87,6 +87,9 @@ mv ${OUT}/binarena/${input%.*}.taxa.tsv ${OUT}/data_table_for_binarena.tsv
 mkdir -p ${OUT}/${rank}_level_bins
 mv ${OUT}/binarena/*fa ${OUT}/${rank}_level_bins
 mv ${OUT}/*fa ${OUT}/${rank}_level_bins
+mkdir -p ${OUT}/${rank}_level_bins/host_contamination
+/home/ark/MAB/bin/MAB_scripts/taxonsluice.sh "${OUT}/${rank}_level_bins"
+
 mv ${OUT}/spraynpray/spraynpray.csv ${OUT}/spraynpray.species.csv
 mv ${OUT}/spraynpray/spraynpray.genus.csv ${OUT}/spraynpray.genus.csv
 mv ${OUT}/spraynpray/spraynpray.class.csv ${OUT}/spraynpray.class.csv
