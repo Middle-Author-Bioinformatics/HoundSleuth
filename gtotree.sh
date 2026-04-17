@@ -184,6 +184,23 @@ mv ${ID}-results.tar.gz /home/ark/MAB/houndsleuth/completed/${ID}-results.tar.gz
 rm -rf ${ID}-results
 
 # Send email
+#python3 /home/ark/MAB/bin/HoundSleuth/send_email.py \
+#    --sender binfo@midauthorbio.com \
+#    --recipient ${email} \
+#    --subject "Your GToTree Results!" \
+#    --body "Hi ${name},
+#
+#    Your GToTree results are available for download using the link below. The link will expire in 24 hours.
+#
+#    ${url}
+#
+#    Please note if your selected Genus/Species names yielded more than 1000 accessions, a random subset of 1000 was used to generate the phylogenomic tree.
+#
+#    Please visit github.com/AstrobioMike/GToTree for documentation.
+#
+#    Cheers!
+#    Arkadiy"
+
 python3 /home/ark/MAB/bin/HoundSleuth/send_email.py \
     --sender binfo@midauthorbio.com \
     --recipient ${email} \
@@ -193,8 +210,6 @@ python3 /home/ark/MAB/bin/HoundSleuth/send_email.py \
     Your GToTree results are available for download using the link below. The link will expire in 24 hours.
 
     ${url}
-
-    Please note if your selected Genus/Species names yielded more than 1000 accessions, a random subset of 1000 was used to generate the phylogenomic tree.
 
     Please visit github.com/AstrobioMike/GToTree for documentation.
 
