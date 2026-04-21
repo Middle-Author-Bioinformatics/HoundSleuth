@@ -183,6 +183,7 @@ url=$(python3 /home/ark/MAB/bin/HoundSleuth/gen_presign_url.py --bucket binfo-du
 mv ${ID}-results.tar.gz /home/ark/MAB/houndsleuth/completed/${ID}-results.tar.gz
 rm -rf ${ID}-results
 
+
 # Send email
 #python3 /home/ark/MAB/bin/HoundSleuth/send_email.py \
 #    --sender binfo@midauthorbio.com \
@@ -203,7 +204,7 @@ rm -rf ${ID}-results
 
 python3 /home/ark/MAB/bin/HoundSleuth/send_email.py \
     --sender binfo@midauthorbio.com \
-    --recipient ${email} \
+    --recipient "${email}" \
     --subject "Your GToTree Results!" \
     --body "Hi ${name},
 
