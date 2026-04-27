@@ -38,7 +38,7 @@ sleep 5
 # Run FeGenie
 mkdir -p ${OUT}
 for file in ${DIR}/*; do [[ ${file} == ${DIR}/form-data.txt ]] || mv -f ${file} ${file%.*}.fa; done
-/home/ark/bin/FeGenie/FeGenie.py -bin_dir ${DIR}/ -bin_ext fa -out ${OUT} -t 16 --nohup
+/home/ark/bin/FeGenie/FeGenie.py -bin_dir ${DIR}/ -bin_ext fa -out ${OUT} -t 16 --nohup --makeplots
 
 # **************************************************************************************************
 # **************************************************************************************************
