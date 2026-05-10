@@ -123,7 +123,44 @@ def build_dotplot(df: pd.DataFrame) -> go.Figure:
 # ---------------------------------------------------------------------------
 # Dendrogram + heatmap
 # ---------------------------------------------------------------------------
-def _safe_linkage(matrix: np.ndarray, axis: int) -> np.ndarray | None:
+def _cluster_transform(matrix: np.ndarray, mode: str) -> np.ndarray:
+    """Transform values used only for clustering, not heatmap display.
+
+    The raw FeGenie matrix is often sparse and count-dominated; a few abundant
+    categories can otherwise control the genome dendrogram. These transforms
+    make the clustering reflect profile similarity more than absolute magnitude.
+    """
+    data = np.nan_to_num(matrix.astype(float), nan=0.0)
+
+    if mode == "none":
+        return data
+
+    if mode == "log1p":
+        return np.log1p(np.clip(data, a_min=0, a_max=None))
+
+    if mode == "presence_absence":
+        return (data > 0).astype(float)
+
+    if mode == "column_fraction":
+        col_sums = data.sum(axis=0, keepdims=True)
+        return np.divide(data, col_sums, out=np.zeros_like(data), where=col_sums != 0)
+
+    if mode == "column_fraction_row_zscore":
+        col_sums = data.sum(axis=0, keepdims=True)
+        frac = np.divide(data, col_sums, out=np.zeros_like(data), where=col_sums != 0)
+        row_mean = frac.mean(axis=1, keepdims=True)
+        row_sd = frac.std(axis=1, keepdims=True)
+        return np.divide(frac - row_mean, row_sd, out=np.zeros_like(frac), where=row_sd != 0)
+
+    raise ValueError(f"Unknown cluster transform: {mode}")
+
+
+def _safe_linkage(
+    matrix: np.ndarray,
+    axis: int,
+    metric: str = "correlation",
+    method: str = "average",
+) -> np.ndarray | None:
     """Compute linkage along an axis. Returns None if not enough data."""
     data = matrix if axis == 0 else matrix.T
     n = data.shape[0]
@@ -133,17 +170,17 @@ def _safe_linkage(matrix: np.ndarray, axis: int) -> np.ndarray | None:
     # Replace NaNs with 0 for distance computation.
     data = np.nan_to_num(data, nan=0.0)
 
-    # If all rows are identical (e.g. all zeros), pdist returns zeros and
-    # linkage still works but produces a flat tree -- that's fine.
     try:
-        dists = pdist(data, metric="euclidean")
+        dists = pdist(data, metric=metric)
+        # Correlation/cosine distances can become NaN for constant all-zero rows.
+        # Treat those cases as maximally uninformative but finite so linkage works.
+        dists = np.nan_to_num(dists, nan=1.0, posinf=1.0, neginf=0.0)
         if not np.any(dists):
             # Add tiny jitter so linkage produces a stable order.
             dists = dists + 1e-9
-        return linkage(dists, method="average")
+        return linkage(dists, method=method)
     except Exception:
         return None
-
 
 def _dendrogram_traces(Z: np.ndarray, orientation: str, leaf_count: int):
     """Build line traces for a dendrogram from a SciPy linkage matrix.
@@ -201,14 +238,20 @@ def _dendrogram_traces(Z: np.ndarray, orientation: str, leaf_count: int):
     return traces, max_height, leaves
 
 
-def build_clustered_heatmap(df: pd.DataFrame) -> go.Figure:
+def build_clustered_heatmap(
+    df: pd.DataFrame,
+    cluster_transform: str = "log1p",
+    cluster_metric: str = "correlation",
+    cluster_method: str = "average",
+) -> go.Figure:
     """Heatmap with hierarchical-clustering dendrograms on top and left."""
     matrix = df.values.astype(float)
+    cluster_matrix = _cluster_transform(matrix, cluster_transform)
     row_labels = list(df.index)
     col_labels = list(df.columns)
 
-    Z_rows = _safe_linkage(matrix, axis=0)
-    Z_cols = _safe_linkage(matrix, axis=1)
+    Z_rows = _safe_linkage(cluster_matrix, axis=0, metric=cluster_metric, method=cluster_method)
+    Z_cols = _safe_linkage(cluster_matrix, axis=1, metric=cluster_metric, method=cluster_method)
 
     # Reorder rows / columns according to dendrogram leaves
     if Z_rows is not None:
@@ -229,7 +272,7 @@ def build_clustered_heatmap(df: pd.DataFrame) -> go.Figure:
     fig = make_subplots(
         rows=2,
         cols=2,
-        column_widths=[0.18, 0.82],
+        column_widths=[0.12, 0.88],
         row_heights=[0.18, 0.82],
         horizontal_spacing=0.01,
         vertical_spacing=0.01,
@@ -300,7 +343,7 @@ def build_clustered_heatmap(df: pd.DataFrame) -> go.Figure:
             x=ordered_cols,
             y=ordered_rows,
             colorscale="Viridis",
-            colorbar=dict(title="Value", thickness=14, len=0.6, x=1.02),
+            colorbar=dict(title="Value", thickness=14, len=0.6, x=1.22),
             hovertemplate=(
                 "<b>%{y}</b><br>Genome: %{x}<br>Value: %{z:g}<extra></extra>"
             ),
@@ -325,6 +368,8 @@ def build_clustered_heatmap(df: pd.DataFrame) -> go.Figure:
         automargin=True,
         showgrid=False,
         zeroline=False,
+        side="right",
+        tickfont=dict(size=12),
         row=2,
         col=2,
     )
@@ -332,7 +377,7 @@ def build_clustered_heatmap(df: pd.DataFrame) -> go.Figure:
     fig.update_layout(
         title="Clustered heatmap with dendrograms",
         height=max(520, 42 * len(row_labels) + 220),
-        margin=dict(l=60, r=80, t=70, b=140),
+        margin=dict(l=35, r=260, t=70, b=140),
         plot_bgcolor="white",
         showlegend=False,
     )
@@ -431,7 +476,7 @@ HTML_TEMPLATE = """<!DOCTYPE html>
 
   <section>
     <h2>Clustered heatmap with dendrograms</h2>
-    <p class="desc">Rows (categories) and columns (genomes) are reordered by hierarchical clustering (average linkage, Euclidean distance). Cell values are annotated and reflect the numbers (integers or fractions) from the input CSV.</p>
+    <p class="desc">Rows (categories) and columns (genomes) are reordered by hierarchical clustering. By default, clustering uses log1p-transformed values with average linkage and correlation distance, while the heatmap itself still displays the raw input values. Category labels are placed on the right to avoid overlap with the row dendrogram.</p>
     {heatmap_div}
   </section>
 
@@ -451,9 +496,20 @@ HTML_TEMPLATE = """<!DOCTYPE html>
 """
 
 
-def build_html_report(df: pd.DataFrame, source_name: str) -> str:
+def build_html_report(
+    df: pd.DataFrame,
+    source_name: str,
+    cluster_transform: str = "log1p",
+    cluster_metric: str = "correlation",
+    cluster_method: str = "average",
+) -> str:
     dot_fig = build_dotplot(df)
-    heat_fig = build_clustered_heatmap(df)
+    heat_fig = build_clustered_heatmap(
+        df,
+        cluster_transform=cluster_transform,
+        cluster_metric=cluster_metric,
+        cluster_method=cluster_method,
+    )
 
     # First figure includes the Plotly JS bundle inline; subsequent figures
     # reuse it so the file stays self-contained but isn't duplicated.
@@ -494,6 +550,31 @@ def main(argv: list[str] | None = None) -> int:
         default=None,
         help="Output HTML path (default: <input>.report.html)",
     )
+    parser.add_argument(
+        "--cluster-transform",
+        choices=[
+            "none",
+            "log1p",
+            "presence_absence",
+            "column_fraction",
+            "column_fraction_row_zscore",
+        ],
+        default="log1p",
+        help=(
+            "Transform used only for dendrogram clustering; the heatmap still "
+            "shows raw values. Default: log1p."
+        ),
+    )
+    parser.add_argument(
+        "--cluster-metric",
+        default="correlation",
+        help="Distance metric passed to scipy.spatial.distance.pdist. Default: correlation.",
+    )
+    parser.add_argument(
+        "--cluster-method",
+        default="average",
+        help="Linkage method passed to scipy.cluster.hierarchy.linkage. Default: average.",
+    )
     args = parser.parse_args(argv)
 
     if not args.csv.is_file():
@@ -507,7 +588,13 @@ def main(argv: list[str] | None = None) -> int:
         print("Error: input CSV produced an empty data frame", file=sys.stderr)
         return 2
 
-    html = build_html_report(df, source_name=args.csv.name)
+    html = build_html_report(
+        df,
+        source_name=args.csv.name,
+        cluster_transform=args.cluster_transform,
+        cluster_metric=args.cluster_metric,
+        cluster_method=args.cluster_method,
+    )
     out_path.write_text(html, encoding="utf-8")
     print(f"Wrote {out_path}  ({df.shape[0]} categories x {df.shape[1]} genomes)")
     return 0
