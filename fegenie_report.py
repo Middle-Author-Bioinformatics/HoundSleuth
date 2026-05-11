@@ -343,7 +343,16 @@ def build_clustered_heatmap(
             x=ordered_cols,
             y=ordered_rows,
             colorscale="Viridis",
-            colorbar=dict(title="Value", thickness=14, len=0.6, x=1.22),
+            colorbar=dict(
+                title=dict(text="Value", side="top"),
+                orientation="h",
+                thickness=14,
+                len=0.45,
+                x=0.58,
+                xanchor="center",
+                y=-0.32,
+                yanchor="top",
+            ),
             hovertemplate=(
                 "<b>%{y}</b><br>Genome: %{x}<br>Value: %{z:g}<extra></extra>"
             ),
@@ -377,7 +386,7 @@ def build_clustered_heatmap(
     fig.update_layout(
         title="Clustered heatmap with dendrograms",
         height=max(520, 42 * len(row_labels) + 220),
-        margin=dict(l=35, r=260, t=70, b=140),
+        margin=dict(l=110, r=260, t=70, b=230),
         plot_bgcolor="white",
         showlegend=False,
     )
